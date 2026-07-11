@@ -7,12 +7,15 @@ import org.testng.annotations.Test;
 
 public class RegisterTest extends BaseClass {
     @Test(description = "Validates registration page interactions")
-    public void verifyRegistrationFlow() {
+    public void verifyRegistrationFlow() throws Exception {
         RegisterPage registerPage = new RegisterPage(getDriver());
-        registerPage.enterFirstName("John");
-        registerPage.enterLastName("Doe");
-        registerPage.enterEmail("john.doe@example.com");
-        registerPage.submit();
+        registerPage.clickAllMenuButton();
+        Thread.sleep(4000); // Wait for login to process
+        registerPage.clickRegistrationImage();
+        Thread.sleep(4000); // Wait for login to process
+        registerPage.ClickPatientsRegistration();
+        registerPage.AddPatientClick();
+        Thread.sleep(4000); // Wait for login to process
         Assert.assertTrue(true);
     }
 }

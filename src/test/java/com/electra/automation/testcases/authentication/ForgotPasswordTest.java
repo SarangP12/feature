@@ -7,10 +7,13 @@ import org.testng.annotations.Test;
 
 public class ForgotPasswordTest extends BaseClass {
     @Test(description = "Validates forgot password flow")
-    public void verifyForgotPasswordFlow() {
+    public void verifyForgotPasswordFlow() throws Exception {
         ForgotPasswordPage page = new ForgotPasswordPage(getDriver());
+        page.ForgetPassClick();
+        Thread.sleep(2000); // Wait for login to process
         page.enterEmail("user@example.com");
         page.submit();
+        Thread.sleep(2000); // Wait for login to process
         Assert.assertTrue(true);
     }
 }
