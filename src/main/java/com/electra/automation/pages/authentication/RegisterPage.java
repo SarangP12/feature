@@ -28,8 +28,8 @@ public class RegisterPage {
     @FindBy(xpath= "//p[text()=\"Date of Birth is required.\"]")
     public WebElement dobValidation;
 
-    @FindBy (xpath= "//p[text()="Mobile No is required."]")
-    public WebElement mobileValidation;
+    // @FindBy (xpath= "//p[text()="Mobile No is required."]")
+    // public WebElement mobileValidation;
 
     //
 
