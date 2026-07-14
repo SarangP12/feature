@@ -5,12 +5,13 @@ import com.electra.automation.reports.ExtentReportManager;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.ScreenshotUtility;
 
-import org.openqa.selenium.By;
+// import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
@@ -22,9 +23,27 @@ import java.time.Duration;
 
 public class BaseClass {
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<WebElement> failedElementThreadLocal = new ThreadLocal<>();
 
     public WebDriver getDriver() {
         return driverThreadLocal.get();
+    }
+
+    protected WebElement getFailedElement() {
+        return failedElementThreadLocal.get();
+    }
+
+    protected void markFailedElement(WebElement element) {
+        failedElementThreadLocal.set(element);
+    }
+
+    protected void clearFailedElement() {
+        failedElementThreadLocal.remove();
+    }
+
+    @BeforeSuite(alwaysRun = true)
+    public void cleanOldScreenshots() {
+        ScreenshotUtility.clearScreenshotDirectory();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -67,7 +86,10 @@ public void closeExtraTabs() {
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
-            String screenshotPath = ScreenshotUtility.captureScreenshot(getDriver(), result.getMethod().getMethodName());
+            String screenshotPath = ScreenshotUtility.captureFailedElementScreenshot(
+                    getDriver(),
+                    getFailedElement(),
+                    result.getMethod().getMethodName());
             ExtentReportManager.attachScreenshot(getDriver(), screenshotPath);
             ExtentReportManager.logFail(result.getThrowable() != null ? result.getThrowable().getMessage() : "Test failed");
         } else if (result.getStatus() == ITestResult.SUCCESS) {
@@ -78,23 +100,25 @@ public void closeExtraTabs() {
         if (getDriver() != null) {
             getDriver().quit();
         }
-        ExtentReportManager.flush();
+        clearFailedElement();
+        ExtentReportManager.clearTest();
     }
 // For validation massage check
 public void verifyValidationMessage(WebElement element, String expectedMessage) {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-    
 
-    String actualMessage = wait.until(ExpectedConditions
-            .visibilityOf(element))
-            .getText()
-            .trim();
+    try {
+        String actualMessage = wait.until(ExpectedConditions
+                .visibilityOf(element))
+                .getText()
+                .trim();
 
-    Assert.assertEquals(actualMessage, expectedMessage,
-            "Validation message mismatch");
+        Assert.assertEquals(actualMessage, expectedMessage,
+                "Validation message mismatch");
+    } catch (AssertionError | RuntimeException e) {
+        markFailedElement(element);
+        throw e;
+    }
 }
-
-
-
 }

@@ -10,7 +10,35 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.util.logging.Level;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+
 public class DriverFactory {
+    static {
+        // Selenium's CDP warnings are emitted through JUL, so we raise the JUL
+        // threshold before any driver is created.
+        configureRootJulLogging();
+        configureJulLogging("org.openqa.selenium");
+        configureJulLogging("org.openqa.selenium.devtools");
+        configureJulLogging("org.openqa.selenium.chromium");
+        configureJulLogging("org.openqa.selenium.devtools.CdpVersionFinder");
+        configureJulLogging("org.openqa.selenium.chromium.ChromiumDriver");
+    }
+
+    private static void configureRootJulLogging() {
+        Logger rootLogger = Logger.getLogger("");
+        rootLogger.setLevel(Level.SEVERE);
+        for (Handler handler : rootLogger.getHandlers()) {
+            handler.setLevel(Level.SEVERE);
+        }
+    }
+
+    private static void configureJulLogging(String loggerName) {
+        Logger logger = Logger.getLogger(loggerName);
+        logger.setLevel(Level.SEVERE);
+    }
+
     public static WebDriver createDriver(String browserName) {
         BrowserType browserType = BrowserType.valueOf(browserName.toUpperCase());
         return switch (browserType) {

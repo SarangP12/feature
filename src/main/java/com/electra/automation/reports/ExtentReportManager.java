@@ -19,6 +19,10 @@ public final class ExtentReportManager {
         return TEST.get();
     }
 
+    public static void clearTest() {
+        TEST.remove();
+    }
+
     public static void logPass(String message) {
         if (getTest() != null) getTest().pass(message);
     }
