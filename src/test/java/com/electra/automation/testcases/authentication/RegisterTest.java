@@ -18,12 +18,13 @@ public class RegisterTest extends BaseClass {
         registerPage.clickRegistrationImagebtn();
         Thread.sleep(2000); // Wait for login to process
         registerPage.ClickPatientsRegistration();
+        registerPage.AddPatientClick();
     }
 
 
-    @Test(description = "Validates registration page interactions", priority = 0)
+    @Test(description = "Validates registration page interactions", priority = 1)
     public void verifyRegistrationFlow() throws Exception {
-        registerPage.clickSubmit();
+         registerPage.clickSubmit();
         Thread.sleep(4000); // Wait for login to process
 // Validate that the appropriate validation messages are displayed
     verifyValidationMessage(registerPage.tariffValidation, "Applicable Tariff is required.");
@@ -34,13 +35,21 @@ public class RegisterTest extends BaseClass {
     verifyValidationMessage(registerPage.addressValidation, "Address is required.");
     }
 // Registration Scenarios
-    @Test(priority = 1)   // Registration flow
+    @Test(priority = 2)   // Registration flow
     public void verifyNewPatientRegistration() throws Exception {
         registerPage.patienttype();
-        registerPage.patientID();
-        registerPage.patienttariff();
-        registerPage.sendSolutation();
-        Thread.sleep(4000); // Wait for login to process
+         // registerPage.patientID();
+        // registerPage.patienttariff();
+        // registerPage.sendSolutation();
+        registerPage.patientFirstName("John");
+        registerPage.patientLastName("Welle");
+        registerPage.patientBirthYear("51");
+        registerPage.patientmobile("0334567890");
+        registerPage.patientAdress("123 Main St, Pune");
+        registerPage.patientCity("Pune");
+        registerPage.patienDepartment("General Medicine");
+
+        Thread.sleep(6000); // Wait for login to process
     }
 
     // @Test(priority = 2)

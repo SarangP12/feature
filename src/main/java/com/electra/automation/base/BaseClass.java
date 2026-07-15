@@ -7,6 +7,7 @@ import com.electra.automation.utilities.ScreenshotUtility;
 
 // import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -46,6 +47,34 @@ public class BaseClass {
         ScreenshotUtility.clearScreenshotDirectory();
     }
 
+    public void click(WebElement element) {
+    waitForClickable(element).click();
+}
+
+ // Wait until element is visible [When you want to read text, verify validation messages, or type into a field]
+    public WebElement waitForVisibility(WebElement element) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOf(element));
+    }
+// Wait until element is clickable [Before clicking a button, link, dropdown, checkbox, radio button]
+    public WebElement waitForClickable(WebElement element) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(element));
+    }
+// Wait until element disappears [Wait for a loader/spinner or popup to disappear]
+    public boolean waitForInvisibility(WebElement element) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOf(element));
+    }
+// Wait until page loading is complete [After navigation or page refresh]
+    public void waitForPageLoad() {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+                .until(driver -> ((JavascriptExecutor) driver)
+                .executeScript("return document.readyState")
+                .equals("complete"));
+    }
+
+//Browser Method Define
     @BeforeMethod(alwaysRun = true)
     @Parameters({"browser", "environment"})
     public void setUp(@Optional("chrome") String browser, @Optional("qa") String environment) {
@@ -57,6 +86,7 @@ public class BaseClass {
         driverThreadLocal.set(driver);
         ExtentReportManager.createTest(getClass().getSimpleName() + " :: " + browser);
     }
+// Common Login Methode Define( All test cases are depend on this method)
     @BeforeMethod(alwaysRun = true)
     @Test(description = "Validates login page loads and login form is visible")
     public void verifyLoginPageLoads() throws Exception {
@@ -82,7 +112,7 @@ public void closeExtraTabs() {
 
     getDriver().switchTo().window(parentWindow);
 }
-
+// Captured Screenshot for failed test cases
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
@@ -103,7 +133,7 @@ public void closeExtraTabs() {
         clearFailedElement();
         ExtentReportManager.clearTest();
     }
-// For validation massage check
+// All projects validation massage check
 public void verifyValidationMessage(WebElement element, String expectedMessage) {
 
     WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
@@ -120,5 +150,5 @@ public void verifyValidationMessage(WebElement element, String expectedMessage) 
         markFailedElement(element);
         throw e;
     }
-}
+    }
 }
