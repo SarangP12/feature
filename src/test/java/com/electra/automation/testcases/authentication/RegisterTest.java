@@ -1,30 +1,34 @@
 package com.electra.automation.testcases.authentication;
 
 import com.electra.automation.base.BaseClass;
+import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.pages.authentication.RegisterPage;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import com.electra.automation.utilities.ConfigReader;
+
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.testng.annotations.Test;
 
 public class RegisterTest extends BaseClass {
 
-       private RegisterPage registerPage;
+    private RegisterPage registerPage;
 
-    @BeforeMethod
-    public void setupPage() throws Exception{
+    @Test(description = "registration page interactions", priority = 0)
+    private void openRegistrationPage() throws Exception {
         registerPage = new RegisterPage(getDriver());
+        Thread.sleep(2000);
+        registerPage.clickLogInExitLocation();
         registerPage.clickAllMenuButton();
-        Thread.sleep(5000); // Wait for login to process
         registerPage.clickRegistrationImagebtn();
-        Thread.sleep(2000); // Wait for login to process
         registerPage.ClickPatientsRegistration();
         registerPage.AddPatientClick();
+
     }
 
 
     @Test(description = "Validates registration page interactions", priority = 1)
-    public void verifyRegistrationFlow() throws Exception {
-         registerPage.clickSubmit();
+    public void validationRegistrationPage() throws Exception {
+        openRegistrationPage();
+        registerPage.clickSubmit();
         Thread.sleep(4000); // Wait for login to process
 // Validate that the appropriate validation messages are displayed
     verifyValidationMessage(registerPage.tariffValidation, "Applicable Tariff is required.");
@@ -34,42 +38,47 @@ public class RegisterTest extends BaseClass {
     verifyValidationMessage(registerPage.mobileValidation, "Mobile No is required.");
     verifyValidationMessage(registerPage.addressValidation, "Address is required.");
     }
-// Registration Scenarios
-    @Test(priority = 2)   // Registration flow
+
+//     // Registration Scenarios
+    @Test(description = "registration page valid data",priority = 2)   // Registration flow
     public void verifyNewPatientRegistration() throws Exception {
-        registerPage.patienttype();
-         // registerPage.patientID();
-        // registerPage.patienttariff();
-        // registerPage.sendSolutation();
+        openRegistrationPage();
+        Thread.sleep(40000);
+        registerPage.selectPatientCategoryType("Staff");
+        Thread.sleep(2000);
+        registerPage.selectPatientCategoryID("Staff Benefit");
+        registerPage.selectPatientTariff("Staff Patient");
+        registerPage.selectPatientSalutation("Mr.");
         registerPage.patientFirstName("John");
         registerPage.patientLastName("Welle");
         registerPage.patientBirthYear("51");
         registerPage.patientmobile("0334567890");
         registerPage.patientAdress("123 Main St, Pune");
-        registerPage.patientCity("Pune");
-        registerPage.patienDepartment("General Medicine");
+        registerPage.selectPatientCity("Pune");
+        registerPage.selectAppointmentDepartment("General Medicine");
+        registerPage.selectAppointmentUnit("General Medicine - Unit A");
+        registerPage.selectAppointmentDoctor("Dr. Hayden Beahan");
 
-        Thread.sleep(6000); // Wait for login to process
+        Thread.sleep(3000); // Wait for login to process
     }
 
-    // @Test(priority = 2)
-    // public void verifyMandatoryFieldValidation() {
-    //     // Validate mandatory fields
-    // }
+//     // @Test(priority = 2)
+//     // public void verifyMandatoryFieldValidation() {
+//     //     // Validate mandatory fields
+//     // }
 
-    // @Test(priority = 3)
-    // public void verifyDuplicatePatientRegistration() {
-    //     // Duplicate patient validation
-    // }
+//     // @Test(priority = 3)
+//     // public void verifyDuplicatePatientRegistration() {
+//     //     // Duplicate patient validation
+//     // }
 
-    // @Test(priority = 4)
-    // public void verifyPatientSearch() {
-    //     // Search functionality
-    // }
+//     // @Test(priority = 4)
+//     // public void verifyPatientSearch() {
+//     //     // Search functionality
+//     // }
 
-    // @Test(priority = 5)
-    // public void verifyRegistrationReceipt() {
-    //     // Receipt generation
-    // }
-
+//     // @Test(priority = 5)
+//     // public void verifyRegistrationReceipt() {
+//     //     // Receipt generation
+//     // }
 }

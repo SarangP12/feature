@@ -96,7 +96,7 @@ public class BaseClass {
         loginPage.enterPassword(ConfigReader.getValue("qa.password")); 
         loginPage.clickLogin();
         Thread.sleep(2000); // Wait for login to process
-        closeExtraTabs();  // 
+        closeExtraTabs();
 }
 // Close Extra tab after the Log In 
 public void closeExtraTabs() {
