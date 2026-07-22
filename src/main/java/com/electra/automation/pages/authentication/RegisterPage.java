@@ -1,7 +1,6 @@
 package com.electra.automation.pages.authentication;
 
-import com.electra.automation.base.BaseClass;
-import com.electra.automation.utilities.DropDownUtility;
+import java.time.Duration;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +9,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
+
+import com.electra.automation.base.BaseClass;
+import com.electra.automation.utilities.DropDownUtility;
 
 public class RegisterPage extends BaseClass {
 
@@ -72,6 +73,11 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//button[@type=\"submit\"]")
     public WebElement btnSubmit;
 
+    @FindBy(xpath="//button[normalize-space()='Other Details']")
+    public WebElement btnOtherDetails;
+
+    @FindBy(xpath="//div[@class=\"w-4 h-4 rounded-sm border-2 border-gray-300 flex items-center justify-center transition-all duration-300 ease-in-out peer-checked:border-[#476cb7] peer-checked:bg-green-500 peer-checked:scale-110 peer-focus:ring-2 peer-focus:ring-green-300\"]")
+    public WebElement btnSameAsCurrentAddress;
 
 // All Text fields 
     @FindBy(xpath="//input[@id=\"patient_category_type\"]")
@@ -86,11 +92,11 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//input[@id=\"salutation\"]")
     public WebElement patientsalutationDropdown;
 
-    @FindBy(xpath="(//input[starts-with(@id,'react-select-')])[2]")
-    public WebElement patientCityInput;
+    @FindBy(xpath="//label[normalize-space()='City']/parent::div//input[starts-with(@id,'react-select-')][1]")  //city dropdown
+    public WebElement patientCityInput; //label[normalize-space()='City']/parent::div//input[starts-with(@id,'react-select-')][1]
 
     @FindBy(xpath="(//input[starts-with(@id,'react-select-')])[3]")   //Appointment Doctor Dropdown
-    public WebElement ptAppointmentDoctorInput;
+    public WebElement ptAppointmentDoctorInput; //label[@for='doctor_id']/preceding::div[contains(@class,'react-select__control')][1]
 
     @FindBy(xpath="//input[@id=\"first_name\"]")
     public WebElement firstNameInput;
@@ -107,17 +113,29 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//input[@id=\"current_address\"]")
     public WebElement patient_addressinput;
 
-    @FindBy(xpath="//input[@id=\"department_id\"]")
-    public WebElement patientDepartmentinput;
+    @FindBy(xpath="//label[@for='department_id']/parent::div//input[starts-with(@id,'department_id')]")
+    public WebElement patientDepartmentinput; //label[@for='department_id']/parent::div//input[starts-with(@id,'department_id')]
 
     @FindBy(xpath="//input[@id=\"unit_id\"]")
-    public WebElement patientUnitinput;
+    public WebElement patientUnitinput;  
+
+    @FindBy(xpath="//input[@id=\"languages_known\"]")
+    public WebElement regLanguageInput;
+
+    @FindBy(xpath="//input[@id=\"nationality\"]")
+    public WebElement patientNationalityInput;
+
+    @FindBy(xpath="//input[@id=\"religion\"]")
+    public WebElement patientReligionInput;
+
+    //     @FindBy(xpath="//input[@id=\"unit_id\"]")
+    // public WebElement patientUnitinput;
 
     @FindBy(xpath="//button[@class='shrink-0 p-1 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500']//*[name()='svg']")
     public WebElement logInExitLocation;
 
 //Given is Webelement Access Methods
-// Dropdown Selection Methods
+// Dropdown Selection Methods - React option selection define in the DropDown Utility class
     public void selectPatientCategoryType(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, patientCatTypeDropdown, category);
 }
@@ -142,6 +160,23 @@ public class RegisterPage extends BaseClass {
     public void selectAppointmentUnit(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, patientUnitinput, category);
 }
+    public void selectRegLanguage(String category) throws Exception{
+    DropDownUtility.selectReactOption(driver, regLanguageInput, category);
+}
+    public void selectPatientNationality(String category) throws Exception{
+    DropDownUtility.selectReactOption(driver, patientNationalityInput, category);
+}
+    public void selectPatientReligion(String category) throws Exception{
+    DropDownUtility.selectReactOption(driver, patientReligionInput, category);
+}
+//     public void selectAppointmentDoctor(String category) throws Exception{
+//     DropDownUtility.selectReactOption(driver, ptAppointmentDoctorInput, category);
+// }
+//     public void selectAppointmentDepartment(String category) throws Exception{
+//     DropDownUtility.selectReactOption(driver, patientDepartmentinput, category);
+// }
+
+
     public void clickLogInExitLocation() {
         clickElement(logInExitLocation);
     }
@@ -158,28 +193,28 @@ public class RegisterPage extends BaseClass {
     }
     public void AddPatientClick() {
         clickElement(btnAddpatient);
-        // btnAddpatient.click();
     }
     public void clickSubmit() {
        clickElement(btnSubmit);
-        // btnSubmit.click();
     }
-    // public void patienttype(){
-    //     clickElement(patientCatDropdown);
-    //     // patientCatDropdown.click();
-    //     patientCatDropdown.sendKeys("Staff");
-    // }
-    //  public void patientID(){
-    //     clickElement(patientCatIdDropdown);
-    //     patientCatIdDropdown.sendKeys("Staff Benefit");
-    // }
-    // public void patienttariff(){
-    //     clickElement(patientTariffDropdown);
-    //     patientTariffDropdown.sendKeys("Staff Patient (Staff Patient)");
-    // }
-    // public void sendSolutation(){
-    //     clickElement(patientsalutationDropdown);
-    //     patientsalutationDropdown.sendKeys("Mr.");
+    public void clickOtherDetails() {
+       clickElement(btnOtherDetails);
+    }
+    public void clickSameAsCurrentAddress() {
+       clickElement(btnSameAsCurrentAddress); 
+    }
+    //     public void selectPatientCity(String City) throws Exception{
+    //     waitForVisibleElement(patientCityInput).clear();
+    //     patientCityInput.sendKeys(City);
+    //     waitForVisibleElement(patientCityInput);
+    //     Thread.sleep(20000);
+    //     patientCityInput.click();
+    // }    //     public void selectPatientCity(String City) throws Exception{
+    //     waitForVisibleElement(patientCityInput).clear();
+    //     patientCityInput.sendKeys(City);
+    //     waitForVisibleElement(patientCityInput);
+    //     Thread.sleep(20000);
+    //     patientCityInput.click();
     // }
         public void patientFirstName(String Fname){
         waitForVisibleElement(firstNameInput).clear();
@@ -201,24 +236,6 @@ public class RegisterPage extends BaseClass {
         waitForVisibleElement(patient_addressinput).clear();
         patient_addressinput.sendKeys(adress);
     }
-    //     public void patientCity(String city){
-    //     waitForVisibleElement(patientCityInput).clear();
-    //     patientCityInput.sendKeys(city);
-    // }
-    //     public void patienDepartment(String department){
-    //     waitForVisibleElement(patientDepartmentinput).clear();
-    //     patientDepartmentinput.sendKeys(department);
-    // }
-    //     public void clickpatienttype(String year){
-    //     patientBirthYear.sendKeys(year);
-    // }
-    //         public void clickpatienttype(String year){
-    //     patientBirthYear.sendKeys(year);
-    // }
-    //     public void clickpatienttype(String year){
-    //     patientBirthYear.sendKeys(year);
-    // }
-
 
 
 }
