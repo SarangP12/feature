@@ -47,12 +47,12 @@ public class DropDownUtility {
     //     input.sendKeys(Keys.ENTER);
     //     // input.sendKeys(Keys.ENTER);
     // }
-
-    public static void selectReactOption(WebDriver driver,  By locator, String optionText) throws Exception {
+// dropdown utility for react select component 
+    public static void selectReactOption(WebDriver driver, WebElement dropdown, String optionText) throws Exception {
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-    WebElement clickable = wait.until(ExpectedConditions.elementToBeClickable(locator));
+    WebElement clickable = wait.until(ExpectedConditions.elementToBeClickable(dropdown));
     clickable.click();
 
     WebElement input = clickable;
@@ -77,13 +77,6 @@ public class DropDownUtility {
     WebElement optionElement = wait.until(
             ExpectedConditions.elementToBeClickable(option));
             optionElement.click();
-
-    // wait.until(driver1 -> {
-    //     List<WebElement> list = driver1.findElements(options);
-    //     return !list.isEmpty() && list.get(0).isDisplayed();
-    // });
-
-    // input.sendKeys(Keys.ENTER);
     }
 }
  

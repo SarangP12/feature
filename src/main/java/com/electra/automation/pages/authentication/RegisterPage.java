@@ -1,17 +1,19 @@
 package com.electra.automation.pages.authentication;
-
 import java.time.Duration;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.utilities.DropDownUtility;
+
+
 
 public class RegisterPage extends BaseClass {
 
@@ -68,7 +70,7 @@ public class RegisterPage extends BaseClass {
 
 // All Action Btton 
     @FindBy(xpath="//*[@title=\"Switch to Add\"]")
-    private WebElement btnAddpatient;
+    public WebElement btnAddpatient;
 
     @FindBy(xpath="//button[@type=\"submit\"]")
     public WebElement btnSubmit;
@@ -134,6 +136,10 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//button[@class='shrink-0 p-1 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500']//*[name()='svg']")
     public WebElement logInExitLocation;
 
+    //Assertion element 
+    @FindBy(xpath="//span[text()=\"Patient Info\"]")
+    public WebElement PatientInfoPage;
+
 //Given is Webelement Access Methods
 // Dropdown Selection Methods - React option selection define in the DropDown Utility class
     public void selectPatientCategoryType(String category) throws Exception{
@@ -148,9 +154,41 @@ public class RegisterPage extends BaseClass {
     public void selectPatientSalutation(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, patientsalutationDropdown, category);
 }
-    public void selectPatientCity(String category) throws Exception{
-    DropDownUtility.selectReactOption(driver, patientCityInput, category);
+//     public void selectPatientCity(String category) throws Exception{
+//     DropDownUtility.selectReactOption(driver, patientCityInput, category);
+// }
+    public void selectPatientCity(String city)throws Exception{  
+    patientCityInput.click();
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    patientCityInput.sendKeys(city);
+    //String listBoxId = patientCityInput.getAttribute("aria-controls");
+    String listBoxId = patientCityInput.getDomAttribute("aria-controls");
+    String prefix = listBoxId.replace("-listbox", "");
+    By option = By.xpath("//div[contains(@id,'-option-') and normalize-space()='" + city + "']");
+    wait.until(ExpectedConditions.elementToBeClickable(option)).click();
+
+    // // Wait until dropdown menu is visible
+    // wait.until(ExpectedConditions.visibilityOfElementLocated(
+    //         By.xpath("//div[contains(@id,'listbox')]")));
+    // patientCityInput.sendKeys(city);
+    // Thread.sleep(10000);
+    // patientCityInput.sendKeys(Keys.ENTER);
 }
+//     patientCityInput.click();
+
+//     // Wait until at least one dropdown option is visible
+//     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//     wait.until(ExpectedConditions.visibilityOfElementLocated(
+//             By.xpath("//div[contains(@class,'react-select__option')]")));
+//     patientCityInput.sendKeys(city);
+//     patientCityInput.sendKeys(Keys.ENTER);
+// }
+    //     waitForVisibility(patientCityInput).clear();
+    //     patientCityInput.sendKeys(city);
+    //     Thread.sleep(2000); // Wait for the dropdown to update
+    //     patientCityInput.sendKeys(Keys.ENTER);
+    //     Thread.sleep(4000);
+    // }
     public void selectAppointmentDoctor(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, ptAppointmentDoctorInput, category);
 }

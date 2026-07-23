@@ -133,22 +133,30 @@ public void closeExtraTabs() {
         clearFailedElement();
         ExtentReportManager.clearTest();
     }
-// All projects validation massage check
-public void verifyValidationMessage(WebElement element, String expectedMessage) {
+// Reusable methods Validation massages for all Assertion 
+    public void verifyElement(WebElement element,
+                          String expectedMessage,
+                          boolean verifyText) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+    WebElement visibleElement = wait.until(
+            ExpectedConditions.visibilityOf(element));
 
-    try {
-        String actualMessage = wait.until(ExpectedConditions
-                .visibilityOf(element))
-                .getText()
-                .trim();
+    // Verify element is displayed
+    Assert.assertTrue(
+            visibleElement.isDisplayed(),
+            "Element is not displayed.");
 
-        Assert.assertEquals(actualMessage, expectedMessage,
-                "Validation message mismatch");
-    } catch (AssertionError | RuntimeException e) {
-        markFailedElement(element);
-        throw e;
+    // Verify text only when required
+    if (verifyText) {
+
+        String actualText = visibleElement.getText().trim();
+
+        Assert.assertEquals(
+                actualText,
+                expectedMessage,
+                "Text verification failed.");
     }
-    }
+}
+
 }
