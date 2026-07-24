@@ -1,27 +1,44 @@
 package com.electra.automation.testcases.authentication;
 
 import com.electra.automation.base.BaseClass;
+import com.electra.automation.models.PatientData;
+import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.pages.authentication.RegisterPage;
+import com.electra.automation.utilities.ConfigReader;
+import com.electra.automation.utilities.RandomDataUtility;
+
+import org.apache.commons.math3.random.RandomDataGenerator;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class RegisterTest extends BaseClass {
 
     private RegisterPage registerPage;
+    private PatientData patient;
 
-    @Test(description = "registration page interactions", priority = 0)
+    // Common Login Methode Define( All test cases are depend on this method)
+    @Test(description = "Validates login page loads and login form is visible")
+    public void verifyLoginPageLoads() throws Exception {
+        LoginPage loginPage = new LoginPage(getDriver());
+        Assert.assertTrue(loginPage.isLoginFormVisible(), "Login form should be visible");
+        loginPage.enterUsername(ConfigReader.getValue("qa.username"));
+        loginPage.enterPassword(ConfigReader.getValue("qa.password")); 
+        loginPage.clickLogin();
+        Thread.sleep(2000); // Wait for login to process
+        closeExtraTabs();
+}
+    @Test(description = "Open registration page", priority = 0)
     private void openRegistrationPage() throws Exception {
         registerPage = new RegisterPage(getDriver());
+        verifyLoginPageLoads();
         Thread.sleep(2000);
         registerPage.clickLogInExitLocation();
         registerPage.clickAllMenuButton();
         registerPage.clickRegistrationImagebtn();
         registerPage.ClickPatientsRegistration();
         registerPage.AddPatientClick();
-
     }
-
-
-    @Test(description = "Validates registration page interactions", priority = 1)
+    @Test(description = "Validates registration page validation", priority = 1)
     public void validationRegistrationPage() throws Exception {
         openRegistrationPage();
         registerPage.clickSubmit();
@@ -34,9 +51,8 @@ public class RegisterTest extends BaseClass {
     verifyElement(registerPage.mobileValidation, "Mobile No is required.",true);
     verifyElement(registerPage.addressValidation, "Address is required.",true);
     }
-
-//     // Registration flow Scenarios
-    @Test(description = "registration page valid data",priority = 2)   // Registration flow
+//     // Regration flow Scenarios
+    @Test(description = "Registration valid data without appointment",priority = 2)
     public void verifyNewPatientRegistration() throws Exception {
         openRegistrationPage();
         Thread.sleep(25000);
@@ -85,19 +101,33 @@ public class RegisterTest extends BaseClass {
         verifyElement(registerPage.PatientInfoPage,
                    "Patient Info", true);
         verifyElement(registerPage.btnAddpatient, null, false);
-        // Thread.sleep(4000); // Wait for login to process
     }
 
-    @Test(priority = 2)
-    public void verifyMandatoryFieldValidation() {
-        // Validate mandatory fields
-    }
+@Test(description = "Verify new patient registration", priority = 3)
+public void verifyPatientRegistration() throws Exception {
 
-//     // @Test(priority = 3)
-//     // public void verifyDuplicatePatientRegistration() {
-//     //     // Duplicate patient validation
-//     // }
+    patient = RandomDataUtility.generatePatient();
 
+    openRegistrationPage();
+
+    Thread.sleep(25000);
+
+    registerPage.registerPatient(patient);
+
+    verifyElement(registerPage.btnAddpatient, null, false);
+}
+@Test(dependsOnMethods = "verifyPatientRegistration")
+public void duplicateRegistration() throws Exception {
+
+    System.out.println(patient.getFirstName());
+    System.out.println(patient.getMobile());
+
+    openRegistrationPage();
+    Thread.sleep(25000);
+    registerPage.registerPatient(patient);
+
+    verifyElement(registerPage.PatientDuplicateToast,"Patient already exists",true);
+}
 //     // @Test(priority = 4)
 //     // public void verifyPatientSearch() {
 //     //     // Search functionality

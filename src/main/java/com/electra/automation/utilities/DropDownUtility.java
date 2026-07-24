@@ -22,32 +22,6 @@ public class DropDownUtility {
         new org.openqa.selenium.support.ui.Select(element).selectByValue(value);
     }
 // dropdown utility for react select component 
-    // public static void selectReactOption(WebDriver driver, WebElement dropdown, String optionText) throws Exception {
-    //     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-
-    //     WebElement clickable = wait.until(ExpectedConditions.elementToBeClickable(dropdown));
-    //     clickable.click();
-
-    //     WebElement input = clickable;
-    //     if (!"input".equalsIgnoreCase(clickable.getTagName())) {
-    //         try {
-    //             input = clickable.findElement(
-    //                     org.openqa.selenium.By.cssSelector("input, [role='combobox']"));
-    //         } catch (NoSuchElementException ignored) {
-    //             input = clickable;
-    //         }
-    //     }
-
-    //     wait.until(ExpectedConditions.visibilityOf(input));
-    //     input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-    //     input.sendKeys(Keys.BACK_SPACE);
-    //     input.click();
-    //     input.sendKeys(optionText);
-    //     Thread.sleep(20000);
-    //     input.sendKeys(Keys.ENTER);
-    //     // input.sendKeys(Keys.ENTER);
-    // }
-// dropdown utility for react select component 
     public static void selectReactOption(WebDriver driver, WebElement dropdown, String optionText) throws Exception {
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

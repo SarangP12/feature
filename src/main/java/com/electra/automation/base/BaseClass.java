@@ -1,10 +1,7 @@
 package com.electra.automation.base;
-
-import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.reports.ExtentReportManager;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.ScreenshotUtility;
-
 // import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.JavascriptExecutor;
@@ -17,7 +14,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import org.testng.Assert;
 
 import java.time.Duration;
@@ -86,18 +82,7 @@ public class BaseClass {
         driverThreadLocal.set(driver);
         ExtentReportManager.createTest(getClass().getSimpleName() + " :: " + browser);
     }
-// Common Login Methode Define( All test cases are depend on this method)
-    @BeforeMethod(alwaysRun = true)
-    @Test(description = "Validates login page loads and login form is visible")
-    public void verifyLoginPageLoads() throws Exception {
-        LoginPage loginPage = new LoginPage(getDriver());
-        Assert.assertTrue(loginPage.isLoginFormVisible(), "Login form should be visible");
-        loginPage.enterUsername(ConfigReader.getValue("qa.username"));
-        loginPage.enterPassword(ConfigReader.getValue("qa.password")); 
-        loginPage.clickLogin();
-        Thread.sleep(2000); // Wait for login to process
-        closeExtraTabs();
-}
+
 // Close Extra tab after the Log In 
 public void closeExtraTabs() {
 

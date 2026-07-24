@@ -11,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.electra.automation.base.BaseClass;
+import com.electra.automation.models.PatientData;
 import com.electra.automation.utilities.DropDownUtility;
 
 
@@ -112,6 +113,9 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//input[@type=\"tel\"]")
     public WebElement patientMobileinput;
 
+    @FindBy(xpath="//input[@id='email']")
+    public WebElement patientEmailInput;
+
     @FindBy(xpath="//input[@id=\"current_address\"]")
     public WebElement patient_addressinput;
 
@@ -130,15 +134,18 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//input[@id=\"religion\"]")
     public WebElement patientReligionInput;
 
-    //     @FindBy(xpath="//input[@id=\"unit_id\"]")
+    //@FindBy(xpath="//input[@id=\"unit_id\"]")
     // public WebElement patientUnitinput;
 
     @FindBy(xpath="//button[@class='shrink-0 p-1 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500']//*[name()='svg']")
     public WebElement logInExitLocation;
 
-    //Assertion element 
+    //Assertion element Or Pop Up element ( Toast react PopUpUp)
     @FindBy(xpath="//span[text()=\"Patient Info\"]")
     public WebElement PatientInfoPage;
+
+    @FindBy(xpath="//div[text()=\"Patient already exists\"]")
+    public WebElement PatientDuplicateToast;
 
 //Given is Webelement Access Methods
 // Dropdown Selection Methods - React option selection define in the DropDown Utility class
@@ -274,6 +281,41 @@ public class RegisterPage extends BaseClass {
         waitForVisibleElement(patient_addressinput).clear();
         patient_addressinput.sendKeys(adress);
     }
+    public void patientEmail(String email){
+        waitForVisibleElement(patientEmailInput).clear();
+        patientEmailInput.sendKeys(email);
+    }
+public void registerPatient(PatientData patient) throws Exception {
 
+    selectPatientCategoryType(patient.getCategoryType());
 
+    selectPatientCategoryID(patient.getCategoryID());
+
+    selectPatientTariff(patient.getTariff());
+
+    selectPatientSalutation(patient.getSalutation());
+
+    patientFirstName(patient.getFirstName());
+
+    patientLastName(patient.getLastName());
+
+    patientBirthYear(patient.getBirthYear());
+
+    patientmobile(patient.getMobile());
+
+    patientEmail(patient.getEmail());
+
+    patientAdress(patient.getAddress());
+
+    clickSubmit();
+}
+
+//     public void registerPatient(String patientName,
+//                             String mobile, String email) {
+//     patientFirstName(patientName);
+//     patientmobile(mobile);
+//     patientAdress(email);
+
+//     clickSubmit();
+// }
 }
