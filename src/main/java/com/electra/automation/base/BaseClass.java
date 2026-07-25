@@ -14,6 +14,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
 import org.testng.Assert;
 
 import java.time.Duration;
@@ -71,7 +73,7 @@ public class BaseClass {
     }
 
 //Browser Method Define
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)//--------------------Change BeforeMethod
     @Parameters({"browser", "environment"})
     public void setUp(@Optional("chrome") String browser, @Optional("qa") String environment) {
         WebDriver driver = DriverFactory.createDriver(browser);
@@ -98,7 +100,7 @@ public void closeExtraTabs() {
     getDriver().switchTo().window(parentWindow);
 }
 // Captured Screenshot for failed test cases
-    @AfterMethod(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void tearDown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
             String screenshotPath = ScreenshotUtility.captureFailedElementScreenshot(

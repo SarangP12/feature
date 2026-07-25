@@ -53,13 +53,12 @@ public class RandomDataUtility {
         patient.setCategoryID("Staff Benefit");
         patient.setTariff("Staff Patient");
         patient.setSalutation("Mrs.");
-
         patient.setFirstName(getPatientName());
-        patient.setLastName("Pande");
-        patient.setBirthYear("33");
+        patient.setLastName("Agnihotri");
+        patient.setBirthYear("99");
         patient.setMobile(getMobileNumber());
         patient.setEmail(getEmail());
-        patient.setAddress("128 Main St, Roing");
+        patient.setAddress("118 Main St, Roing");
 
         // Uncomment if PatientData has Email field
         // patient.setEmail(getEmail());

@@ -1,16 +1,14 @@
 package com.electra.automation.utilities;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-import java.util.List;
-
-import org.openqa.selenium.By;
 
 public class DropDownUtility {
 
@@ -24,7 +22,7 @@ public class DropDownUtility {
 // dropdown utility for react select component 
     public static void selectReactOption(WebDriver driver, WebElement dropdown, String optionText) throws Exception {
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
 
     WebElement clickable = wait.until(ExpectedConditions.elementToBeClickable(dropdown));
     clickable.click();

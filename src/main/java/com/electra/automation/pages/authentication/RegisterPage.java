@@ -82,6 +82,9 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//div[@class=\"w-4 h-4 rounded-sm border-2 border-gray-300 flex items-center justify-center transition-all duration-300 ease-in-out peer-checked:border-[#476cb7] peer-checked:bg-green-500 peer-checked:scale-110 peer-focus:ring-2 peer-focus:ring-green-300\"]")
     public WebElement btnSameAsCurrentAddress;
 
+    @FindBy(xpath="//button[@title='Switch to List']//div[@class='flex items-center justify-center w-6 h-6']//*[name()='svg']")
+    public WebElement btnSwitchtoListDetails;
+
 // All Text fields 
     @FindBy(xpath="//input[@id=\"patient_category_type\"]")
     public WebElement patientCatTypeDropdown;
@@ -134,8 +137,13 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//input[@id=\"religion\"]")
     public WebElement patientReligionInput;
 
-    //@FindBy(xpath="//input[@id=\"unit_id\"]")
-    // public WebElement patientUnitinput;
+    //Search Input Click field////////////////////////////
+    @FindBy(xpath="//input[@placeholder='Search by patient name, UHID, mobile no...']")
+    public WebElement searchInput;
+
+    @FindBy(xpath="//button[@title='Search']//div[@class='flex items-center justify-center w-6 h-6']//*[name()='svg']")
+    private WebElement btnSearch;
+/////////////////////////////////////////
 
     @FindBy(xpath="//button[@class='shrink-0 p-1 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500']//*[name()='svg']")
     public WebElement logInExitLocation;
@@ -161,9 +169,6 @@ public class RegisterPage extends BaseClass {
     public void selectPatientSalutation(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, patientsalutationDropdown, category);
 }
-//     public void selectPatientCity(String category) throws Exception{
-//     DropDownUtility.selectReactOption(driver, patientCityInput, category);
-// }
     public void selectPatientCity(String city)throws Exception{  
     patientCityInput.click();
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -222,6 +227,9 @@ public class RegisterPage extends BaseClass {
 // }
 
 
+    public void clickSwitchtoList() {
+        clickElement(btnSwitchtoListDetails);
+    }
     public void clickLogInExitLocation() {
         clickElement(logInExitLocation);
     }
@@ -248,19 +256,6 @@ public class RegisterPage extends BaseClass {
     public void clickSameAsCurrentAddress() {
        clickElement(btnSameAsCurrentAddress); 
     }
-    //     public void selectPatientCity(String City) throws Exception{
-    //     waitForVisibleElement(patientCityInput).clear();
-    //     patientCityInput.sendKeys(City);
-    //     waitForVisibleElement(patientCityInput);
-    //     Thread.sleep(20000);
-    //     patientCityInput.click();
-    // }    //     public void selectPatientCity(String City) throws Exception{
-    //     waitForVisibleElement(patientCityInput).clear();
-    //     patientCityInput.sendKeys(City);
-    //     waitForVisibleElement(patientCityInput);
-    //     Thread.sleep(20000);
-    //     patientCityInput.click();
-    // }
         public void patientFirstName(String Fname){
         waitForVisibleElement(firstNameInput).clear();
         firstNameInput.sendKeys(Fname);
@@ -285,6 +280,52 @@ public class RegisterPage extends BaseClass {
         waitForVisibleElement(patientEmailInput).clear();
         patientEmailInput.sendKeys(email);
     }
+    ///////////////////////////////////////////
+    public void clickSearch() {
+
+       clickElement(btnSearch);
+    }
+            public void patientEmail1(String email){
+        waitForVisibleElement(searchInput).clear();
+        searchInput.sendKeys(email);
+    }
+        public void patientFirstName1(String Fname){
+        waitForVisibleElement(searchInput).clear();
+        searchInput.sendKeys(Fname);
+    }
+        public void patientLastName1(String Lname){
+        waitForVisibleElement(searchInput).clear();
+        searchInput.sendKeys(Lname);
+    }
+        public void patientBirthYear1(String year){
+        waitForVisibleElement(searchInput).clear();
+        searchInput.sendKeys(year);
+    }
+        public void patientmobile1(String mobile){
+        waitForVisibleElement(searchInput).clear();
+        searchInput.sendKeys(mobile);
+    }
+    public void searchPatient(PatientData patient) throws Exception {
+
+        clickSearch();
+
+        patientFirstName1(patient.getFirstName());
+
+    // Assert.assertEquals(searchPage.getFirstName(), patient.getFirstName(),
+    //     "Patient First Name does not match.");
+
+    // patientLastName(patient.getLastName());
+
+    // patientBirthYear(patient.getBirthYear());
+
+    // patientmobile(patient.getMobile());
+
+    // patientEmail(patient.getEmail());
+
+    clickSearch();
+}
+
+
 public void registerPatient(PatientData patient) throws Exception {
 
     selectPatientCategoryType(patient.getCategoryType());
@@ -318,4 +359,8 @@ public void registerPatient(PatientData patient) throws Exception {
 
 //     clickSubmit();
 // }
+
+    public void searchFirstPatient(PatientData patient) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
