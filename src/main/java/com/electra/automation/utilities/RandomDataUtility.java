@@ -49,9 +49,15 @@ public class RandomDataUtility {
 
         PatientData patient = new PatientData();
 
-        patient.setCategoryType("Staff");
-        patient.setCategoryID("Staff Benefit");
-        patient.setTariff("Staff Patient");
+        patient.setCategoryType("General");
+        patient.setCategoryID("General");
+        patient.setTariff("General");
+        // patient.setCategoryType("Staff");
+        // patient.setCategoryID("Staff Benefit");
+        // patient.setTariff("Staff Patient");
+
+        // patient.setDepartment("General Medicine");
+
         patient.setSalutation("Mrs.");
         patient.setFirstName(getPatientName());
         patient.setLastName("Agnihotri");

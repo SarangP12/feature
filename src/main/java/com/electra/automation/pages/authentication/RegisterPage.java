@@ -85,6 +85,13 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//button[@title='Switch to List']//div[@class='flex items-center justify-center w-6 h-6']//*[name()='svg']")
     public WebElement btnSwitchtoListDetails;
 
+    @FindBy(xpath="//a[@href=\"/registrations/c3111952-6888-461d-9e90-7d6cd5067299\"]")
+    public WebElement btnAppointment;
+
+    // @FindBy(xpath="//a[@href=\"/registrations/c3111952-6888-461d-9e90-7d6cd5067299\"]")
+    // public WebElement btnAppointment;
+
+
 // All Text fields 
     @FindBy(xpath="//input[@id=\"patient_category_type\"]")
     public WebElement patientCatTypeDropdown;
@@ -123,7 +130,7 @@ public class RegisterPage extends BaseClass {
     public WebElement patient_addressinput;
 
     @FindBy(xpath="//label[@for='department_id']/parent::div//input[starts-with(@id,'department_id')]")
-    public WebElement patientDepartmentinput; //label[@for='department_id']/parent::div//input[starts-with(@id,'department_id')]
+    public WebElement patientDepartmentinput;
 
     @FindBy(xpath="//input[@id=\"unit_id\"]")
     public WebElement patientUnitinput;  
@@ -137,12 +144,19 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//input[@id=\"religion\"]")
     public WebElement patientReligionInput;
 
+    @FindBy(xpath="//div[@class=\"react-select__input-container css-1deasmo\"]//input[@class=\"react-select__input\"]/parent::div//input[starts-with(@id,'react-select-')]")
+    public WebElement appointmentSearchPatienetInput;
+
     //Search Input Click field////////////////////////////
+
     @FindBy(xpath="//input[@placeholder='Search by patient name, UHID, mobile no...']")
     public WebElement searchInput;
 
     @FindBy(xpath="//button[@title='Search']//div[@class='flex items-center justify-center w-6 h-6']//*[name()='svg']")
     private WebElement btnSearch;
+
+
+
 /////////////////////////////////////////
 
     @FindBy(xpath="//button[@class='shrink-0 p-1 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500']//*[name()='svg']")
@@ -191,7 +205,7 @@ public class RegisterPage extends BaseClass {
 //     // Wait until at least one dropdown option is visible
 //     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 //     wait.until(ExpectedConditions.visibilityOfElementLocated(
-//             By.xpath("//div[contains(@class,'react-select__option')]")));
+//     By.xpath("//div[contains(@class,'react-select__option')]")));
 //     patientCityInput.sendKeys(city);
 //     patientCityInput.sendKeys(Keys.ENTER);
 // }
@@ -219,14 +233,20 @@ public class RegisterPage extends BaseClass {
     public void selectPatientReligion(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, patientReligionInput, category);
 }
-//     public void selectAppointmentDoctor(String category) throws Exception{
-//     DropDownUtility.selectReactOption(driver, ptAppointmentDoctorInput, category);
-// }
+    public void selectAppointmentSearch(String category) throws Exception{
+    DropDownUtility.selectReactOption(driver, appointmentSearchPatienetInput, category);
+}
 //     public void selectAppointmentDepartment(String category) throws Exception{
 //     DropDownUtility.selectReactOption(driver, patientDepartmentinput, category);
 // }
 
 
+    public void clickAppointment() {
+        clickElement(btnAppointment);
+    }
+    //     public void clickAppointmentSearchPatient() {
+    //     clickElement(appointmentSearchPatienetInput);
+    // }
     public void clickSwitchtoList() {
         clickElement(btnSwitchtoListDetails);
     }
@@ -285,26 +305,30 @@ public class RegisterPage extends BaseClass {
 
        clickElement(btnSearch);
     }
-            public void patientEmail1(String email){
+    public void patientEmail1(String email){
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(email);
     }
-        public void patientFirstName1(String Fname){
+    public void patientFirstName1(String Fname){
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(Fname);
     }
-        public void patientLastName1(String Lname){
+    public void patientLastName1(String Lname){
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(Lname);
     }
-        public void patientBirthYear1(String year){
+    public void patientBirthYear1(String year){
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(year);
     }
-        public void patientmobile1(String mobile){
+    public void patientmobile1(String mobile){
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(mobile);
     }
+    // public void clickAppointmentSearchPatient(String  aSearch){
+    //     waitForVisibleElement(appointmentSearchPatienetInput).clear();
+    //     appointmentSearchPatienetInput.sendKeys(aSearch);
+    // }
     public void searchPatient(PatientData patient) throws Exception {
 
         clickSearch();
@@ -320,12 +344,19 @@ public class RegisterPage extends BaseClass {
 
     // patientmobile(patient.getMobile());
 
-    // patientEmail(patient.getEmail());
+    // patientEmail(patient.getEmail());  
 
     clickSearch();
 }
+    public void searchAppointmentPatient(PatientData patient) throws Exception {
+        
+        selectAppointmentSearch(patient.getFirstName());
+    }
+    public void searchAppointmentDepartment(PatientData patient) throws Exception {
+        
+        selectAppointmentDepartment(patient.getDepartment());
 
-
+    }
 public void registerPatient(PatientData patient) throws Exception {
 
     selectPatientCategoryType(patient.getCategoryType());
@@ -350,15 +381,6 @@ public void registerPatient(PatientData patient) throws Exception {
 
     clickSubmit();
 }
-
-//     public void registerPatient(String patientName,
-//                             String mobile, String email) {
-//     patientFirstName(patientName);
-//     patientmobile(mobile);
-//     patientAdress(email);
-
-//     clickSubmit();
-// }
 
     public void searchFirstPatient(PatientData patient) {
         throw new UnsupportedOperationException("Not supported yet.");

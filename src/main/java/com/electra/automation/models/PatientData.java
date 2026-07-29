@@ -5,6 +5,7 @@ public class PatientData {
     private String categoryType;
     private String categoryID;
     private String tariff;
+    private String department;
     private String salutation;
     private String firstName;
     private String lastName;
@@ -36,6 +37,14 @@ public class PatientData {
 
     public void setTariff(String tariff) {
         this.tariff = tariff;
+    }
+
+        public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getSalutation() {
