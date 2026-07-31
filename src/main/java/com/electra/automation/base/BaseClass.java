@@ -85,13 +85,48 @@ public class BaseClass {
         ExtentReportManager.createTest(getClass().getSimpleName() + " :: " + browser);
     }
 
-// Close Extra tab after the Log In 
+// // Agar exactly 2 seconds baad close karna hai
+// public void closeExtraTabs() {
+
+//     WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+//     // Wait until new tab opens
+//     wait.until(driver -> driver.getWindowHandles().size() > 1);
+
+//     // Keep the tab open for 2 seconds
+//     try {
+//         Thread.sleep(2000);
+//     } catch (InterruptedException e) {
+//         Thread.currentThread().interrupt();
+//     }
+
+//     String parentWindow = getDriver().getWindowHandle();
+
+//     for (String windowHandle : getDriver().getWindowHandles()) {
+
+//         if (!windowHandle.equals(parentWindow)) {
+
+//             getDriver().switchTo().window(windowHandle);
+//             getDriver().close();
+//         }
+//     }
+
+//     getDriver().switchTo().window(parentWindow);
+// }
+//Immediatly remove new open tab 
 public void closeExtraTabs() {
+
+    WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+    // Wait until more than one window is opened
+    wait.until(driver -> driver.getWindowHandles().size() > 1);
 
     String parentWindow = getDriver().getWindowHandle();
 
     for (String windowHandle : getDriver().getWindowHandles()) {
+
         if (!windowHandle.equals(parentWindow)) {
+
             getDriver().switchTo().window(windowHandle);
             getDriver().close();
         }

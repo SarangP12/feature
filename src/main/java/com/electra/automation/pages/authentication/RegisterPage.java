@@ -36,11 +36,13 @@ public class RegisterPage extends BaseClass {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
         }
     }
-
+    private WebElement waitForClickableElement(WebElement element) {
+    return waitForDriver().until(ExpectedConditions.elementToBeClickable(element));
+}
     private WebElement waitForVisibleElement(WebElement element) {
         return waitForDriver().until(ExpectedConditions.visibilityOf(element));
     }
-// Click Action Elements
+// Click Action button Master
     @FindBy(xpath="//button[@class=\"flex items-center p-1 rounded-lg text-base dark:bg-dark/40 hover:text-teal-500 dark:hover:bg-dark/60 cursor-pointer\"]")
     private WebElement btnAllMenuElement;
 
@@ -49,6 +51,18 @@ public class RegisterPage extends BaseClass {
 
     @FindBy(xpath="//span[text()=\"Patients\"]")
     private WebElement btnClickPatients;
+
+    @FindBy(xpath="//li[31]//button[1]")
+    public WebElement btnSetup; 
+
+    @FindBy(xpath="//span[text()=\"Settings\"]")
+    public WebElement btnSetting;
+
+    @FindBy(xpath="//span[text()=\"Patient Management\"]")
+    public WebElement btnPatManagemnt; 
+
+    @FindBy(xpath="//div[contains(text(),'Registration With Appointment')]/ancestor::div[contains(@class,'space-y-2')]//input[@role='switch']")
+    public WebElement btnRegWithAppointment; 
 
 //Validation massage
     @FindBy (xpath="//p[text()=\"First Name is required.\"]")
@@ -74,7 +88,10 @@ public class RegisterPage extends BaseClass {
     public WebElement btnAddpatient;
 
     @FindBy(xpath="//button[@type=\"submit\"]")
-    public WebElement btnSubmit;
+    public WebElement btnSubmit; 
+
+    @FindBy(xpath="//button[normalize-space()='Save']")
+    public WebElement btnPatMngtSave;
 
     @FindBy(xpath="//button[normalize-space()='Other Details']")
     public WebElement btnOtherDetails;
@@ -88,8 +105,11 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//a[@href=\"/registrations/c3111952-6888-461d-9e90-7d6cd5067299\"]")
     public WebElement btnAppointment;
 
-    // @FindBy(xpath="//a[@href=\"/registrations/c3111952-6888-461d-9e90-7d6cd5067299\"]")
-    // public WebElement btnAppointment;
+    @FindBy(xpath="//span[text()=\"Bookings\"]")
+    public WebElement btnBookings;
+
+    // @FindBy(xpath="//span[text()="Bookings"]")
+    // public WebElement btnBookings;
 
 
 // All Text fields 
@@ -108,11 +128,23 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//label[normalize-space()='City']/parent::div//input[starts-with(@id,'react-select-')][1]")  //city dropdown
     public WebElement patientCityInput; //label[normalize-space()='City']/parent::div//input[starts-with(@id,'react-select-')][1]
 
-    @FindBy(xpath="(//input[starts-with(@id,'react-select-')])[3]")   //Appointment Doctor Dropdown
-    public WebElement ptAppointmentDoctorInput; //label[@for='doctor_id']/preceding::div[contains(@class,'react-select__control')][1]
+    @FindBy(xpath="(//input[starts-with(@id,'react-select-')])[3]")  //Register with Appointment Doctor Dropdown
+    public WebElement regwithAppointmentDoctorInput; 
+
+    @FindBy(xpath="(//input[starts-with(@id,'react-select-')])[2]")   //Seperate Appointment Doctor Dropdown 
+    public WebElement onlyAppointmentDoctorInput;
+
+    @FindBy(xpath="(//input[starts-with(@id,'react-select-')])[1]")   //Seperate Booking Doctor Dropdown 
+    public WebElement onlyBookingDoctorInput;
+
+    @FindBy(xpath="//input[@id=\"visit_type\"]")
+    public WebElement appointmentVisitTypeInput;
 
     @FindBy(xpath="//input[@id=\"first_name\"]")
     public WebElement firstNameInput;
+
+    @FindBy(xpath="//input[@id=\"patient_name\"]")
+    public WebElement patientNameInput;
 
     @FindBy(xpath="//input[@id=\"last_name\"]")
     public WebElement lastNameInput;
@@ -142,20 +174,24 @@ public class RegisterPage extends BaseClass {
     public WebElement patientNationalityInput;
 
     @FindBy(xpath="//input[@id=\"religion\"]")
-    public WebElement patientReligionInput;
+    public WebElement patientReligionInput; 
+
+    @FindBy(xpath="//input[@id=\"age\"]")
+    public WebElement patBookingAgeInput;
+
+    @FindBy(xpath="//input[@id=\"gender\"]")
+    public WebElement patBookingGenderInput;
 
     @FindBy(xpath="//div[@class=\"react-select__input-container css-1deasmo\"]//input[@class=\"react-select__input\"]/parent::div//input[starts-with(@id,'react-select-')]")
     public WebElement appointmentSearchPatienetInput;
 
-    //Search Input Click field////////////////////////////
+    //Search Input Click field////////////////////////////  
 
     @FindBy(xpath="//input[@placeholder='Search by patient name, UHID, mobile no...']")
     public WebElement searchInput;
 
     @FindBy(xpath="//button[@title='Search']//div[@class='flex items-center justify-center w-6 h-6']//*[name()='svg']")
     private WebElement btnSearch;
-
-
 
 /////////////////////////////////////////
 
@@ -187,6 +223,7 @@ public class RegisterPage extends BaseClass {
     patientCityInput.click();
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     patientCityInput.sendKeys(city);
+
     //String listBoxId = patientCityInput.getAttribute("aria-controls");
     String listBoxId = patientCityInput.getDomAttribute("aria-controls");
     String prefix = listBoxId.replace("-listbox", "");
@@ -215,8 +252,18 @@ public class RegisterPage extends BaseClass {
     //     patientCityInput.sendKeys(Keys.ENTER);
     //     Thread.sleep(4000);
     // }
-    public void selectAppointmentDoctor(String category) throws Exception{
-    DropDownUtility.selectReactOption(driver, ptAppointmentDoctorInput, category);
+    public void selectRegAppointmentDoctor(String category) throws Exception{ //With registration
+    DropDownUtility.selectReactOption(driver, regwithAppointmentDoctorInput, category);
+}
+    public void selectAppointmentDoctor(String category) throws Exception{   //without registration
+    DropDownUtility.selectReactOption(driver, onlyAppointmentDoctorInput, category);
+}
+    public void selectBookingDoctor(String category) throws Exception{   //Booking registration
+    DropDownUtility.selectReactOption(driver, onlyBookingDoctorInput, category);
+}
+
+    public void selectAppointmentVisitType(String category) throws Exception{
+    DropDownUtility.selectReactOption(driver, appointmentVisitTypeInput, category);
 }
     public void selectAppointmentDepartment(String category) throws Exception{
     DropDownUtility.selectReactOption(driver, patientDepartmentinput, category);
@@ -240,13 +287,16 @@ public class RegisterPage extends BaseClass {
 //     DropDownUtility.selectReactOption(driver, patientDepartmentinput, category);
 // }
 
-
+//Button Methods 
+    public void clickSearch() {
+       clickElement(btnSearch);
+    }
+    public void clickBooking() {
+        clickElement(btnBookings);
+    }
     public void clickAppointment() {
         clickElement(btnAppointment);
     }
-    //     public void clickAppointmentSearchPatient() {
-    //     clickElement(appointmentSearchPatienetInput);
-    // }
     public void clickSwitchtoList() {
         clickElement(btnSwitchtoListDetails);
     }
@@ -254,18 +304,42 @@ public class RegisterPage extends BaseClass {
         clickElement(logInExitLocation);
     }
     public void clickAllMenuButton() {
-        clickElement(btnAllMenuElement);
-        // btnAllMenuElement.click();
+        waitForClickableElement(btnAllMenuElement).click();
+        // clickElement(btnAllMenuElement);
+    }
+        public void clickPatMngtSave() {
+        clickElement(btnPatMngtSave);
+    }
+        public void clickMenuSetup() {
+        waitForClickableElement(btnSetup).click();
+    }
+        public void clickMenuSetting() {
+        waitForClickableElement(btnSetting).click();
+        
+        // waitForVisibleElement(btnSetting);
+        // clickElement(btnSetting);
+    }
+        public void clickMenuPatMngmt() {
+        waitForClickableElement(btnPatManagemnt).click();
+        // clickElement(btnPatManagemnt);
+    }
+        public void clickSettingRegWithAppointmnt() {
+        waitForVisibleElement(btnRegWithAppointment);
+        btnRegWithAppointment.click();
+            // waitForClickableElement(btnRegWithAppointment).click();
+        // clickElement(btnRegWithAppointment);
     }
     public void clickRegistrationImagebtn() {
-        clickElement(btnRegImgAll);
+        waitForClickableElement(btnRegImgAll).click();
+        // clickElement(btnRegImgAll);
     }
     public void ClickPatientsRegistration() {
-        clickElement(btnClickPatients);
-        // btnClickPatients.click();
+        waitForClickableElement(btnClickPatients).click();
+        // clickElement(btnClickPatients);
     }
     public void AddPatientClick() {
-        clickElement(btnAddpatient);
+        waitForVisibleElement(btnAddpatient).click();
+        // clickElement(btnAddpatient);
     }
     public void clickSubmit() {
        clickElement(btnSubmit);
@@ -276,9 +350,22 @@ public class RegisterPage extends BaseClass {
     public void clickSameAsCurrentAddress() {
        clickElement(btnSameAsCurrentAddress); 
     }
-        public void patientFirstName(String Fname){
+    //Input Texts Methods 
+    public void patientFirstName(String Fname){
         waitForVisibleElement(firstNameInput).clear();
         firstNameInput.sendKeys(Fname);
+    }
+    public void patientGender(String gender){
+        waitForVisibleElement(patBookingGenderInput).clear();
+        patBookingGenderInput.sendKeys(gender);
+    }
+        public void bookingPatAge(String age){
+        waitForVisibleElement(patBookingAgeInput).clear();
+        patBookingAgeInput.sendKeys(age);
+    }
+    public void patienttName(String Fname){
+        waitForVisibleElement(patientNameInput).clear();
+        patientNameInput.sendKeys(Fname);
     }
         public void patientLastName(String Lname){
         waitForVisibleElement(lastNameInput).clear();
@@ -300,11 +387,6 @@ public class RegisterPage extends BaseClass {
         waitForVisibleElement(patientEmailInput).clear();
         patientEmailInput.sendKeys(email);
     }
-    ///////////////////////////////////////////
-    public void clickSearch() {
-
-       clickElement(btnSearch);
-    }
     public void patientEmail1(String email){
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(email);
@@ -325,15 +407,15 @@ public class RegisterPage extends BaseClass {
         waitForVisibleElement(searchInput).clear();
         searchInput.sendKeys(mobile);
     }
-    // public void clickAppointmentSearchPatient(String  aSearch){
-    //     waitForVisibleElement(appointmentSearchPatienetInput).clear();
-    //     appointmentSearchPatienetInput.sendKeys(aSearch);
-    // }
+    //reduce test code Methods 
     public void searchPatient(PatientData patient) throws Exception {
 
         clickSearch();
 
         patientFirstName1(patient.getFirstName());
+
+        clickSearch();
+        Thread.sleep(2000);
 
     // Assert.assertEquals(searchPage.getFirstName(), patient.getFirstName(),
     //     "Patient First Name does not match.");
@@ -344,17 +426,27 @@ public class RegisterPage extends BaseClass {
 
     // patientmobile(patient.getMobile());
 
-    // patientEmail(patient.getEmail());  
-
-    clickSearch();
+    // patientEmail(patient.getEmail());
 }
-    public void searchAppointmentPatient(PatientData patient) throws Exception {
+    public void appointmentsDropdown(PatientData patient) throws Exception {
+
+        clickAppointment();
+
+        Thread.sleep(2000);
         
+        AddPatientClick();
+
         selectAppointmentSearch(patient.getFirstName());
-    }
-    public void searchAppointmentDepartment(PatientData patient) throws Exception {
         
         selectAppointmentDepartment(patient.getDepartment());
+
+        selectAppointmentUnit(patient.getUnit());
+
+        selectAppointmentDoctor(patient.getDoctor());
+
+        selectAppointmentVisitType(patient.getVisitType());
+
+        clickSubmit();
 
     }
 public void registerPatient(PatientData patient) throws Exception {
@@ -379,7 +471,58 @@ public void registerPatient(PatientData patient) throws Exception {
 
     patientAdress(patient.getAddress());
 
-    clickSubmit();
+    // clickSubmit();
+}
+public void registerBooking(PatientData patient) throws Exception {
+
+        clickBooking();
+
+        Thread.sleep(2000);
+
+        AddPatientClick();
+
+        selectPatientSalutation(patient.getSalutation());
+        patienttName(patient.getFirstName());
+        bookingPatAge(patient.getAge()); 
+        patientGender(patient.getGender());
+        patientmobile(patient.getMobile());
+        selectAppointmentDepartment(patient.getDepartment());
+        selectAppointmentUnit(patient.getUnit());
+        selectBookingDoctor(patient.getDoctor());
+        clickSubmit();
+}
+public void registerWithAppointment(PatientData patient) throws Exception {
+
+        Thread.sleep(2000);
+        clickAllMenuButton();
+        
+        clickMenuSetup();
+
+        Thread.sleep(2000);
+        clickMenuSetting();
+
+        Thread.sleep(3000);
+        clickMenuPatMngmt();
+
+        Thread.sleep(3000);
+        clickSettingRegWithAppointmnt();
+
+        clickPatMngtSave();
+
+        clickAllMenuButton();
+        clickRegistrationImagebtn();
+        ClickPatientsRegistration();
+
+        Thread.sleep(2000);
+        AddPatientClick();
+
+        registerPatient(patient);
+
+        selectAppointmentDepartment(patient.getDepartment());
+        selectAppointmentUnit(patient.getUnit());
+        selectRegAppointmentDoctor(patient.getDoctor());
+        selectAppointmentVisitType(patient.getVisitType());
+
 }
 
     public void searchFirstPatient(PatientData patient) {

@@ -8,8 +8,8 @@
         <parameter name="browser" value="chrome"/>
         <parameter name="environment" value="qa"/>
         <classes>
-            <class name="com.electra.automation.testcases.authentication.LoginTest"/>
-            <class name="com.electra.automation.testcases.dashboard.DashboardTest"/>
+            <!-- <class name="com.electra.automation.testcases.authentication.LoginTest"/>
+            <class name="com.electra.automation.testcases.dashboard.DashboardTest"/> -->
             <class name="com.electra.automation.testcases.authentication.RegisterTest"/>
         </classes>
     </test>

@@ -16,33 +16,31 @@ public class RandomDataUtility {
     // Generate Dynamic First Name (Only Alphabets)
     public static String getPatientName() {
 
-        StringBuilder name = new StringBuilder("AutoPatient");
+        StringBuilder name = new StringBuilder("Auto");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
         }
 
         return name.toString();
     }
-
-    // public static String getPatientName() {
-
-    //     // return "AutoPatient" + System.currentTimeMillis();
-    //         return "AutoPatient_" +
-    //         System.currentTimeMillis() +
-    //         "_" +
-    //         random.nextInt(1000);
-    // }
-
     // Generate Dynamic Mobile Number
     public static String getMobileNumber() {
         return "9" + (100000000 + random.nextInt(900000000));
     }
-
-    // Generate Dynamic Email
-    public static String getEmail() {
-        return "auto" + System.currentTimeMillis() + "@gmail.com";
-    }
+    // Generate Dynamic Age Number
+    public static String getAgeNo() {
+        return String.valueOf(12 + random.nextInt(63)); // 18 to 80
+}
+// Generate Dynamic Email
+public static String getEmail() {
+    return "Auto" + (10 + random.nextInt(90)) + "@gmail.com";
+}
+// Generate Dynamic Address
+public static String getAddresss() {
+    int houseNo = 1 + random.nextInt(9999);
+    return "House No. " + houseNo + ", MG Road, Pune, Maharashtra";
+}
 
     // Generate Complete Patient Object
     public static PatientData generatePatient() {
@@ -55,19 +53,19 @@ public class RandomDataUtility {
         // patient.setCategoryType("Staff");
         // patient.setCategoryID("Staff Benefit");
         // patient.setTariff("Staff Patient");
-
-        // patient.setDepartment("General Medicine");
-
-        patient.setSalutation("Mrs.");
+        patient.setDepartment("General Medicine");
+        patient.setUnit("General Medicine - Unit A");
+        patient.setDoctor("Dr. Roshan G");
+        patient.setSalutation("Mrs");
+        patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
         patient.setLastName("Agnihotri");
         patient.setBirthYear("99");
+        patient.setGender("Female");
         patient.setMobile(getMobileNumber());
+        patient.setAge(getAgeNo());
         patient.setEmail(getEmail());
-        patient.setAddress("118 Main St, Roing");
-
-        // Uncomment if PatientData has Email field
-        // patient.setEmail(getEmail());
+        patient.setAddress(getAddresss());
 
         return patient;
     }

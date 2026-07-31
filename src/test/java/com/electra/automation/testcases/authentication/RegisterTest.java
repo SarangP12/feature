@@ -15,7 +15,7 @@ public class RegisterTest extends BaseClass {
     private PatientData patient;
 
     // Common Login Methode Define( All test cases are depend on this method)
-    @Test(description = "Validates login page loads and login form is visible")
+    @Test(description = "Validates login page loads and login form is visible",priority = 0)
     public void verifyLoginPageLoads() throws Exception {
         LoginPage loginPage = new LoginPage(getDriver());
         Assert.assertTrue(loginPage.isLoginFormVisible(), "Login form should be visible");
@@ -25,7 +25,7 @@ public class RegisterTest extends BaseClass {
         Thread.sleep(2000); // Wait for login to process
         closeExtraTabs();
 }
-    @Test(dependsOnMethods = "verifyLoginPageLoads",description = "Open registration page", priority = 0)
+    @Test(dependsOnMethods = "verifyLoginPageLoads",description = "Open registration page", priority = 1)
     private void openRegistrationPage() throws Exception {
         registerPage = new RegisterPage(getDriver());
         // verifyLoginPageLoads();
@@ -36,11 +36,11 @@ public class RegisterTest extends BaseClass {
         registerPage.ClickPatientsRegistration();
         registerPage.AddPatientClick();
     }
-    @Test(dependsOnMethods = "openRegistrationPage", description = "Validates registration page validation", priority = 1)
+    @Test(dependsOnMethods = "openRegistrationPage", description = "Validates registration page validation", priority = 2)
     public void validationRegistrationPage() throws Exception {
         // openRegistrationPage();
         registerPage.clickSubmit();
-        Thread.sleep(4000); // Wait for login to process
+        Thread.sleep(1000); // Wait for login to process
 // Validate that the appropriate validation messages are displayed
     verifyElement(registerPage.tariffValidation, "Applicable Tariff is required.",true);
     verifyElement(registerPage.firstNameValidation, "First Name is required.",true);
@@ -49,60 +49,8 @@ public class RegisterTest extends BaseClass {
     verifyElement(registerPage.mobileValidation, "Mobile No is required.",true);
     verifyElement(registerPage.addressValidation, "Address is required.",true);
     }
-// //     // Simple Regration flow Scenarios
-//     @Test(description = "Registration valid data without appointment",priority = 2)
-//     public void verifyNewPatientRegistration() throws Exception {
-//         openRegistrationPage();
-//         Thread.sleep(25000);
-//         registerPage.selectPatientCategoryType("Staff");
-//         // Thread.sleep(2000);
-//         registerPage.selectPatientCategoryID("Staff Benefit");
-//         registerPage.selectPatientTariff("Staff Patient");
-//         registerPage.selectPatientSalutation("Mrs.");
-//         registerPage.patientFirstName("Sweety");
-//         registerPage.patientLastName("Agnihotri");
-//         registerPage.patientBirthYear("99");
-//         registerPage.patientmobile("1934555892");
-//         registerPage.patientEmail("Test1@domain.com");
-//         registerPage.patientAdress("17 Main St, Roing");
-//         Thread.sleep(25000);
-//         try {
-//         registerPage.selectPatientCity("Roing");
-//     } catch (Exception e) {
-//     System.out.println("City dropdown failed.");// registerPage.selectPatientCity("Pune");
-//     }       
-//     //     try {
-//     //     registerPage.selectAppointmentDepartment("General Medicine");
-//     // } catch (Exception e) {
-//     // System.out.println("Department dropdown failed."); 
-//     // }
-//     //     try {
-//     //     registerPage.selectAppointmentUnit("General Medicine - Unit A");
-//     // } catch (Exception e) {
-//     // System.out.println("Unit dropdown failed."); // registerPage.selectAppointmentUnit("General Medicine - Unit A");
-//     // }
-//     //     try {
-//     //     registerPage.selectAppointmentDoctor("Dr. Hayden Beahan");
-//     // } catch (Exception e) {
-//     // System.out.println("Doctor dropdown failed.");// registerPage.selectAppointmentDoctor("Dr. Hayden Beahan");
-//     // }
-// //Other details Page
-//         registerPage.clickOtherDetails();
-//         registerPage.selectRegLanguage("Hindi");
-//         registerPage.selectPatientNationality("Indian");
-//         registerPage.selectPatientReligion("Hindu");
-//         registerPage.clickSameAsCurrentAddress(); 
-//         registerPage.clickSubmit();
-//         Thread.sleep(1000);
-//         closeExtraTabs();
-//         Thread.sleep(1000);
-//         closeExtraTabs();
-//         verifyElement(registerPage.PatientInfoPage,
-//                    "Patient Info", true);
-//         verifyElement(registerPage.btnAddpatient, null, false);
-//     }
 
-
+// Register Patient with Single method
 // @Test(description = "Verify new patient registration", priority = 3)
 // public void verifyPatientRegistration() throws Exception {
 //         // Receipt generation
@@ -141,10 +89,12 @@ public class RegisterTest extends BaseClass {
 public void verifyPatientRegistration() throws Exception {
 
     patient = RandomDataUtility.generatePatient();
-
-    // openRegistrationPage();
-
     registerPage.registerPatient(patient);
+    registerPage.clickSubmit();
+    closeExtraTabs();
+    closeExtraTabs();
+    Thread.sleep(500);
+
 
     verifyElement(registerPage.btnAddpatient, null, false);
 }
@@ -153,20 +103,21 @@ public void duplicateRegistration() throws Exception {
 
     System.out.println(patient.getFirstName());
     System.out.println(patient.getMobile());
+    System.out.println(patient.getAddress());
 
-    // openRegistrationPage();
-    Thread.sleep(25000);
     registerPage.AddPatientClick();
     registerPage.registerPatient(patient);
+    registerPage.clickSubmit();
 
             try {
         verifyElement(registerPage.PatientDuplicateToast,"Patient already exists",true);
         } catch (Exception e) {
             System.out.println("DuplicateToast failed.");
-    }   
+    } 
+
     registerPage.clickSwitchtoList();
 }
-    @Test(dependsOnMethods = "verifyPatientRegistration",description = "Verify Search functionality", priority = 5)
+    @Test(dependsOnMethods = "duplicateRegistration",description = "Verify Search functionality", priority = 5)
     public void verifyPatientSearch() throws Exception {
         
         // patient = RandomDataUtility.generatePatient();
@@ -181,15 +132,40 @@ public void duplicateRegistration() throws Exception {
 
     }
 
-    @Test(dependsOnMethods = "verifyPatientSearch",description = "Verify Search functionality", priority = 5)
+    @Test(dependsOnMethods = "verifyPatientSearch",description = "Verify Apppintment functionality", priority = 6)
     public void patientAppointment() throws Exception {
         
-        registerPage.clickAppointment();
-        registerPage.AddPatientClick();
+        // registerPage.clickAppointment();
+        // registerPage.AddPatientClick();
         Thread.sleep(2000);
-        registerPage.searchAppointmentPatient(patient);
-        registerPage.searchAppointmentDepartment(patient);
+        registerPage.appointmentsDropdown(patient);
 
+        closeExtraTabs();
+
+        verifyElement(registerPage.btnAddpatient, null, false);
+
+    }
+    @Test(dependsOnMethods = "patientAppointment",description = "Verify Booking functionality", priority = 7)
+    public void patientBooking() throws Exception {
+        
+        // registerPage.clickBooking();
+        // registerPage.AddPatientClick();
+        registerPage.registerBooking(patient);
+
+        verifyElement(registerPage.btnAddpatient, null, false);
+
+    }
+    @Test(dependsOnMethods = "patientBooking",description = "Verify register with appointment functionality", priority = 8)
+    public void patientregisterWithAppointment() throws Exception {
+        
+        registerPage. registerWithAppointment(patient);
+
+        // registerPage.registerPatient(patient);
+
+        registerPage.clickSubmit();
+
+
+        verifyElement(registerPage.btnAddpatient, null, false);
     }
     
 }
