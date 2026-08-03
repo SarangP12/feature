@@ -13,16 +13,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.PatientData;
 import com.electra.automation.utilities.DropDownUtility;
+import com.electra.automation.utilities.SwitchButton;
 
 
 
 public class RegisterPage extends BaseClass {
 
     private WebDriver driver;
+    private SwitchButton switchbutton; 
 //Page Factory constructor
     public RegisterPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        
+        switchbutton = new SwitchButton(driver);
     }
     private WebDriverWait waitForDriver() {
         return new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -61,8 +65,8 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//span[text()=\"Patient Management\"]")
     public WebElement btnPatManagemnt; 
 
-    @FindBy(xpath="//div[contains(text(),'Registration With Appointment')]/ancestor::div[contains(@class,'space-y-2')]//input[@role='switch']")
-    public WebElement btnRegWithAppointment; 
+    // @FindBy(xpath="//div[@title='Registration With Appointment']/ancestor::div[contains(@class,'space-y-2')]//label")
+    // public WebElement switchButton; 
 
 //Validation massage
     @FindBy (xpath="//p[text()=\"First Name is required.\"]")
@@ -205,6 +209,8 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath="//div[text()=\"Patient already exists\"]")
     public WebElement PatientDuplicateToast;
 
+
+
 //Given is Webelement Access Methods
 // Dropdown Selection Methods - React option selection define in the DropDown Utility class
     public void selectPatientCategoryType(String category) throws Exception{
@@ -315,31 +321,31 @@ public class RegisterPage extends BaseClass {
     }
         public void clickMenuSetting() {
         waitForClickableElement(btnSetting).click();
-        
-        // waitForVisibleElement(btnSetting);
-        // clickElement(btnSetting);
+
     }
         public void clickMenuPatMngmt() {
         waitForClickableElement(btnPatManagemnt).click();
-        // clickElement(btnPatManagemnt);
+
     }
-        public void clickSettingRegWithAppointmnt() {
-        waitForVisibleElement(btnRegWithAppointment);
-        btnRegWithAppointment.click();
-            // waitForClickableElement(btnRegWithAppointment).click();
-        // clickElement(btnRegWithAppointment);
+        public void enableRegistrationWithAppointment() {
+        switchbutton.setSwitch("Registration With Appointment", true);
     }
+        public void disableRegistrationWithAppointment() {
+        switchbutton.setSwitch("Registration With Appointment", false);
+    }
+        
     public void clickRegistrationImagebtn() {
         waitForClickableElement(btnRegImgAll).click();
-        // clickElement(btnRegImgAll);
+
     }
+
     public void ClickPatientsRegistration() {
         waitForClickableElement(btnClickPatients).click();
-        // clickElement(btnClickPatients);
+
     }
     public void AddPatientClick() {
         waitForVisibleElement(btnAddpatient).click();
-        // clickElement(btnAddpatient);
+
     }
     public void clickSubmit() {
        clickElement(btnSubmit);
@@ -409,11 +415,11 @@ public class RegisterPage extends BaseClass {
     }
     //reduce test code Methods 
     public void searchPatient(PatientData patient) throws Exception {
-
+        
         clickSearch();
-
+        
         patientFirstName1(patient.getFirstName());
-
+        
         clickSearch();
         Thread.sleep(2000);
 
@@ -447,8 +453,9 @@ public class RegisterPage extends BaseClass {
         selectAppointmentVisitType(patient.getVisitType());
 
         clickSubmit();
-
+        
     }
+
 public void registerPatient(PatientData patient) throws Exception {
 
     selectPatientCategoryType(patient.getCategoryType());
@@ -505,7 +512,7 @@ public void registerWithAppointment(PatientData patient) throws Exception {
         clickMenuPatMngmt();
 
         Thread.sleep(3000);
-        clickSettingRegWithAppointmnt();
+        enableRegistrationWithAppointment();
 
         clickPatMngtSave();
 
@@ -521,7 +528,9 @@ public void registerWithAppointment(PatientData patient) throws Exception {
         selectAppointmentDepartment(patient.getDepartment());
         selectAppointmentUnit(patient.getUnit());
         selectRegAppointmentDoctor(patient.getDoctor());
-        selectAppointmentVisitType(patient.getVisitType());
+        // selectAppointmentVisitType(patient.getVisitType());
+
+
 
 }
 

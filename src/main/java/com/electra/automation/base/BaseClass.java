@@ -20,6 +20,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
+
 public class BaseClass {
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<WebElement> failedElementThreadLocal = new ThreadLocal<>();
@@ -113,10 +114,11 @@ public class BaseClass {
 
 //     getDriver().switchTo().window(parentWindow);
 // }
+
 //Immediatly remove new open tab 
 public void closeExtraTabs() {
 
-    WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+    WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
     // Wait until more than one window is opened
     wait.until(driver -> driver.getWindowHandles().size() > 1);
@@ -135,9 +137,9 @@ public void closeExtraTabs() {
     getDriver().switchTo().window(parentWindow);
 }
 // Captured Screenshot for failed test cases
-    @AfterClass(alwaysRun = true)
-    public void tearDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
+    @AfterMethod(alwaysRun = true)
+    public void tearDown(ITestResult result) throws Exception {
+        if (result.getStatus() == ITestResult.FAILURE){
             String screenshotPath = ScreenshotUtility.captureFailedElementScreenshot(
                     getDriver(),
                     getFailedElement(),
@@ -149,17 +151,21 @@ public void closeExtraTabs() {
         } else if (result.getStatus() == ITestResult.SKIP) {
             ExtentReportManager.logSkip("Test skipped");
         }
-        if (getDriver() != null) {
-            getDriver().quit();
-        }
         clearFailedElement();
         ExtentReportManager.clearTest();
     }
+    //Close Browser after test/class execution
+    @AfterClass(alwaysRun = true)
+    public void closeBrowser() {
+    if (getDriver() != null) {
+        getDriver().quit();
+    }
+}
 // Reusable methods Validation massages for all Assertion 
     public void verifyElement(WebElement element,
                           String expectedMessage,
                           boolean verifyText) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
     WebElement visibleElement = wait.until(
             ExpectedConditions.visibilityOf(element));

@@ -84,7 +84,15 @@ public class SearchPage  extends BaseClass  {
 
 //     public void searchPatient(PatientData patient) throws Exception {
 
-//     patientFirstName(patient.getFirstName());
+        // clickSearch();
+        
+        // patientFirstName1(patient.getFirstName());
+        
+        // clickSearch();
+        // Thread.sleep(2000);
+
+    // Assert.assertEquals(searchPage.getFirstName(), patient.getFirstName(),
+    //     "Patient First Name does not match.");
 
 //     // Assert.assertEquals(searchPage.getFirstName(), patient.getFirstName(),
 //     //     "Patient First Name does not match.");

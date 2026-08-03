@@ -55,12 +55,12 @@ public static String getAddresss() {
         // patient.setTariff("Staff Patient");
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
-        patient.setDoctor("Dr. Roshan G");
+        patient.setDoctor("Dr Roshan G");
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
         patient.setLastName("Agnihotri");
-        patient.setBirthYear("99");
+        patient.setBirthYear(getAgeNo());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());
         patient.setAge(getAgeNo());
