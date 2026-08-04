@@ -2,6 +2,8 @@ package com.electra.automation.base;
 import com.electra.automation.reports.ExtentReportManager;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.ScreenshotUtility;
+import com.electra.automation.utilities.WaitUtility;
+
 // import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,6 +27,8 @@ public class BaseClass {
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<WebElement> failedElementThreadLocal = new ThreadLocal<>();
 
+    private WaitUtility wait;
+
     public WebDriver getDriver() {
         return driverThreadLocal.get();
     }
@@ -47,31 +51,31 @@ public class BaseClass {
     }
 
     public void click(WebElement element) {
-    waitForClickable(element).click();
-}
+    wait.waitForElementClickable(element).click();
+    }
 
- // Wait until element is visible [When you want to read text, verify validation messages, or type into a field]
-    public WebElement waitForVisibility(WebElement element) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOf(element));
-    }
-// Wait until element is clickable [Before clicking a button, link, dropdown, checkbox, radio button]
-    public WebElement waitForClickable(WebElement element) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(element));
-    }
-// Wait until element disappears [Wait for a loader/spinner or popup to disappear]
-    public boolean waitForInvisibility(WebElement element) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.invisibilityOf(element));
-    }
-// Wait until page loading is complete [After navigation or page refresh]
-    public void waitForPageLoad() {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(20))
-                .until(driver -> ((JavascriptExecutor) driver)
-                .executeScript("return document.readyState")
-                .equals("complete"));
-    }
+//  // Wait until element is visible [When you want to read text, verify validation messages, or type into a field]
+//     public WebElement waitForVisibility(WebElement element) {
+//         return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+//                 .until(ExpectedConditions.visibilityOf(element));
+//     }
+// // Wait until element is clickable [Before clicking a button, link, dropdown, checkbox, radio button]
+//     public WebElement waitForClickable(WebElement element) {
+//         return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+//                 .until(ExpectedConditions.elementToBeClickable(element));
+//     }
+// // Wait until element disappears [Wait for a loader/spinner or popup to disappear]
+//     public boolean waitForInvisibility(WebElement element) {
+//         return new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+//                 .until(ExpectedConditions.invisibilityOf(element));
+//     }
+// // Wait until page loading is complete [After navigation or page refresh]
+//     public void waitForPageLoad() {
+//         new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+//                 .until(driver -> ((JavascriptExecutor) driver)
+//                 .executeScript("return document.readyState")
+//                 .equals("complete"));
+//     }
 
 //Browser Method Define
     @BeforeClass(alwaysRun = true)//--------------------Change BeforeMethod
@@ -161,29 +165,54 @@ public void closeExtraTabs() {
         getDriver().quit();
     }
 }
-// Reusable methods Validation massages for all Assertion 
-    public void verifyElement(WebElement element,
+// // Reusable methods Validation massages for all Assertion 
+//     public void verifyElement(WebElement element,
+//                           String expectedMessage,
+//                           boolean verifyText) {
+//         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
+//     WebElement visibleElement = wait.until(
+//             ExpectedConditions.visibilityOf(element));
+
+//     // Verify element is displayed
+//     Assert.assertTrue(
+//             visibleElement.isDisplayed(),
+//             "Element is not displayed.");
+
+//     // Verify text only when required
+//     if (verifyText) {
+
+//         String actualText = visibleElement.getText().trim();
+
+//         Assert.assertEquals(
+//                 actualText,
+//                 expectedMessage,
+//                 "Text verification failed.");
+//     }
+// }
+
+public void verifyElement(WebElement element,
                           String expectedMessage,
                           boolean verifyText) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
-    WebElement visibleElement = wait.until(
-            ExpectedConditions.visibilityOf(element));
+    WaitUtility wait = new WaitUtility(getDriver());
+
+    WebElement visibleElement = wait.waitForVisibility(element);
 
     // Verify element is displayed
     Assert.assertTrue(
             visibleElement.isDisplayed(),
-            "Element is not displayed.");
+            "Element is not displayed."
+    );
 
     // Verify text only when required
     if (verifyText) {
 
-        String actualText = visibleElement.getText().trim();
-
         Assert.assertEquals(
-                actualText,
+                visibleElement.getText().trim(),
                 expectedMessage,
-                "Text verification failed.");
+                "Text verification failed."
+        );
     }
 }
 

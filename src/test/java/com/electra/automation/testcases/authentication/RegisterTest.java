@@ -6,11 +6,13 @@ import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.PatientData;
 import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.pages.authentication.RegisterPage;
+import com.electra.automation.pages.authentication.SetupMasterPage;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.RandomDataUtility;
 
 public class RegisterTest extends BaseClass {
 
+    private SetupMasterPage setupMasterPage;
     private RegisterPage registerPage;
     private PatientData patient;
 
@@ -28,19 +30,19 @@ public class RegisterTest extends BaseClass {
     @Test(dependsOnMethods = "verifyLoginPageLoads",description = "Open registration page", priority = 1)
     private void openRegistrationPage() throws Exception {
         registerPage = new RegisterPage(getDriver());
+        setupMasterPage = new SetupMasterPage(getDriver());
         // verifyLoginPageLoads();
         Thread.sleep(2000);
         registerPage.clickLogInExitLocation();
-        registerPage.clickAllMenuButton();
-        registerPage.clickRegistrationImagebtn();
-        registerPage.ClickPatientsRegistration();
-        registerPage.AddPatientClick();
+        setupMasterPage.appointmentTabSwitchDisable();
+        registerPage.patientRegistrationMenu();
     }
+    
     @Test(dependsOnMethods = "openRegistrationPage", description = "Validates registration page validation", priority = 2)
     public void validationRegistrationPage() throws Exception {
-        // openRegistrationPage();
+
         registerPage.clickSubmit();
-        Thread.sleep(1000); // Wait for login to process
+        Thread.sleep(1000); 
 // Validate that the appropriate validation messages are displayed
     verifyElement(registerPage.tariffValidation, "Applicable Tariff is required.",true);
     verifyElement(registerPage.firstNameValidation, "First Name is required.",true);
@@ -50,45 +52,12 @@ public class RegisterTest extends BaseClass {
     verifyElement(registerPage.addressValidation, "Address is required.",true);
     }
 
-// Register Patient with Single method
-// @Test(description = "Verify new patient registration", priority = 3)
-// public void verifyPatientRegistration() throws Exception {
-//         // Receipt generation
-//         LoginPage loginPage = new LoginPage(getDriver());
-//         Assert.assertTrue(loginPage.isLoginFormVisible(), "Login form should be visible");
-//         loginPage.enterUsername(ConfigReader.getValue("qa.username"));
-//         loginPage.enterPassword(ConfigReader.getValue("qa.password")); 
-//         loginPage.clickLogin();
-//         Thread.sleep(2000); // Wait for login to process
-
-//         closeExtraTabs();
-
-//         registerPage = new RegisterPage(getDriver());
-
-//         Thread.sleep(3000);
-
-//         registerPage.clickLogInExitLocation();
-
-//         registerPage.clickAllMenuButton();
-//         registerPage.clickRegistrationImagebtn();
-//         registerPage.ClickPatientsRegistration();
-//         registerPage.AddPatientClick();
-        
-//         patient = RandomDataUtility.generatePatient();
-
-//     // openRegistrationPage();
-
-//     // Thread.sleep(000);
-
-//         registerPage.registerPatient(patient);
-
-//         verifyElement(registerPage.btnAddpatient, null, false);
-//     }
-
-@Test(dependsOnMethods = "openRegistrationPage",description = "Verify new patient registration", priority = 3)
+@Test(dependsOnMethods = "validationRegistrationPage",description = "Verify new patient registration", priority = 3)
 public void verifyPatientRegistration() throws Exception {
 
     patient = RandomDataUtility.generatePatient();
+    // setupMasterPage.appointmentTabSwitchDisable();
+    // registerPage.patientRegistrationMenu();
     registerPage.registerPatient(patient);
     registerPage.clickSubmit();
     closeExtraTabs();
@@ -105,8 +74,7 @@ public void duplicateRegistration() throws Exception {
     System.out.println(patient.getMobile());
     System.out.println(patient.getAddress());
 
-    registerPage.AddPatientClick();
-    registerPage.registerPatient(patient);
+    registerPage.duplicateRegister(patient);
     registerPage.clickSubmit();
 
             try {
@@ -118,11 +86,7 @@ public void duplicateRegistration() throws Exception {
     registerPage.clickSwitchtoList();
 }
     @Test(dependsOnMethods = "duplicateRegistration",description = "Verify Search functionality", priority = 5)
-    public void verifyPatientSearch() throws Exception {
-        
-        // patient = RandomDataUtility.generatePatient();
-
-        // openRegistrationPage();
+    public void verifyPatientSearch() throws Exception {    
 
         Thread.sleep(2000);
 
@@ -134,9 +98,7 @@ public void duplicateRegistration() throws Exception {
 
     @Test(dependsOnMethods = "verifyPatientSearch",description = "Verify Apppintment functionality", priority = 6)
     public void patientAppointment() throws Exception {
-        
-        // registerPage.clickAppointment();
-        // registerPage.AddPatientClick();
+
         Thread.sleep(2000);
         registerPage.appointmentsDropdown(patient);
 
@@ -151,9 +113,7 @@ public void duplicateRegistration() throws Exception {
     }
     @Test(dependsOnMethods = "patientAppointment",description = "Verify Booking functionality", priority = 7)
     public void patientBooking() throws Exception {
-        
-        // registerPage.clickBooking();
-        // registerPage.AddPatientClick();
+
         registerPage.registerBooking(patient);
 
         verifyElement(registerPage.btnAddpatient, null, false);
@@ -164,7 +124,9 @@ public void duplicateRegistration() throws Exception {
         
         patient = RandomDataUtility.generatePatient();
 
-        registerPage. registerWithAppointment(patient);
+        setupMasterPage. appointmentTabSwitchEnable();
+        registerPage.patientRegistrationMenu();
+        registerPage.registerWithAppointment(patient);
         
         registerPage.clickSubmit();
         closeExtraTabs();
