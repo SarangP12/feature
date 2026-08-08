@@ -41,6 +41,24 @@ public static String getAddresss() {
     int houseNo = 1 + random.nextInt(9999);
     return "House No. " + houseNo + ", MG Road, Pune, Maharashtra";
 }
+    //generate a random indexNumber
+    public static int getRandomNumber(int min, int max) {
+        return random.nextInt((max - min) + 1) + min;
+    }
+    //generate a random index
+        public static int getRandomIndex(int size) {
+
+
+        if(size <= 0) {
+
+            throw new IllegalArgumentException(
+                "List size cannot be zero"
+            );
+        }
+
+
+        return random.nextInt(size);
+    }
 
     // Generate Complete Patient Object
     public static PatientData generatePatient() {
@@ -55,17 +73,22 @@ public static String getAddresss() {
         // patient.setTariff("Staff Patient");
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
-        patient.setDoctor("Dr Roshan G");
+        patient.setDoctor("Dr Sarang D Pawar"); //Dr Roshan G
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
-        patient.setLastName("Agnihotri");
+        patient.setLastName("Doe");
         patient.setBirthYear(getAgeNo());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());
         patient.setAge(getAgeNo());
         patient.setEmail(getEmail());
         patient.setAddress(getAddresss());
+        patient.setNextToKin("Spouse");
+        patient.setKinsRelation("Family");
+        patient.setKinsContact("John Doe");
+        patient.setKinsAddress("123 Main St, Cityville");
+        patient.setKinsContactNumber("9876543210");
 
         return patient;
     }

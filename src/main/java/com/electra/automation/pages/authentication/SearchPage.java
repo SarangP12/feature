@@ -11,31 +11,24 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.PatientData;
 import com.electra.automation.utilities.DropDownUtility;
+import com.electra.automation.utilities.SwitchButton;
+import com.electra.automation.utilities.WaitUtility;
+
 import java.time.Duration;
 
 public class SearchPage  extends BaseClass  {
 
-//         private WebDriver driver;
+    private WebDriver driver;
+    private SwitchButton switchbutton;
+    private WaitUtility wait;
 
-//     public SearchPage(WebDriver driver) {
-//         this.driver = driver;
-//         PageFactory.initElements(driver, this);
-//     }
-//         private WebDriverWait waitForDriver() {
-//         return new WebDriverWait(driver, Duration.ofSeconds(10));
-//     }
+    public SearchPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
 
-//     private void clickElement(WebElement element) {
-//         try {
-//             waitForDriver().until(ExpectedConditions.elementToBeClickable(element)).click();
-//         } catch (RuntimeException ex) {
-//             waitForDriver().until(ExpectedConditions.visibilityOf(element));
-//             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-//         }
-//     }
-//         private WebElement waitForVisibleElement(WebElement element) {
-//         return waitForDriver().until(ExpectedConditions.visibilityOf(element));
-//     }
+        switchbutton = new SwitchButton(driver);
+        this.wait = new WaitUtility(driver);
+    }
 
 //     // @FindBy(xpath="//input[@placeholder='Patient Name']")
 //     // public WebElement txtPatientName;

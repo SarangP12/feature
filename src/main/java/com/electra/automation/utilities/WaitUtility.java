@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.reactivex.rxjava3.functions.BooleanSupplier;
+
 public class WaitUtility {
 
     private final WebDriver driver;
@@ -112,6 +114,19 @@ public class WaitUtility {
         return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOf(element));
     }
+    
+    public void waitUntil(BooleanSupplier condition, int timeoutSeconds) {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+
+        wait.until(d -> {
+            try {
+                return condition.getAsBoolean();
+            } catch (Throwable t) {
+                throw new RuntimeException(t);
+            }
+        });
+    }
 
 
     // Wait until element is clickable
@@ -136,39 +151,11 @@ public class WaitUtility {
     public void waitForPageLoad() {
 
         new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(driver -> 
-                    ((JavascriptExecutor) driver)
+                .until(d -> 
+                    ((JavascriptExecutor) d)
                     .executeScript("return document.readyState")
                     .equals("complete")
                 );
     }
-
-        // private final WebDriver driver;
-
-    // public WaitUtility(WebDriver driver) {
-    //     this.driver = driver;
-    // }
-
-    // public WebElement waitForElementVisible(By locator, int timeoutSeconds) {
-    //     return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
-    //             .until(ExpectedConditions.visibilityOfElementLocated(locator));
-    // }
-
-    // public WebElement waitForElementClickable(By locator, int timeoutSeconds) {
-    //     return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
-    //             .until(ExpectedConditions.elementToBeClickable(locator));
-    // }
-
-    // public WebElement waitForElementPresent(By locator, int timeoutSeconds) {
-    //     return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
-    //             .until(ExpectedConditions.presenceOfElementLocated(locator));
-    // }
-
-    // public <T> T waitForCondition(Function<WebDriver, T> condition, int timeoutSeconds) {
-    //     FluentWait<WebDriver> fluentWait = new FluentWait<>(driver)
-    //             .withTimeout(Duration.ofSeconds(timeoutSeconds))
-    //             .pollingEvery(Duration.ofMillis(500));
-    //     return fluentWait.until(condition);
-    // }
-
+    
 }

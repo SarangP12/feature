@@ -19,38 +19,10 @@ public class DropDownUtility {
     public static void selectByValue(WebElement element, String value) {
         new org.openqa.selenium.support.ui.Select(element).selectByValue(value);
     }
-// // dropdown utility for react select component 
-//     public static void selectReactOption(WebDriver driver, WebElement dropdown, String optionText) throws Exception {
-
-//     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
-
-//     WebElement clickable = wait.until(ExpectedConditions.elementToBeClickable(dropdown));
-//     clickable.click();
-
-//     WebElement input = clickable;
-
-//     if (!"input".equalsIgnoreCase(clickable.getTagName())) {
-//         try {
-//             input = clickable.findElement(By.cssSelector("input, [role='combobox']"));
-//         } catch (NoSuchElementException e) {
-//             input = clickable;
-//         }
-//     }
-
-//     wait.until(ExpectedConditions.visibilityOf(input));
-
-//     input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-//     input.sendKeys(Keys.BACK_SPACE);
-//     input.sendKeys(optionText);
-
-//     // Wait until at least one option is displayed;
-//     By option = By.xpath("//div[contains(@id,'-option-') and normalize-space()='" + optionText + "']");
-
-//     WebElement optionElement = wait.until(
-//             ExpectedConditions.elementToBeClickable(option));
-//             optionElement.click();
-//     }
-
+    public static void selectByIndex(WebElement element, int index) {
+        new org.openqa.selenium.support.ui.Select(element).selectByIndex(index);
+    }
+    
 public static void selectReactOption(WebDriver driver, WebElement dropdown, String optionText) {
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));

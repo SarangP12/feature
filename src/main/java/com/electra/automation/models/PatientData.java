@@ -18,6 +18,11 @@ public class PatientData {
     private String email;
     private String address;
     private String gender;
+    private String nextToKin;
+    private String kinsRelation;
+    private String kinsContact;
+    private String kinsAddress;
+    private String kinsContactNumber;
 
     // Getter and Setter
     public String getCategoryType() {
@@ -67,6 +72,37 @@ public class PatientData {
     }
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getNextToKin() {
+        return nextToKin;
+    }
+    public void setNextToKin(String nextToKin) {
+        this.nextToKin = nextToKin;
+    }
+    public String getKinsRelation() {
+        return kinsRelation;
+    }
+    public void setKinsRelation(String kinsRelation) {
+        this.kinsRelation = kinsRelation;
+    }
+    public String getKinsContact() {
+        return kinsContact;
+    }
+    public void setKinsContact(String kinsContact) {
+        this.kinsContact = kinsContact;
+    }
+        public String getKinsAddress() {
+        return kinsAddress;
+    }
+    public void setKinsAddress(String kinsAddress) {
+        this.kinsAddress = kinsAddress;
+    }
+        public String getKinsContactNumber() {
+        return kinsContactNumber;
+    }
+    public void setKinsContactNumber(String kinsContactNumber) {
+        this.kinsContactNumber = kinsContactNumber;
     }
 
     public String getDoctor() {
