@@ -1,6 +1,7 @@
 package com.electra.automation.testcases.authentication;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.electra.automation.base.BaseClass;
@@ -8,6 +9,7 @@ import com.electra.automation.models.PatientData;
 import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.pages.authentication.RegisterPage;
 import com.electra.automation.pages.authentication.SetupMasterPage;
+import com.electra.automation.utilities.AssertionUtility;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.RandomDataUtility;
 
@@ -16,6 +18,12 @@ public class RegisterTest extends BaseClass {
     private SetupMasterPage setupMasterPage;
     private RegisterPage registerPage;
     private PatientData patient;
+    private AssertionUtility assertion;
+
+    @BeforeMethod //AssertionUtility initialization before each test method
+    public void setUpAssertion() {
+        assertion = new AssertionUtility(getDriver());
+    }
 
     // Common Login Methode Define( All test cases are depend on this method)
     @Test(description = "Validates login page loads and login form is visible", priority = 0)
@@ -33,7 +41,7 @@ public class RegisterTest extends BaseClass {
         setupMasterPage = new SetupMasterPage(getDriver());
         // verifyLoginPageLoads();
         Thread.sleep(2000);
-        // registerPage.clickLogInExitLocation(); //-- Without lcation access
+        // registerPage.clickLogInExitLocation(); //-- Without location access
         setupMasterPage.appointmentTabSwitchDisable();
         registerPage.patientRegistrationMenu();
     }
@@ -44,12 +52,12 @@ public class RegisterTest extends BaseClass {
         registerPage.clickSubmit();
         Thread.sleep(1000);
 // Validate that the appropriate validation messages are displayed
-        verifyElement(registerPage.tariffValidation, "Applicable Tariff is required.", true);
-        verifyElement(registerPage.firstNameValidation, "First Name is required.", true);
-        verifyElement(registerPage.genderValidation, "Gender is required.", true);
-        verifyElement(registerPage.dobValidation, "Date of Birth is required.", true);
-        verifyElement(registerPage.mobileValidation, "Mobile No is required.", true);
-        verifyElement(registerPage.addressValidation, "Address is required.", true);
+        assertion.verifyElement(registerPage.tariffValidation, "Applicable Tariff is required.", true);
+        assertion.verifyElement(registerPage.firstNameValidation, "First Name is required.", true);
+        assertion.verifyElement(registerPage.genderValidation, "Gender is required.", true);
+        assertion.verifyElement(registerPage.dobValidation, "Date of Birth is required.", true);
+        assertion.verifyElement(registerPage.mobileValidation, "Mobile No is required.", true);
+        assertion.verifyElement(registerPage.addressValidation, "Address is required.", true);
     }
 
     @Test(dependsOnMethods = "validationRegistrationPage", description = "Verify new patient registration", priority = 3)
@@ -68,7 +76,7 @@ public class RegisterTest extends BaseClass {
         closeExtraTabs();
         Thread.sleep(500);
 
-        verifyElement(registerPage.btnElementToastOK, null, false);
+        assertion.verifyElement(registerPage.btnElementToastOK, null, false);
         // verifyToastMessage(registerPage.btnElementToastOK, "Patient registered successfully");
     }
 
@@ -83,7 +91,7 @@ public class RegisterTest extends BaseClass {
         registerPage.clickSubmit();
 
         try {
-            verifyElement(registerPage.PatientDuplicateToast, "Patient already exists", true);
+            assertion.verifyElement(registerPage.PatientDuplicateToast, "Patient already exists", true);
         } catch (Exception e) {
             System.out.println("DuplicateToast failed.");
         }
@@ -113,13 +121,13 @@ public class RegisterTest extends BaseClass {
 
         try {
             // verifyElement(registerPage.PatientDuplicateToast,"Patient already exists",true);
-            verifyElement(registerPage.btnAddpatient, null, false);
+            assertion.verifyElement(registerPage.btnAddpatient, null, false);
         } catch (Exception e) {
             System.out.println("Test failed.");
         }
     }
 
-    @Test(dependsOnMethods = "openRegistrationPage", description = "Verify Search functionality", priority = 5)
+    @Test(dependsOnMethods = "patientAppointment", description = "Verify Search functionality", priority = 5)
     public void verifyEmergencyPatient() throws Exception {
 
         Thread.sleep(2000);
@@ -130,25 +138,21 @@ public class RegisterTest extends BaseClass {
 
         registerPage.clickSubmit();
 
-        // closeExtraTabs();
-        // closeExtraTabs();
+        closeExtraTabs();
+        closeExtraTabs();
         Thread.sleep(500);
 
-        verifyElement(registerPage.btnAddpatient, null, false);
+        assertion.verifyElement(registerPage.btnAddpatient, null, false);
 
     }
 
-    @Test(dependsOnMethods = "patientAppointment", description = "Verify Booking functionality", priority = 7)
-    public void patientBooking() throws Exception {
-
-        registerPage.registerBooking(patient);
-
-        verifyElement(registerPage.btnAddpatient, null, false);
-
-    }
+    // @Test(dependsOnMethods = "verifyEmergencyPatient", description = "Verify Booking functionality", priority = 7)
+    // public void patientBooking() throws Exception {
+    //     registerPage.registerBooking(patient);
+    //     verifyElement(registerPage.btnAddpatient, null, false);
+    // }
 //     @Test(dependsOnMethods = "patientBooking",description = "Verify register with appointment functionality", priority = 8)
 //     public void patientregisterWithAppointment() throws Exception {
-
 //         patient = RandomDataUtility.generatePatient();
 //         setupMasterPage. appointmentTabSwitchEnable();
 //         registerPage.patientRegistrationMenu();

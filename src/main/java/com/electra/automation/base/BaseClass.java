@@ -7,9 +7,7 @@ import com.electra.automation.utilities.WaitUtility;
 
 // import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeSuite;
@@ -19,15 +17,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
-import org.testng.Assert;
-
 import java.time.Duration;
 
 public class BaseClass {
 
     private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<WebElement> failedElementThreadLocal = new ThreadLocal<>();
-
     private WaitUtility wait;
 
     public WebDriver getDriver() {
@@ -141,88 +136,6 @@ public class BaseClass {
         if (getDriver() != null) {
             getDriver().quit();
         }
-    }
-// // Reusable methods Validation massages for all Assertion 
-//     public void verifyElement(WebElement element,
-//                           String expectedMessage,
-//                           boolean verifyText) {
-//         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-//     WebElement visibleElement = wait.until(
-//             ExpectedConditions.visibilityOf(element));
-//     // Verify element is displayed
-//     Assert.assertTrue(
-//             visibleElement.isDisplayed(),
-//             "Element is not displayed.");
-//     // Verify text only when required
-//     if (verifyText) {
-//         String actualText = visibleElement.getText().trim();
-//         Assert.assertEquals(
-//                 actualText,
-//                 expectedMessage,
-//                 "Text verification failed.");
-//     }
-// }
-// Assertion method for validation messages / displayed text
-    public void verifyElement(WebElement element,
-            String expectedMessage,
-            boolean verifyText) {
-
-        WebElement visibleElement = this.wait.waitForVisibility(element);
-
-        // Verify element is displayed
-        Assert.assertTrue(
-                visibleElement.isDisplayed(),
-                "Element is not displayed."
-        );
-
-        // Verify text only when required
-        if (verifyText) {
-
-            Assert.assertEquals(
-                    visibleElement.getText().trim(),
-                    expectedMessage,
-                    "Text verification failed."
-            );
-        }
-    }
-
-    public void verifyAmount(WebElement amountElement, double expectedAmount) {
-        WebElement visibleElement = this.wait.waitForVisibility(amountElement);
-        Assert.assertTrue(visibleElement.isDisplayed(), "Amount element is not displayed.");
-        String actualText = visibleElement.getText().trim().replace("₹", "").replace(",", "").trim();
-        double actualAmount = Double.parseDouble(actualText);
-        Assert.assertEquals(actualAmount, expectedAmount, 0.01, "Amount verification failed. Expected: [" + expectedAmount + "] but Actual: [" + actualAmount + "]");
-    }
-
-// Assertion method for input field values
-    public void verifyInputValue(WebElement element, String expectedValue) {
-
-        WebElement visibleElement = this.wait.waitForVisibility(element);
-
-        Assert.assertTrue(
-                visibleElement.isDisplayed(),
-                "Input element is not displayed."
-        );
-
-        String actualValue = visibleElement.getDomProperty("value").trim();
-
-        Assert.assertEquals(
-                actualValue,
-                expectedValue,
-                "Input value verification failed. Expected: ["
-                + expectedValue
-                + "] but actual value was: ["
-                + actualValue
-                + "]"
-        );
-    }
-
-    public void verifyToastMessage(WebElement toastElement, String expectedMessage) {
-        WebElement visibleToast = this.wait.waitForVisibility(toastElement);
-        Assert.assertTrue(visibleToast.isDisplayed(), "Toast message is not displayed.");
-        String actualMessage = visibleToast.getText().trim();
-        Assert.assertEquals(actualMessage, expectedMessage, "Toast message verification failed. Expected: [" + expectedMessage + "] but Actual: [" + actualMessage + "]");
     }
 
 }

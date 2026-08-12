@@ -34,21 +34,89 @@ public class OPDPage {
     @FindBy(xpath = "//span[text()=\"Doctor Desk\"]")
     private WebElement doctorDeskMenuElement;
 
-    @FindBy(xpath = "//button[normalize-space()=\"EMR/EHR\"]")
+    @FindBy(xpath = "//button[normalize-space()=\"EMR/EHR\"]") //(//button[contains(text(),'EMR/EHR')])[1]
     private WebElement btnOPDEMREHR;
+
+    @FindBy(xpath = "//div[@aria-label=\"Time picker\"]")
+    private WebElement emrBtnTimePicker;
+
+    @FindBy(xpath = "//button[contains(@class,'bg-green-100') and normalize-space()='Now']")
+    private WebElement emrBtnTimePickerNow;
+
+    @FindBy(xpath = "//th[normalize-space()='BP (mmHg)']/ancestor::table//tbody/tr/td[3]//input")
+    private WebElement btnOPDEMREHRBPInput;
+
+    @FindBy(xpath = "//th[normalize-space()='Pulse (bpm)']/ancestor::table//tbody/tr/td[4]//input")
+    private WebElement btnOPDEMREHRPulseInput;
+
+    @FindBy(xpath = "//th[normalize-space()='Temp (°F)']/ancestor::table//tbody/tr/td[5]//input")
+    private WebElement btnOPDEMREHRTempInput;
+
+    @FindBy(xpath = "//th[normalize-space()='SpO₂ (%)']/ancestor::table//tbody/tr/td[6]//input")
+    private WebElement btnOPDEMREHRSpO2Input;
+
+    @FindBy(xpath = "//th[normalize-space()='RR (/min)']/ancestor::table//tbody/tr/td[7]//input")
+    private WebElement btnOPDEMREHRRRInput;
+
+    @FindBy(xpath = "//th[normalize-space()='Pain (0–10)']/ancestor::table//tbody/tr/td[8]//input")
+    private WebElement btnOPDEMREHRPainInput;
+
+    @FindBy(xpath = "//th[normalize-space()='Glucose (mg/dL)']/ancestor::table//tbody/tr/td[9]//input")
+    private WebElement btnOPDEMREHRGlucoseInput;
+
+    @FindBy(xpath = "//th[normalize-space()='Weight (kg)']/ancestor::table//tbody/tr/td[10]//input")
+    private WebElement btnOPDEMREHRWeightInput;
+
+    @FindBy(xpath = "//th[normalize-space()='Height (cm)']/ancestor::table//tbody/tr/td[11]//input")
+    private WebElement btnOPDEMREHRHeightInput;
+
+    // @FindBy(xpath = "//th[normalize-space()='BMI']/ancestor::table//tbody/tr/td[12]//input")
+    // private WebElement btnOPDEMREHRBMIInput;
 
     // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // private WebElement btnOPDImgAll;
-    //@FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
     // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
     // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
     // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
     // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
     //Webelements for OPDPage_ Input Fields
     @FindBy(xpath = "//input[@placeholder=\"Search by name, UHID, mobile, OP/IP no...\"]")
     private WebElement searchPatientInputElement;
@@ -72,8 +140,8 @@ public class OPDPage {
     public void clickOPDEMREHR() {
         wait.waitForElementClickable(btnOPDEMREHR).click();
     }
-    // public void clickOPDImagebtn() {
-    //     wait.waitForElementClickable(btnOPDImgAll).click();
+    // public void clickEMRTimePicker() {
+    //     wait.waitForElementClickable(emrBtnTimePicker).click();
     // }
     // public void clickOPDImagebtn() {
     //     wait.waitForElementClickable(btnOPDImgAll).click();
@@ -86,22 +154,93 @@ public class OPDPage {
         searchPatientInputElement.sendKeys(address);
     }
 
+    public void patientOPDEMREHRBPInput(String BP) {
+        wait.waitForElementVisible(btnOPDEMREHRBPInput);
+        btnOPDEMREHRBPInput.clear();
+        btnOPDEMREHRBPInput.sendKeys(BP);
+    }
+
+    public void patientOPDEMREHRPulseInput(String Pulse) {
+        wait.waitForElementVisible(btnOPDEMREHRPulseInput);
+        btnOPDEMREHRPulseInput.clear();
+        btnOPDEMREHRPulseInput.sendKeys(Pulse);
+    }
+
+    public void patientOPDEMREHRTempInput(String Temp) {
+        wait.waitForElementVisible(btnOPDEMREHRTempInput);
+        btnOPDEMREHRTempInput.clear();
+        btnOPDEMREHRTempInput.sendKeys(Temp);
+    }
+
+    public void patientOPDEMREHRSpO2Input(String SpO2) {
+        wait.waitForElementVisible(btnOPDEMREHRSpO2Input);
+        btnOPDEMREHRSpO2Input.clear();
+        btnOPDEMREHRSpO2Input.sendKeys(SpO2);
+    }
+
+    public void patientOPDEMREHRRRInput(String RR) {
+        wait.waitForElementVisible(btnOPDEMREHRRRInput);
+        btnOPDEMREHRRRInput.clear();
+        btnOPDEMREHRRRInput.sendKeys(RR);
+    }
+
+    public void patientOPDEMREHRPainInput(String Pain) {
+        wait.waitForElementVisible(btnOPDEMREHRPainInput);
+        btnOPDEMREHRPainInput.clear();
+        btnOPDEMREHRPainInput.sendKeys(Pain);
+    }
+
+    public void patientOPDEMREHRGlucoseInput(String Glucose) {
+        wait.waitForElementVisible(btnOPDEMREHRGlucoseInput);
+        btnOPDEMREHRGlucoseInput.clear();
+        btnOPDEMREHRGlucoseInput.sendKeys(Glucose);
+    }
+
+    public void patientOPDEMREHRWeightInput(String Weight) {
+        wait.waitForElementVisible(btnOPDEMREHRWeightInput);
+        btnOPDEMREHRWeightInput.clear();
+        btnOPDEMREHRWeightInput.sendKeys(Weight);
+    }
+
+    public void patientOPDEMREHRHeightInput(String Height) {
+        wait.waitForElementVisible(btnOPDEMREHRHeightInput);
+        btnOPDEMREHRHeightInput.clear();
+        btnOPDEMREHRHeightInput.sendKeys(Height);
+    }
+
+    // public void patientOPDEMREHRBMIInput(String BMI) {
+    //     wait.waitForElementVisible(btnOPDEMREHRBMIInput);
+    //     btnOPDEMREHRBMIInput.clear();
+    //     btnOPDEMREHRBMIInput.sendKeys(BMI);
+    // }
+
     //OPDPage Methods --> OPD test reusable methods
-    public void patientOPDMenu() throws Exception {
+    public void patientOPDMenuOpen() throws Exception {
 
         clickAllMenuButton();
         clickOPDImagebtn();
         doctorDeskMenuBtn();
         Thread.sleep(2000);
-        ;
+
     }
 
     public void patientEMREHRRecord(PatientData patient) throws Exception {
 
-        patientOPDMenu();
+        patientOPDMenuOpen();
         patientOPDSearch(patient.getFirstName());
         clickOPDEMREHR();
-
+        wait.waitForElementClickable(emrBtnTimePicker).click();
+        wait.waitForElementClickable(emrBtnTimePickerNow).click();
+        patientOPDEMREHRBPInput("120/80");
+        patientOPDEMREHRPulseInput("80");
+        patientOPDEMREHRTempInput("98.6");
+        patientOPDEMREHRSpO2Input("98");
+        patientOPDEMREHRRRInput("20");
+        patientOPDEMREHRPainInput("5");
+        patientOPDEMREHRGlucoseInput("100");
+        patientOPDEMREHRWeightInput("70");
+        patientOPDEMREHRHeightInput("170");
+        // patientOPDEMREHRBMIInput("24.2");
     }
 
     // Method assertion for OPDPage can be added here

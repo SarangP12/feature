@@ -21,6 +21,8 @@ public class RegisterPage extends BaseClass {
     private WebDriver driver;
     private SwitchButton switchbutton;
     private WaitUtility wait;
+    private DropDownUtility dropDownUtility;
+
 
     //Page Factory constructor
     public RegisterPage(WebDriver driver) {
@@ -28,6 +30,7 @@ public class RegisterPage extends BaseClass {
         PageFactory.initElements(driver, this);
 
         switchbutton = new SwitchButton(driver);
+        this.dropDownUtility = new DropDownUtility(driver);
         this.wait = new WaitUtility(driver);
     }
     // Click Action button Master
@@ -211,23 +214,24 @@ public class RegisterPage extends BaseClass {
     //Given is Webelement Access Methods 
     // Dropdown Selection Methods - React option selection define in the DropDown Utility class
     public void patientEMRKinsRelation(String relation) throws Exception {
-        DropDownUtility.selectReactOption(driver, patEMRKinsRelationInput, relation);
+        dropDownUtility.selectReactOption(patEMRKinsRelationInput, relation);
     }
 
     public void selectPatientCategoryType(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientCatTypeDropdown, category);
+        dropDownUtility.selectReactOption(patientCatTypeDropdown, category);
     }
 
     public void selectPatientCategoryID(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientCatIdDropdown, category);
+        dropDownUtility.selectReactOption(patientCatIdDropdown, category);
+        // DropDownUtility.selectReactOption(driver, patientCatIdDropdown, category);
     }
 
     public void selectPatientTariff(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientTariffDropdown, category);
+        dropDownUtility.selectReactOption(patientTariffDropdown, category);
     }
 
     public void selectPatientSalutation(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientsalutationDropdown, category);
+        dropDownUtility.selectReactOption(patientsalutationDropdown, category);
     }
 
     public void selectPatientCity(String city) throws Exception {
@@ -242,43 +246,44 @@ public class RegisterPage extends BaseClass {
     // By option = By.xpath("//div[contains(@id,'-option-') and normalize-space()='" + city + "']");
     // wait.until(ExpectedConditions.elementToBeClickable(option)).click();
     public void selectRegAppointmentDoctor(String category) throws Exception { //With registration
-        DropDownUtility.selectReactOption(driver, regwithAppointmentDoctorInput, category);
+        dropDownUtility.selectReactOption(regwithAppointmentDoctorInput, category);
     }
 
     public void selectAppointmentDoctor(String category) throws Exception {   //without registration
-        DropDownUtility.selectReactOption(driver, onlyAppointmentDoctorInput, category);
+        dropDownUtility.selectReactOption(onlyAppointmentDoctorInput, category);
     }
 
     public void selectBookingDoctor(String category) throws Exception {   //Booking registration
-        DropDownUtility.selectReactOption(driver, onlyBookingDoctorInput, category);
+        dropDownUtility.selectReactOption(onlyBookingDoctorInput, category);
     }
 
     public void selectAppointmentVisitType(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, appointmentVisitTypeInput, category);
+        dropDownUtility.selectReactOption(appointmentVisitTypeInput, category);
     }
 
     public void selectAppointmentDepartment(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientDepartmentinput, category);
+        dropDownUtility.selectReactOption(patientDepartmentinput, category);
     }
 
     public void selectAppointmentUnit(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientUnitinput, category);
+        // DropDownUtility.selectReactOption(driver, patientUnitinput, category);
+        dropDownUtility.selectReactOption(patientUnitinput, category);
     }
 
     public void selectRegLanguage(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, regLanguageInput, category);
+        dropDownUtility.selectReactOption(regLanguageInput, category);
     }
 
     public void selectPatientNationality(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientNationalityInput, category);
+        dropDownUtility.selectReactOption(patientNationalityInput, category);
     }
 
     public void selectPatientReligion(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, patientReligionInput, category);
+        dropDownUtility.selectReactOption(patientReligionInput, category);
     }
 
     public void selectAppointmentSearch(String category) throws Exception {
-        DropDownUtility.selectReactOption(driver, appointmentSearchPatienetInput, category);
+        dropDownUtility.selectReactOption(appointmentSearchPatienetInput, category);
     }
 //Button Methods 
 
@@ -603,6 +608,8 @@ public class RegisterPage extends BaseClass {
 
     public void registerWithEmergency(PatientData patient) throws Exception {
 
+        patientRegistrationMenu();
+        Thread.sleep(2500);
         // clickCheckboxEmergency();
         selectPatientCategoryType(patient.getCategoryType());
 
@@ -611,6 +618,8 @@ public class RegisterPage extends BaseClass {
         selectPatientTariff(patient.getTariff());
 
         clickCheckboxEmergency();
+
+        Thread.sleep(2500);
 
         selectPatientSalutation(patient.getSalutation());
 

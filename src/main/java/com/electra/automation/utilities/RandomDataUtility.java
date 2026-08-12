@@ -1,8 +1,10 @@
 package com.electra.automation.utilities;
+
 import java.util.Random;
 import com.electra.automation.models.PatientData;
 
 public class RandomDataUtility {
+
     // Prevent object creation
     private RandomDataUtility() {
     }
@@ -16,7 +18,7 @@ public class RandomDataUtility {
     // Generate Dynamic First Name (Only Alphabets)
     public static String getPatientName() {
 
-        StringBuilder name = new StringBuilder("Auto");
+        StringBuilder name = new StringBuilder("Smith");
 
         for (int i = 0; i < 2; i++) {
             name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
@@ -24,39 +26,41 @@ public class RandomDataUtility {
 
         return name.toString();
     }
+
     // Generate Dynamic Mobile Number
     public static String getMobileNumber() {
         return "9" + (100000000 + random.nextInt(900000000));
     }
+
     // Generate Dynamic Age Number
     public static String getAgeNo() {
         return String.valueOf(12 + random.nextInt(63)); // 18 to 80
-}
+    }
 // Generate Dynamic Email
-public static String getEmail() {
-    return "Auto" + (10 + random.nextInt(90)) + "@gmail.com";
-}
+
+    public static String getEmail() {
+        return "Auto" + (10 + random.nextInt(90)) + "@gmail.com";
+    }
 // Generate Dynamic Address
-public static String getAddresss() {
-    int houseNo = 1 + random.nextInt(9999);
-    return "House No. " + houseNo + ", MG Road, Pune, Maharashtra";
-}
+
+    public static String getAddresss() {
+        int houseNo = 1 + random.nextInt(9999);
+        return "House No. " + houseNo + ", MG Road, Pune, Maharashtra";
+    }
+
     //generate a random indexNumber
     public static int getRandomNumber(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }
+
     //generate a random index
-        public static int getRandomIndex(int size) {
-
-
-        if(size <= 0) {
+    public static int getRandomIndex(int size) {
+        if (size <= 0) {
 
             throw new IllegalArgumentException(
-                "List size cannot be zero"
+                    "List size cannot be zero"
             );
         }
-
-
         return random.nextInt(size);
     }
 
@@ -77,7 +81,7 @@ public static String getAddresss() {
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
-        patient.setLastName("Doe");
+        patient.setLastName("Maxwell");
         patient.setBirthYear(getAgeNo());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());
@@ -92,6 +96,5 @@ public static String getAddresss() {
 
         return patient;
     }
-
 
 }

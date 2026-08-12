@@ -24,7 +24,6 @@ public class WaitUtility {
     // ==========================
     // By Locator Methods
     // ==========================
-
     public WebElement waitForElementVisible(By locator, int timeoutSeconds) {
         return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -43,7 +42,6 @@ public class WaitUtility {
     // ==========================
     // WebElement Methods
     // ==========================
-
     public WebElement waitForElementVisible(WebElement element, int timeoutSeconds) {
         return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
                 .until(ExpectedConditions.visibilityOf(element));
@@ -62,10 +60,24 @@ public class WaitUtility {
     public WebElement waitForElementClickable(WebElement element) {
         return waitForElementClickable(element, DEFAULT_TIMEOUT);
     }
+
+    // Wait until element is clickable
+    // Used before click action
+    public WebElement waitForClickable(WebElement element) {
+        return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT))
+                .until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    // Wait until element disappears
+    // Used for loader/spinner/popup
+    public boolean waitForInvisibility(WebElement element) {
+        return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT))
+                .until(ExpectedConditions.invisibilityOf(element));
+    }
+
     // ==========================
     // Click Methods
     // ==========================
-
     public void clickElement(WebElement element) {
         clickElement(element, DEFAULT_TIMEOUT);
     }
@@ -83,7 +95,6 @@ public class WaitUtility {
     // ==========================
     // Text Methods
     // ==========================
-
     public void enterText(WebElement element, String text) {
         enterText(element, text, DEFAULT_TIMEOUT);
     }
@@ -97,7 +108,6 @@ public class WaitUtility {
     // ==========================
     // Custom Fluent Wait
     // ==========================
-
     public <T> T waitForCondition(Function<WebDriver, T> condition, int timeoutSeconds) {
         FluentWait<WebDriver> fluentWait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(timeoutSeconds))
@@ -114,7 +124,7 @@ public class WaitUtility {
         return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.visibilityOf(element));
     }
-    
+
     public void waitUntil(BooleanSupplier condition, int timeoutSeconds) {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
@@ -128,34 +138,30 @@ public class WaitUtility {
         });
     }
 
-
-    // Wait until element is clickable
-    // Used before click action
-    public WebElement waitForClickable(WebElement element) {
-
-        return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.elementToBeClickable(element));
-    }
-
-
-    // Wait until element disappears
-    // Used for loader/spinner/popup
-    public boolean waitForInvisibility(WebElement element) {
-
-        return new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT))
-                .until(ExpectedConditions.invisibilityOf(element));
-    }
-
-
     // Wait until page loading is complete
     public void waitForPageLoad() {
 
         new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(d -> 
-                    ((JavascriptExecutor) d)
-                    .executeScript("return document.readyState")
-                    .equals("complete")
+                .until(d
+                        -> ((JavascriptExecutor) d)
+                        .executeScript("return document.readyState")
+                        .equals("complete")
                 );
     }
-    
+    // Wait until element disappears using By locator
+
+    public boolean waitForInvisibility(By locator, int timeoutSeconds) {
+
+        return new WebDriverWait(
+                driver,
+                Duration.ofSeconds(timeoutSeconds)
+        ).until(
+                ExpectedConditions.invisibilityOfElementLocated(locator)
+        );
+    }
+
+    public boolean waitForInvisibility(By locator) {
+        return waitForInvisibility(locator, DEFAULT_TIMEOUT);
+    }
+
 }
