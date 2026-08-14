@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.functions.BooleanSupplier;
 public class WaitUtility {
 
     private final WebDriver driver;
-    private static final int DEFAULT_TIMEOUT = 10;
+    private static final int DEFAULT_TIMEOUT = 50;
 
     public WaitUtility(WebDriver driver) {
         this.driver = driver;

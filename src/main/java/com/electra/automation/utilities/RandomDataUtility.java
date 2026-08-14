@@ -1,6 +1,8 @@
 package com.electra.automation.utilities;
 
 import java.util.Random;
+
+import com.electra.automation.models.OPD_Data;
 import com.electra.automation.models.PatientData;
 
 public class RandomDataUtility {
@@ -32,14 +34,44 @@ public class RandomDataUtility {
         return "9" + (100000000 + random.nextInt(900000000));
     }
 
-    // Generate Dynamic Age Number
-    public static String getAgeNo() {
-        return String.valueOf(12 + random.nextInt(63)); // 18 to 80
+    // Generate Dynamic Age Number 10-99 
+    public static String TwoDigitNo() {
+        return String.valueOf(10 + random.nextInt(90));
     }
-// Generate Dynamic Email
 
+    // Generate Dynamic Point Value: 90.0 - 99.9
+    public static String getPointValue() {
+        double value = 90.0 + (random.nextInt(100) / 10.0);
+        return String.format("%.1f", value);
+    }
+
+    // Generate Dynamic Height: 140.0 - 200.0 cm
+    public static String Height() {
+        double height = 140.0 + (random.nextInt(601) / 10.0);
+        return String.format("%.1f", height);
+    }
+
+// Generate Dynamic Email
     public static String getEmail() {
         return "Auto" + (10 + random.nextInt(90)) + "@gmail.com";
+    }
+
+    // Generate Dynamic Pain: 1 - 10
+    public static String pain() {
+        return String.valueOf(1 + random.nextInt(10));
+    }
+
+    // Generate Dynamic RRNumber: 14 - 20
+    public static String RR() {
+        return String.valueOf(14 + random.nextInt(7));
+    }
+    // Generate Dynamic BP: 90/60 - 140/90
+
+    public static String BP() {
+        int systolic = 90 + random.nextInt(51);   // 90 - 140
+        int diastolic = 60 + random.nextInt(31);  // 60 - 90
+
+        return systolic + "/" + diastolic;
     }
 // Generate Dynamic Address
 
@@ -82,10 +114,10 @@ public class RandomDataUtility {
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
         patient.setLastName("Maxwell");
-        patient.setBirthYear(getAgeNo());
+        patient.setBirthYear(TwoDigitNo());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());
-        patient.setAge(getAgeNo());
+        patient.setAge(TwoDigitNo());
         patient.setEmail(getEmail());
         patient.setAddress(getAddresss());
         patient.setNextToKin("Spouse");
@@ -96,5 +128,42 @@ public class RandomDataUtility {
 
         return patient;
     }
+    // Generate Complete OPD Object
 
+    public static OPD_Data generateOPData() {
+
+        OPD_Data opd = new OPD_Data();
+
+        opd.setOPDEMREHRBP(BP());
+        opd.setOPDEMREHRPulse(TwoDigitNo());
+        opd.setOPDEMREHRTemp(getPointValue());
+        opd.setOPDEMREHRSpO2(TwoDigitNo());
+        opd.setOPDEMREHRRR(RR());
+        opd.setOPDEMREHRPain(pain());
+        opd.setOPDEMREHRGlucose(TwoDigitNo());
+        opd.setOPDEMREHRWeight(TwoDigitNo());
+        opd.setOPDEMREHRHeight(Height());
+        // patient.setCategoryType("Staff");
+        // patient.setCategoryID("Staff Benefit");
+        // patient.setTariff("Staff Patient");
+        // patient.setDepartment("General Medicine");
+        // patient.setUnit("General Medicine - Unit A");
+        // patient.setDoctor("Dr Sarang D Pawar"); //Dr Roshan G
+        // patient.setSalutation("Mrs");
+        // patient.setVisitType("Initial Visit");
+        // patient.setFirstName(getPatientName());
+        // patient.setLastName("Maxwell");
+        // patient.setBirthYear(getAgeNo());
+        // patient.setGender("Female");
+        // patient.setMobile(getMobileNumber());
+        // patient.setAge(getAgeNo());
+        // patient.setEmail(getEmail());
+        // patient.setAddress(getAddresss());
+        // patient.setNextToKin("Spouse");
+        // patient.setKinsRelation("Family");
+        // patient.setKinsContact("John Doe");
+        // patient.setKinsAddress("123 Main St, Cityville");
+        // patient.setKinsContactNumber("9876543210");
+        return opd;
+    }
 }

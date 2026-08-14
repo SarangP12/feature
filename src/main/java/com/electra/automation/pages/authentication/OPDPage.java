@@ -4,7 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
+import com.electra.automation.utilities.DropDownUtility;
+import com.electra.automation.models.OPD_Data;
 import com.electra.automation.models.PatientData;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
@@ -14,6 +15,7 @@ public class OPDPage {
     private WebDriver driver;
     private SwitchButton switchbutton;
     private WaitUtility wait;
+    private DropDownUtility dropDownUtility;
 
     //Page Factory constructor
     public OPDPage(WebDriver driver) {
@@ -70,13 +72,15 @@ public class OPDPage {
     @FindBy(xpath = "//th[normalize-space()='Height (cm)']/ancestor::table//tbody/tr/td[11]//input")
     private WebElement btnOPDEMREHRHeightInput;
 
-    // @FindBy(xpath = "//th[normalize-space()='BMI']/ancestor::table//tbody/tr/td[12]//input")
-    // private WebElement btnOPDEMREHRBMIInput;
+    @FindBy(xpath = "//button[@title=\"Add reading\"]")
+    private WebElement btnOPDEMREHRVitals;
+    ;
 
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
+    @FindBy(xpath = "//input[@placeholder=\"e.g., Chest pain, Fever, Headache\"]")
+    private WebElement eMREJRCC_HPInput;
+
+    @FindBy(xpath = "//input[@id=\"assoc-symptoms-uk78i0u\"]")
+    private WebElement CC_HPSymptomsinput;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
@@ -140,18 +144,19 @@ public class OPDPage {
     public void clickOPDEMREHR() {
         wait.waitForElementClickable(btnOPDEMREHR).click();
     }
+
     // public void clickEMRTimePicker() {
     //     wait.waitForElementClickable(emrBtnTimePicker).click();
     // }
-    // public void clickOPDImagebtn() {
-    //     wait.waitForElementClickable(btnOPDImgAll).click();
-    // }
+    public void clickEMREHRVitalAddbtn() {
+        wait.waitForElementClickable(btnOPDEMREHRVitals).click();
+    }
 
     //Send keys to search patient input field
-    public void patientOPDSearch(String address) {
+    public void patientOPDSearch(String patenetdetails) {
         wait.waitForElementVisible(searchPatientInputElement);
         searchPatientInputElement.clear();
-        searchPatientInputElement.sendKeys(address);
+        searchPatientInputElement.sendKeys(patenetdetails);
     }
 
     public void patientOPDEMREHRBPInput(String BP) {
@@ -208,11 +213,72 @@ public class OPDPage {
         btnOPDEMREHRHeightInput.sendKeys(Height);
     }
 
-    // public void patientOPDEMREHRBMIInput(String BMI) {
-    //     wait.waitForElementVisible(btnOPDEMREHRBMIInput);
-    //     btnOPDEMREHRBMIInput.clear();
-    //     btnOPDEMREHRBMIInput.sendKeys(BMI);
+    public void eMREHR_CCHP_Input(String BMI) {
+        wait.waitForElementVisible(eMREJRCC_HPInput);
+        eMREJRCC_HPInput.clear();
+        eMREJRCC_HPInput.sendKeys(BMI);
+    }
+
+    //     public void patientOPDSearch(String patenetdetails) {
+    //     wait.waitForElementVisible(searchPatientInputElement);
+    //     searchPatientInputElement.clear();
+    //     searchPatientInputElement.sendKeys(patenetdetails);
     // }
+    // public void patientOPDEMREHRBPInput(String BP) {
+    //     wait.waitForElementVisible(btnOPDEMREHRBPInput);
+    //     btnOPDEMREHRBPInput.clear();
+    //     btnOPDEMREHRBPInput.sendKeys(BP);
+    // }
+    // public void patientOPDEMREHRPulseInput(String Pulse) {
+    //     wait.waitForElementVisible(btnOPDEMREHRPulseInput);
+    //     btnOPDEMREHRPulseInput.clear();
+    //     btnOPDEMREHRPulseInput.sendKeys(Pulse);
+    // }
+    // public void patientOPDEMREHRTempInput(String Temp) {
+    //     wait.waitForElementVisible(btnOPDEMREHRTempInput);
+    //     btnOPDEMREHRTempInput.clear();
+    //     btnOPDEMREHRTempInput.sendKeys(Temp);
+    // }
+    // public void patientOPDEMREHRSpO2Input(String SpO2) {
+    //     wait.waitForElementVisible(btnOPDEMREHRSpO2Input);
+    //     btnOPDEMREHRSpO2Input.clear();
+    //     btnOPDEMREHRSpO2Input.sendKeys(SpO2);
+    // }
+    // public void patientOPDEMREHRRRInput(String RR) {
+    //     wait.waitForElementVisible(btnOPDEMREHRRRInput);
+    //     btnOPDEMREHRRRInput.clear();
+    //     btnOPDEMREHRRRInput.sendKeys(RR);
+    // }
+    // public void patientOPDEMREHRPainInput(String Pain) {
+    //     wait.waitForElementVisible(btnOPDEMREHRPainInput);
+    //     btnOPDEMREHRPainInput.clear();
+    //     btnOPDEMREHRPainInput.sendKeys(Pain);
+    // }
+    // public void patientOPDEMREHRGlucoseInput(String Glucose) {
+    //     wait.waitForElementVisible(btnOPDEMREHRGlucoseInput);
+    //     btnOPDEMREHRGlucoseInput.clear();
+    //     btnOPDEMREHRGlucoseInput.sendKeys(Glucose);
+    // }
+    // public void patientOPDEMREHRWeightInput(String Weight) {
+    //     wait.waitForElementVisible(btnOPDEMREHRWeightInput);
+    //     btnOPDEMREHRWeightInput.clear();
+    //     btnOPDEMREHRWeightInput.sendKeys(Weight);
+    // }
+    // public void patientOPDEMREHRHeightInput(String Height) {
+    //     wait.waitForElementVisible(btnOPDEMREHRHeightInput);
+    //     btnOPDEMREHRHeightInput.clear();
+    //     btnOPDEMREHRHeightInput.sendKeys(Height);
+    // }
+    // public void eMREHR_CCHP_Input(String BMI) {
+    //     wait.waitForElementVisible(eMREJRCC_HPInput);
+    //     eMREJRCC_HPInput.clear();
+    //     eMREJRCC_HPInput.sendKeys(BMI);
+    // }
+    
+    //Dropdown Element
+    public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+        dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    }
 
     //OPDPage Methods --> OPD test reusable methods
     public void patientOPDMenuOpen() throws Exception {
@@ -224,23 +290,28 @@ public class OPDPage {
 
     }
 
-    public void patientEMREHRRecord(PatientData patient) throws Exception {
+    public void patientEMREHRRecord(OPD_Data Opd) throws Exception {
 
         patientOPDMenuOpen();
-        patientOPDSearch(patient.getFirstName());
+        // patientOPDSearch(Opd.getFirstName());
+        patientOPDSearch("Govind Bacchan");
         clickOPDEMREHR();
+//Vitals Records
         wait.waitForElementClickable(emrBtnTimePicker).click();
         wait.waitForElementClickable(emrBtnTimePickerNow).click();
-        patientOPDEMREHRBPInput("120/80");
-        patientOPDEMREHRPulseInput("80");
-        patientOPDEMREHRTempInput("98.6");
-        patientOPDEMREHRSpO2Input("98");
-        patientOPDEMREHRRRInput("20");
-        patientOPDEMREHRPainInput("5");
-        patientOPDEMREHRGlucoseInput("100");
-        patientOPDEMREHRWeightInput("70");
-        patientOPDEMREHRHeightInput("170");
-        // patientOPDEMREHRBMIInput("24.2");
+        patientOPDEMREHRBPInput(Opd.getOPDEMREHRBP());
+        patientOPDEMREHRPulseInput(Opd.getOPDEMREHRPulse());
+        patientOPDEMREHRTempInput(Opd.getOPDEMREHRTemp());
+        patientOPDEMREHRSpO2Input(Opd.getOPDEMREHRSpO2());
+        patientOPDEMREHRRRInput(Opd.getOPDEMREHRRR());
+        patientOPDEMREHRPainInput(Opd.getOPDEMREHRPain());
+        patientOPDEMREHRGlucoseInput(Opd.getOPDEMREHRGlucose());
+        patientOPDEMREHRWeightInput(Opd.getOPDEMREHRWeight());
+        patientOPDEMREHRHeightInput(Opd.getOPDEMREHRHeight());
+        clickEMREHRVitalAddbtn();
+//CC & HP
+        //eMREHR_CCHP_Input();
+
     }
 
     // Method assertion for OPDPage can be added here
