@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import com.electra.automation.utilities.DropDownUtility;
+
 import com.electra.automation.models.OPD_Data;
-import com.electra.automation.models.PatientData;
+import com.electra.automation.utilities.DropDownUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
 
@@ -24,6 +24,7 @@ public class OPDPage {
 
         switchbutton = new SwitchButton(driver);
         this.wait = new WaitUtility(driver);
+        this.dropDownUtility = new DropDownUtility(driver);
     }
     //Webelement for OPD All Buttons fields
 
@@ -74,25 +75,30 @@ public class OPDPage {
 
     @FindBy(xpath = "//button[@title=\"Add reading\"]")
     private WebElement btnOPDEMREHRVitals;
-    ;
 
     @FindBy(xpath = "//input[@placeholder=\"e.g., Chest pain, Fever, Headache\"]")
     private WebElement eMREJRCC_HPInput;
 
-    @FindBy(xpath = "//input[@id=\"assoc-symptoms-uk78i0u\"]")
+    @FindBy(xpath = "//input[starts-with(@id,'assoc-symptoms-')]")
     private WebElement CC_HPSymptomsinput;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
+    
+    @FindBy(xpath = "//input[@placeholder='3']")
+    private WebElement CC_HPDurationinput;
+    
+    @FindBy(xpath = "//div[normalize-space()='Days']//input[starts-with(@id,'select-')]")
+    private WebElement CC_HP_DaysInput;
+    
+    @FindBy(xpath = "//div[normalize-space()='Gradual']//input[starts-with(@id,'select-')]")
+    private WebElement CC_HP_GradualInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-hpi\"]//div[normalize-space()='Stable']//input[starts-with(@id,'select-')]")
+    private WebElement CC_HP_ProgressionInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-hpi\"]//div[normalize-space()='Moderate']//input[starts-with(@id,'select-')]")
+    private WebElement CC_HP_severityInput;
+    
+    @FindBy(xpath = "//div[@id='sec-hpi']//button[@title='Add row']")
+    private WebElement btnAddRowCC_HP;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
@@ -145,9 +151,9 @@ public class OPDPage {
         wait.waitForElementClickable(btnOPDEMREHR).click();
     }
 
-    // public void clickEMRTimePicker() {
-    //     wait.waitForElementClickable(emrBtnTimePicker).click();
-    // }
+    public void clickbtnCCHP_Add() {
+        wait.waitForElementClickable(btnAddRowCC_HP).click();
+    }
     public void clickEMREHRVitalAddbtn() {
         wait.waitForElementClickable(btnOPDEMREHRVitals).click();
     }
@@ -213,17 +219,17 @@ public class OPDPage {
         btnOPDEMREHRHeightInput.sendKeys(Height);
     }
 
-    public void eMREHR_CCHP_Input(String BMI) {
+    public void eMREHR_CCHP_Input(String Input) {
         wait.waitForElementVisible(eMREJRCC_HPInput);
         eMREJRCC_HPInput.clear();
-        eMREJRCC_HPInput.sendKeys(BMI);
+        eMREJRCC_HPInput.sendKeys(Input);
     }
 
-    //     public void patientOPDSearch(String patenetdetails) {
-    //     wait.waitForElementVisible(searchPatientInputElement);
-    //     searchPatientInputElement.clear();
-    //     searchPatientInputElement.sendKeys(patenetdetails);
-    // }
+        public void cCHP_DurationInput(String Duration) {
+        wait.waitForElementVisible(CC_HPDurationinput);
+        CC_HPDurationinput.clear();
+        CC_HPDurationinput.sendKeys(Duration);
+    }
     // public void patientOPDEMREHRBPInput(String BP) {
     //     wait.waitForElementVisible(btnOPDEMREHRBPInput);
     //     btnOPDEMREHRBPInput.clear();
@@ -279,6 +285,94 @@ public class OPDPage {
     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
         dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     }
+        public void selectCC_HPDays(String days) throws Exception {
+        dropDownUtility.selectReactOption(CC_HP_DaysInput, days);
+    }
+
+        public void selectCC_HPOnset(String onset) throws Exception {
+        dropDownUtility.selectReactOption(CC_HP_GradualInput, onset);
+    }
+
+        public void selectCC_HPProgressionDropdown(String progression) throws Exception {
+        dropDownUtility.selectReactOption(CC_HP_ProgressionInput, progression);
+    } 
+        public void selectCC_HPSeverity(String severity) throws Exception {
+        dropDownUtility.selectReactOption(CC_HP_severityInput, severity);
+    }
+
+        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+
+        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+
 
     //OPDPage Methods --> OPD test reusable methods
     public void patientOPDMenuOpen() throws Exception {
@@ -294,7 +388,7 @@ public class OPDPage {
 
         patientOPDMenuOpen();
         // patientOPDSearch(Opd.getFirstName());
-        patientOPDSearch("Govind Bacchan");
+        patientOPDSearch("SmithWc Maxwell");
         clickOPDEMREHR();
 //Vitals Records
         wait.waitForElementClickable(emrBtnTimePicker).click();
@@ -310,7 +404,15 @@ public class OPDPage {
         patientOPDEMREHRHeightInput(Opd.getOPDEMREHRHeight());
         clickEMREHRVitalAddbtn();
 //CC & HP
-        //eMREHR_CCHP_Input();
+        eMREHR_CCHP_Input("Fever");
+        selectCC_HPSymptoms(Opd.getAssociatedSymptoms());
+        cCHP_DurationInput(Opd.getDurationCCHP());
+        selectCC_HPDays(Opd.getDaysCCHP());
+        selectCC_HPOnset(Opd.getOnsetCCHP());
+        selectCC_HPSeverity(Opd.getSeverity());
+        selectCC_HPProgressionDropdown(Opd.getProgression());
+        clickbtnCCHP_Add();
+
 
     }
 

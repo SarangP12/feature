@@ -533,7 +533,7 @@ public class RegisterPage extends BaseClass {
 
         Thread.sleep(10000);
 
-        selectRandomAvailableSlot();
+        // selectRandomAvailableSlot();
 
         // clickConfirm();
         selectAppointmentVisitType(patient.getVisitType());

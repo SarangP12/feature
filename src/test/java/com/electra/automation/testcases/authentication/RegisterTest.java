@@ -73,6 +73,7 @@ public class RegisterTest extends BaseClass {
         Assert.assertEquals(registerPage.getEnteredFirstName(), patient.getFirstName());
 
         closeExtraTabs();
+        Thread.sleep(2000);
         closeExtraTabs();
         Thread.sleep(500);
 

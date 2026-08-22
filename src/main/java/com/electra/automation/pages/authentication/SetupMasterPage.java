@@ -27,7 +27,7 @@ public class SetupMasterPage {
     @FindBy(xpath="//button[@class=\"flex items-center p-1 rounded-lg text-base dark:bg-dark/40 hover:text-teal-500 dark:hover:bg-dark/60 cursor-pointer\"]")
     private WebElement btnAllMenuElement;
 
-    @FindBy(xpath="//li[31]//button[1]")
+    @FindBy(xpath="//button[normalize-space(.)='Setup']")
     public WebElement btnSetup; 
 
     @FindBy(xpath="//span[text()=\"Settings\"]")
@@ -69,10 +69,10 @@ public class SetupMasterPage {
         
         clickMenuSetup();
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         clickMenuSetting();
 
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         clickMenuPatMngmt();
 
         Thread.sleep(3000);

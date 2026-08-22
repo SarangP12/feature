@@ -1,17 +1,13 @@
 package com.electra.automation.testcases.authentication;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.OPD_Data;
-import com.electra.automation.models.PatientData;
 import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.pages.authentication.OPDPage;
 import com.electra.automation.pages.authentication.SetupMasterPage;
 import com.electra.automation.utilities.AssertionUtility;
-import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.RandomDataUtility;
 
 public class OPDTest extends BaseClass {
@@ -19,7 +15,6 @@ public class OPDTest extends BaseClass {
     private SetupMasterPage setupMasterPage;
     private OPDPage OPDPage;
     private OPD_Data OPDData;
-    private PatientData patient;
     private AssertionUtility assertion;
 
     @BeforeMethod //AssertionUtility initialization before each test method

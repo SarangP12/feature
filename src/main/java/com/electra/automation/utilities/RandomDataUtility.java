@@ -109,7 +109,7 @@ public class RandomDataUtility {
         // patient.setTariff("Staff Patient");
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
-        patient.setDoctor("Dr Sarang D Pawar"); //Dr Roshan G
+        patient.setDoctor("Dr. Sarang D Pawar"); //Dr Roshan G
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
@@ -143,12 +143,16 @@ public class RandomDataUtility {
         opd.setOPDEMREHRGlucose(TwoDigitNo());
         opd.setOPDEMREHRWeight(TwoDigitNo());
         opd.setOPDEMREHRHeight(Height());
-        // patient.setCategoryType("Staff");
-        // patient.setCategoryID("Staff Benefit");
-        // patient.setTariff("Staff Patient");
-        // patient.setDepartment("General Medicine");
-        // patient.setUnit("General Medicine - Unit A");
-        // patient.setDoctor("Dr Sarang D Pawar"); //Dr Roshan G
+//CC&HP
+        opd.setAssociatedSymptoms("Hematuria (Blood In Urine) ");
+        opd.setDurationCCHP("3");
+        opd.setDaysCCHP("Days");
+        opd.setOnsetCCHP("Sudden");
+        opd.setSeverity("Moderate");
+        opd.setProgression("Stable");
+        
+         
+
         // patient.setSalutation("Mrs");
         // patient.setVisitType("Initial Visit");
         // patient.setFirstName(getPatientName());

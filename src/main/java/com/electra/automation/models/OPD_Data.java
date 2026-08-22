@@ -11,12 +11,12 @@ public class OPD_Data {
     private String OPDEMREHRGlucose;
     private String OPDEMREHRWeight;
     private String OPDEMREHRHeight;
-    // private String firstName;
-    // private String lastName;
-    // private String birthYear;
-    // private String mobile;
-    // private String email;
-    // private String address;
+    private String AssociatedSymptoms;
+    private String CCHP_Duration;
+    private String CCHP_Days;
+    private String CCHP_Onset;
+    private String CCHP_Progression;
+    private String CCHP_Severity;
     // private String gender;
     // private String nextToKin;
     // private String kinsRelation;
@@ -86,45 +86,45 @@ public class OPD_Data {
     public void setOPDEMREHRHeight(String height) {
         this.OPDEMREHRHeight = height;
     }
-    // public String getKinsContact() {
-    //     return kinsContact;
-    // }
-    // public void setKinsContact(String kinsContact) {
-    //     this.kinsContact = kinsContact;
-    // }
-    //     public String getKinsAddress() {
-    //     return kinsAddress;
-    // }
-    // public void setKinsAddress(String kinsAddress) {
-    //     this.kinsAddress = kinsAddress;
-    // }
-    //     public String getKinsContactNumber() {
-    //     return kinsContactNumber;
-    // }
-    // public void setKinsContactNumber(String kinsContactNumber) {
-    //     this.kinsContactNumber = kinsContactNumber;
-    // }
+    public String getAssociatedSymptoms() {
+        return AssociatedSymptoms;
+    }
+    public void setAssociatedSymptoms(String symptoms) {
+        this.AssociatedSymptoms = symptoms;
+    }
+        public String getDurationCCHP() {
+        return CCHP_Duration;
+    }
+    public void setDurationCCHP(String duration) {
+        this.CCHP_Duration = duration;
+    }
+        public String getDaysCCHP() {
+        return CCHP_Days;
+    }
+    public void setDaysCCHP(String day) {
+        this.CCHP_Days = day;
+    }
 
-    // public String getDoctor() {
-    //     return doctor;
-    // }
-    // public void setDoctor(String doctor) {
-    //     this.doctor = doctor;
-    // }
+    public String getOnsetCCHP() {
+        return CCHP_Onset;
+    }
+    public void setOnsetCCHP(String Onset) {
+        this.CCHP_Onset = Onset;
+    }
 
-    // public String getVisitType() {
-    //     return visitType;
-    // }
-    // public void setVisitType(String visitType) {
-    //     this.visitType = visitType;
-    // }
+    public String getProgression() {
+        return CCHP_Progression;
+    }
+    public void setProgression(String progression) {
+        this.CCHP_Progression = progression;
+    }
 
-    // public String getSalutation() {
-    //     return salutation;
-    // }
-    // public void setSalutation(String salutation) {
-    //     this.salutation = salutation;
-    // }
+    public String getSeverity() {
+        return CCHP_Severity;
+    }
+    public void setSeverity(String seve) {
+        this.CCHP_Severity = seve;
+    }
 
     // public String getFirstName() {
     //     return firstName;
