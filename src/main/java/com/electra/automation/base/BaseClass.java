@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -21,7 +22,7 @@ import java.time.Duration;
 
 public class BaseClass {
 
-    private final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<WebElement> failedElementThreadLocal = new ThreadLocal<>();
     private WaitUtility wait;
 
@@ -51,7 +52,7 @@ public class BaseClass {
     }
 
     //Browser Method Define
-    @BeforeClass(alwaysRun = true)//--------------------Change BeforeMethod
+    @BeforeSuite(alwaysRun = true)//-----Change @BeforeMethod >> Chage @BeforeClass >> @BeforeSuite(TestNG.XML)
     @Parameters({"browser", "environment"})
     public void setUp(@Optional("chrome") String browser, @Optional("qa") String environment) {
         WebDriver driver = DriverFactory.createDriver(browser);
@@ -63,6 +64,16 @@ public class BaseClass {
         // initialize WaitUtility for this driver
         this.wait = new WaitUtility(driver);
         ExtentReportManager.createTest(getClass().getSimpleName() + " :: " + browser);
+        System.out.println("===== Chrome Browser Started =====");
+    }
+
+    //Close Browser after test/class execution
+    @AfterSuite(alwaysRun = true)//---Change @BeforeMethod >> Chage @BeforeClass >> @BeforeSuite(TestNG.XML)
+    public void closeBrowser() {
+        if (getDriver() != null) {
+            getDriver().quit();
+        }
+        System.out.println("===== Chrome Browser Closed =====");
     }
 
 // // Agar exactly 2 seconds baad close karna hai
@@ -106,8 +117,8 @@ public class BaseClass {
 
         getDriver().switchTo().window(parentWindow);
     }
-// Captured Screenshot for failed test cases
 
+// Captured Screenshot for failed test cases
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) throws Exception {
         switch (result.getStatus()) {
@@ -128,14 +139,6 @@ public class BaseClass {
         }
         clearFailedElement();
         ExtentReportManager.clearTest();
-    }
-
-    //Close Browser after test/class execution
-    @AfterClass(alwaysRun = true)
-    public void closeBrowser() {
-        if (getDriver() != null) {
-            getDriver().quit();
-        }
     }
 
 }

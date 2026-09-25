@@ -30,8 +30,8 @@ public class RegisterPage extends BaseClass {
         PageFactory.initElements(driver, this);
 
         switchbutton = new SwitchButton(driver);
-        this.dropDownUtility = new DropDownUtility(driver);
         this.wait = new WaitUtility(driver);
+        this.dropDownUtility = new DropDownUtility(driver);
     }
     // Click Action button Master
     @FindBy(xpath = "//button[@class=\"flex items-center p-1 rounded-lg text-base dark:bg-dark/40 hover:text-teal-500 dark:hover:bg-dark/60 cursor-pointer\"]")
@@ -91,7 +91,7 @@ public class RegisterPage extends BaseClass {
     public WebElement btnBookings;
 
     // All Text fields 
-    @FindBy(xpath = "//input[@id=\"patient_category_type\"]")
+    @FindBy(xpath = "//input[@id='patient_category_type']/ancestor::div[contains(@class,'react-select__control')]")
     public WebElement patientCatTypeDropdown;
 
     @FindBy(xpath = "(//input[@id='patient_category_id'])[1]")
@@ -533,7 +533,7 @@ public class RegisterPage extends BaseClass {
 
         Thread.sleep(10000);
 
-        // selectRandomAvailableSlot();
+        selectRandomAvailableSlot();
 
         // clickConfirm();
         selectAppointmentVisitType(patient.getVisitType());

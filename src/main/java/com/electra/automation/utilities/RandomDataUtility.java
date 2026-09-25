@@ -109,7 +109,7 @@ public class RandomDataUtility {
         // patient.setTariff("Staff Patient");
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
-        patient.setDoctor("Dr. Sarang D Pawar"); //Dr Roshan G
+        patient.setDoctor("Dr Sarang D Pawar"); //Dr Roshan G
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());

@@ -59,41 +59,38 @@ public class SetupMasterPage {
         switchbutton.setSwitch("Registration With Appointment", true);
     }
         public void disableRegistrationWithAppointment() {
-        switchbutton.setSwitch("Registration With Appointment", false);
+        // switchbutton.setSwitch("Registration With Appointment", false);
+        switchbutton.ensureSwitchOff("Registration With Appointment");
     }
 
     public void appointmentTabSwitchDisable() throws Exception {
 
-        Thread.sleep(2000);
         clickAllMenuButton();
         
         clickMenuSetup();
 
-        Thread.sleep(1000);
         clickMenuSetting();
 
-        Thread.sleep(1000);
         clickMenuPatMngmt();
 
-        Thread.sleep(3000);
         disableRegistrationWithAppointment();
 
         clickPatMngtSave();
     }
+
     public void appointmentTabSwitchEnable() throws Exception {
 
-    Thread.sleep(2000);
+    // Thread.sleep(1000);
     clickAllMenuButton();
         
     clickMenuSetup();
 
-    Thread.sleep(2000);
     clickMenuSetting();
 
-    Thread.sleep(3000);
+    // Thread.sleep(1000);
     clickMenuPatMngmt();
 
-    Thread.sleep(3000);
+    // Thread.sleep(1000);
     enableRegistrationWithAppointment();
 
     clickPatMngtSave();

@@ -1,16 +1,18 @@
 package com.electra.automation.pages.authentication;
 
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.OPD_Data;
 import com.electra.automation.utilities.DropDownUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
 
-public class OPDPage {
+public class OPDPage extends BaseClass {
 
     private WebDriver driver;
     private SwitchButton switchbutton;
@@ -99,24 +101,33 @@ public class OPDPage {
     
     @FindBy(xpath = "//div[@id='sec-hpi']//button[@title='Add row']")
     private WebElement btnAddRowCC_HP;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
+    
+    @FindBy(xpath = "//div[@id=\"sec-allergy\"]//div[normalize-space()='Medicine']//input[starts-with(@id,'select-')]")
+    private WebElement allergyMedicineElementInput;
+
+    @FindBy(xpath = "//div[@id=\"sec-allergy\"]//div[normalize-space()='Moderate']//input[starts-with(@id,'select-')]")
+    private WebElement allergySeverityElementInput;
+    
+    @FindBy(xpath = "//input[@placeholder='e.g., Rash, Anaphylaxis, Hives']")
+    private WebElement allergyReactionElementInput;
+    
+    @FindBy(xpath = "//input[@placeholder='e.g., Penicillin, Peanuts, Latex']")
+    private WebElement allergyAllergynElementInput;
+    
+    @FindBy(xpath = "//div[@id='sec-allergy']//button[@title='Add row']")
+    private WebElement btnOPDEMREHRAllergyAdd;
+    
+    @FindBy(xpath = "//div[@id='sec-diagnosis']//input[starts-with(@id,'react-select-')]")
+    private WebElement OPDDignoConditionInput;
+    
+    @FindBy(xpath = "//input[@placeholder=\"e.g., Hypertensive crisis, rule out MI\"]")
+    private WebElement OPDDignoCliniicalInput;
+    
+    @FindBy(xpath = "//input[@placeholder=\"e.g., Angina, GERD, Costochondritis\"]")
+    private WebElement OPDDignoDifferentialInput;
+    
+    @FindBy(xpath = "//button[@title=\"Add diagnosis\"]")
+    private WebElement btnOPDElementDiagnosisAdd;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
@@ -128,8 +139,11 @@ public class OPDPage {
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     //Webelements for OPDPage_ Input Fields
-    @FindBy(xpath = "//input[@placeholder=\"Search by name, UHID, mobile, OP/IP no...\"]")
+    @FindBy(xpath = "//input[@placeholder=\"Search name, UHID, mobile, OP/IP no...\"]")
     private WebElement searchPatientInputElement;
+
+    public OPDPage() {
+    }
 
     // Webelement for OPD Validation fields
     // Webelement for OPD Toast Message fields
@@ -157,8 +171,14 @@ public class OPDPage {
     public void clickEMREHRVitalAddbtn() {
         wait.waitForElementClickable(btnOPDEMREHRVitals).click();
     }
+    public void clickOPDEMREHRAllergyAdd() {
+        wait.waitForElementClickable(btnOPDEMREHRAllergyAdd).click();
+    }
+    public void btnDiagnosisAdd() {
+        wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    }
 
-    //Send keys to search patient input field
+    //Send keys to patient input field
     public void patientOPDSearch(String patenetdetails) {
         wait.waitForElementVisible(searchPatientInputElement);
         searchPatientInputElement.clear();
@@ -230,31 +250,31 @@ public class OPDPage {
         CC_HPDurationinput.clear();
         CC_HPDurationinput.sendKeys(Duration);
     }
-    // public void patientOPDEMREHRBPInput(String BP) {
-    //     wait.waitForElementVisible(btnOPDEMREHRBPInput);
-    //     btnOPDEMREHRBPInput.clear();
-    //     btnOPDEMREHRBPInput.sendKeys(BP);
+    public void inputAllergy_Reaction(String reaction) {
+        wait.waitForElementVisible(allergyReactionElementInput);
+        allergyReactionElementInput.clear();
+        allergyReactionElementInput.sendKeys(reaction);
+    }
+    public void patientAllergenInput(String Allergen) {
+        wait.waitForElementVisible(allergyAllergynElementInput);
+        allergyAllergynElementInput.clear();
+        allergyAllergynElementInput.sendKeys(Allergen);
+    }
+    // public void SelctEMREHRDignoConditionInput(String condition) {
+    //     wait.waitForElementVisible(OPDDignoConditionInput);
+    //     OPDDignoConditionInput.clear();
+    //     OPDDignoConditionInput.sendKeys(condition);
     // }
-    // public void patientOPDEMREHRPulseInput(String Pulse) {
-    //     wait.waitForElementVisible(btnOPDEMREHRPulseInput);
-    //     btnOPDEMREHRPulseInput.clear();
-    //     btnOPDEMREHRPulseInput.sendKeys(Pulse);
-    // }
-    // public void patientOPDEMREHRTempInput(String Temp) {
-    //     wait.waitForElementVisible(btnOPDEMREHRTempInput);
-    //     btnOPDEMREHRTempInput.clear();
-    //     btnOPDEMREHRTempInput.sendKeys(Temp);
-    // }
-    // public void patientOPDEMREHRSpO2Input(String SpO2) {
-    //     wait.waitForElementVisible(btnOPDEMREHRSpO2Input);
-    //     btnOPDEMREHRSpO2Input.clear();
-    //     btnOPDEMREHRSpO2Input.sendKeys(SpO2);
-    // }
-    // public void patientOPDEMREHRRRInput(String RR) {
-    //     wait.waitForElementVisible(btnOPDEMREHRRRInput);
-    //     btnOPDEMREHRRRInput.clear();
-    //     btnOPDEMREHRRRInput.sendKeys(RR);
-    // }
+    public void dignoEMREHRClinicalInput(String clinical) {
+        wait.waitForElementVisible(OPDDignoCliniicalInput);
+        OPDDignoCliniicalInput.clear();
+        OPDDignoCliniicalInput.sendKeys(clinical);
+    }
+    public void dignoDiffrentialInput(String differential) {
+        wait.waitForElementVisible(OPDDignoDifferentialInput);
+        OPDDignoDifferentialInput.clear();
+        OPDDignoDifferentialInput.sendKeys(differential);
+    }
     // public void patientOPDEMREHRPainInput(String Pain) {
     //     wait.waitForElementVisible(btnOPDEMREHRPainInput);
     //     btnOPDEMREHRPainInput.clear();
@@ -300,15 +320,15 @@ public class OPDPage {
         dropDownUtility.selectReactOption(CC_HP_severityInput, severity);
     }
 
-        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
+        public void selectAllergy_Medicine(String medicine) throws Exception {
+        dropDownUtility.selectReactOption(allergyMedicineElementInput, medicine);
+    }
+        public void selectAllergy_Severity(String Alseveriry) throws Exception {
+        dropDownUtility.selectReactOption(allergySeverityElementInput, Alseveriry);
+    }
+        public void selectCC_DignoCondition(String condition) throws Exception {
+        dropDownUtility.selectReactOption(OPDDignoConditionInput, condition);
+    }
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
@@ -388,7 +408,7 @@ public class OPDPage {
 
         patientOPDMenuOpen();
         // patientOPDSearch(Opd.getFirstName());
-        patientOPDSearch("SmithWc Maxwell");
+        patientOPDSearch("Sultan");
         clickOPDEMREHR();
 //Vitals Records
         wait.waitForElementClickable(emrBtnTimePicker).click();
@@ -412,6 +432,18 @@ public class OPDPage {
         selectCC_HPSeverity(Opd.getSeverity());
         selectCC_HPProgressionDropdown(Opd.getProgression());
         clickbtnCCHP_Add();
+//Allergy
+        selectAllergy_Medicine("Latex");
+        patientAllergenInput(", Pinnuts");
+        selectAllergy_Severity("Moderate");
+        inputAllergy_Reaction("Skin Rash");
+        clickOPDEMREHRAllergyAdd();
+//Dignosis
+        selectCC_DignoCondition("Cholera");
+        dignoEMREHRClinicalInput("Rule Out");
+        dignoDiffrentialInput("GERD");
+        btnDiagnosisAdd();
+
 
 
     }

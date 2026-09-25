@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Electra HIS Automation Suite" parallel="tests" thread-count="2">
+<!-- <suite name="Electra HIS Automation Suite"
+    parallel="tests"
+    thread-count="2"> -->
+    <suite name="Electra HIS Automation Suite">
     <listeners>
-        <listener class-name="com.electra.automation.listeners.MyListener"/>
+        <listener class-name="com.electra.automation.listeners.MyListener" />
     </listeners>
     <test name="Smoke Tests">
-        <parameter name="browser" value="chrome"/>
-        <parameter name="environment" value="qa"/>
+        <parameter name="browser" value="chrome" />
+        <parameter name="environment" value="qa" />
         <classes>
             <!-- <class name="com.electra.automation.testcases.authentication.LoginTest"/>
-            <class name="com.electra.automation.testcases.dashboard.DashboardTest"/> -->
-            <class name="com.electra.automation.testcases.authentication.RegisterTest"/>
+            <class name="com.electra.automation.testcases.dashboard.OPDTest"/> -->
+            <class name="com.electra.automation.testcases.authentication.RegisterTest" />
+            <class name="com.electra.automation.testcases.authentication.OPDTest" />
         </classes>
     </test>
 </suite>
-
+<!-- TestNG File Run karne ke liye Command  -->
+ <!-- mvn test "-Dsurefire.suiteXmlFiles=testng.xml" -->
