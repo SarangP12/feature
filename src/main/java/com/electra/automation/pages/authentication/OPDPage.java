@@ -128,11 +128,30 @@ public class OPDPage extends BaseClass {
     
     @FindBy(xpath = "//button[@title=\"Add diagnosis\"]")
     private WebElement btnOPDElementDiagnosisAdd;
+    
+    @FindBy(xpath = "//div[@id='sec-lab']//input[starts-with(@id,'react-select-')]")
+    private WebElement LABTestNameInput;
+    
+    @FindBy(xpath = "//div[@id='sec-lab']//tbody/tr[1]//td[2]//input[@role='combobox']")
+    private WebElement LabSpecimentInput;
+   
+    @FindBy(xpath = "//div[@id='sec-lab']//tbody/tr[1]//td[3]//input[@role='combobox']")
+    private WebElement LabPriorityInput;
+    
+    @FindBy(xpath = "//div[@id='sec-lab']//input[@placeholder='e.g., Fasting hrs, early morning sample']")
+    private WebElement LabInstructionInput;
+    
+    @FindBy(xpath = "//div[@id='sec-lab']//button[@title=\"Add row\"]")
+    private WebElement btnLabAddRow;
+    //Webelements for OPDPage_ Input Fields
+        // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
-    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    //Webelements for OPDPage_ Input Fields
+        // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
@@ -177,6 +196,22 @@ public class OPDPage extends BaseClass {
     public void btnDiagnosisAdd() {
         wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
     }
+        public void btnLabAdd() {
+        wait.waitForElementClickable(btnLabAddRow).click();
+    }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+
 
     //Send keys to patient input field
     public void patientOPDSearch(String patenetdetails) {
@@ -275,11 +310,11 @@ public class OPDPage extends BaseClass {
         OPDDignoDifferentialInput.clear();
         OPDDignoDifferentialInput.sendKeys(differential);
     }
-    // public void patientOPDEMREHRPainInput(String Pain) {
-    //     wait.waitForElementVisible(btnOPDEMREHRPainInput);
-    //     btnOPDEMREHRPainInput.clear();
-    //     btnOPDEMREHRPainInput.sendKeys(Pain);
-    // }
+    public void lanInstructionInput(String instruction) {
+        wait.waitForElementVisible(LabInstructionInput);
+        LabInstructionInput.clear();
+        LabInstructionInput.sendKeys(instruction);
+    }
     // public void patientOPDEMREHRGlucoseInput(String Glucose) {
     //     wait.waitForElementVisible(btnOPDEMREHRGlucoseInput);
     //     btnOPDEMREHRGlucoseInput.clear();
@@ -329,15 +364,15 @@ public class OPDPage extends BaseClass {
         public void selectCC_DignoCondition(String condition) throws Exception {
         dropDownUtility.selectReactOption(OPDDignoConditionInput, condition);
     }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
+        public void selectLab_Test(String test) throws Exception {
+        dropDownUtility.selectReactOption(LABTestNameInput, test);
+    }
+        public void selectLab_Specimen(String specimen) throws Exception {
+        dropDownUtility.selectReactOption(LabSpecimentInput, specimen);
+    }
+        public void selectLab_Priority(String priority) throws Exception {
+        dropDownUtility.selectReactOption(LabPriorityInput, priority);
+    }
     //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
@@ -443,6 +478,13 @@ public class OPDPage extends BaseClass {
         dignoEMREHRClinicalInput("Rule Out");
         dignoDiffrentialInput("GERD");
         btnDiagnosisAdd();
+//Lab Test
+        selectLab_Test("Liver Function Test");
+        selectLab_Specimen("Blood");
+        selectLab_Priority("Urgent");
+        lanInstructionInput("Fasting hrs, early morning sample");
+        btnLabAdd();
+        Thread.sleep(2000);
 
 
 

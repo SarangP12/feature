@@ -20,7 +20,7 @@ public class RandomDataUtility {
     // Generate Dynamic First Name (Only Alphabets)
     public static String getPatientName() {
 
-        StringBuilder name = new StringBuilder("Smith");
+        StringBuilder name = new StringBuilder("Roni");
 
         for (int i = 0; i < 2; i++) {
             name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
@@ -113,7 +113,7 @@ public class RandomDataUtility {
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
-        patient.setLastName("Maxwell");
+        patient.setLastName("Warner");
         patient.setBirthYear(TwoDigitNo());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());

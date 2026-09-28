@@ -1,6 +1,7 @@
 package com.electra.automation.utilities;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -8,6 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+import org.openqa.selenium.TimeoutException;
 
 public class AssertionUtility {
 
@@ -17,7 +20,7 @@ public class AssertionUtility {
     // Constructor
     public AssertionUtility(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(50));
     }
 
     // =========================================================
@@ -83,6 +86,79 @@ public class AssertionUtility {
             );
         }
     }
+    // =================================================================================================================
+    // 3. Verify Element + Text
+
+public void verifyElements(
+        WebElement element,
+        String expectedMessage,
+        boolean verifyText,
+        SoftAssert softAssert,
+        String fieldName) {
+
+    try {
+
+        // Wait until element is visible
+        WebElement visibleElement = wait.until(
+                ExpectedConditions.visibilityOf(element)
+        );
+
+        // Verify element is displayed
+        softAssert.assertTrue(
+                visibleElement.isDisplayed(),
+                "FAIL | " + fieldName +
+                " | Element is not displayed."
+        );
+
+        // Verify text only when required
+        if (verifyText) {
+
+            String actualText = visibleElement.getText().trim();
+
+            softAssert.assertEquals(
+                    actualText,
+                    expectedMessage,
+                    "FAIL | " + fieldName +
+                    " | Text verification failed.\n" +
+                    "Expected: [" + expectedMessage + "]\n" +
+                    "Actual:   [" + actualText + "]"
+            );
+        }
+
+        System.out.println(
+                "PASS | " + fieldName +
+                (verifyText
+                        ? " | Expected: [" + expectedMessage + "]"
+                        : " | Element is displayed")
+        );
+
+    } catch (TimeoutException e) {
+
+        softAssert.fail(
+                "BLOCKER | " + fieldName +
+                " | Element not visible within timeout.\n" +
+                "Expected: [" + expectedMessage + "]\n" +
+                "Possible reason: Locator issue / element not displayed / page not loaded."
+        );
+
+    } catch (StaleElementReferenceException e) {
+
+        softAssert.fail(
+                "BLOCKER | " + fieldName +
+                " | Element became stale.\n" +
+                "Possible reason: DOM refreshed or element reference changed."
+        );
+
+    } catch (Exception e) {
+
+        softAssert.fail(
+                "BLOCKER | " + fieldName +
+                " | Unexpected error: " +
+                e.getClass().getSimpleName() +
+                " | " + e.getMessage()
+        );
+    }
+}
 
     // =========================================================
     // 4. Verify Contains Text

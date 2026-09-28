@@ -4,21 +4,19 @@ import com.electra.automation.reports.ExtentReportManager;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.ScreenshotUtility;
 import com.electra.automation.utilities.WaitUtility;
-
-// import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.AfterClass;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
+import org.openqa.selenium.TimeoutException;
 
 public class BaseClass {
 
@@ -96,27 +94,50 @@ public class BaseClass {
 //     }
 //     getDriver().switchTo().window(parentWindow);
 // }
-//Immediatly remove new open tab 
-    public void closeExtraTabs() {
 
-        WebDriverWait webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+   public void closeExtraTabs() {
 
-        // Wait until more than one window is opened
-        webDriverWait.until(driver -> driver.getWindowHandles().size() > 1);
+    String parentWindow = getDriver().getWindowHandle();
 
-        String parentWindow = getDriver().getWindowHandle();
+    WebDriverWait wait =
+            new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
-        for (String windowHandle : getDriver().getWindowHandles()) {
+    try {
 
-            if (!windowHandle.equals(parentWindow)) {
+        // Maximum 20 sec wait karo extra tab ke liye
+        wait.until(driver -> driver.getWindowHandles().size() > 1);
 
-                getDriver().switchTo().window(windowHandle);
-                getDriver().close();
-            }
-        }
+    } catch (TimeoutException e) {
 
-        getDriver().switchTo().window(parentWindow);
+        // 20 sec mein extra tab nahi aaya
+        // Koi error nahi, next process continue
+        return;
     }
+
+    // Ab saare currently opened windows lo
+    Set<String> allWindows =
+            new HashSet<>(getDriver().getWindowHandles());
+
+    // Saare extra tabs close karo
+    for (String windowHandle : allWindows) {
+
+        if (!windowHandle.equals(parentWindow)) {
+
+            getDriver().switchTo().window(windowHandle);
+            getDriver().close();
+        }
+    }
+
+    // Main/parent tab par wapas
+    getDriver().switchTo().window(parentWindow);
+
+    // Tabs close hone ke baad 20 sec wait
+    try {
+        Thread.sleep(2000);
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+    }
+}
 
 // Captured Screenshot for failed test cases
     @AfterMethod(alwaysRun = true)

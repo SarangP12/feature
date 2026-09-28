@@ -41,7 +41,7 @@ public class OPDTest extends BaseClass {
         OPDData = RandomDataUtility.generateOPData();
 
         // verifyLoginPageLoads();
-        Thread.sleep(2000);
+        Thread.sleep(500);
         System.out.println("Driver: " + getDriver());
         System.out.println("OPD Page: " + OPD);
         // OPD.clickLogInExitLocation(); //-- Without location access
