@@ -20,7 +20,7 @@ public class RandomDataUtility {
     // Generate Dynamic First Name (Only Alphabets)
     public static String getPatientName() {
 
-        StringBuilder name = new StringBuilder("Roni");
+        StringBuilder name = new StringBuilder("Veera");
 
         for (int i = 0; i < 2; i++) {
             name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));

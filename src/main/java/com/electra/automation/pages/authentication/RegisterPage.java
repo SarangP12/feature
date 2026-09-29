@@ -15,12 +15,14 @@ import com.electra.automation.utilities.DropDownUtility;
 import com.electra.automation.utilities.RandomDataUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
+import com.electra.automation.utilities.BedUtility;
 
 public class RegisterPage extends BaseClass {
 
     private WebDriver driver;
     private SwitchButton switchbutton;
     private WaitUtility wait;
+    private BedUtility bedUtility;
     private DropDownUtility dropDownUtility;
 
 
@@ -31,6 +33,7 @@ public class RegisterPage extends BaseClass {
 
         switchbutton = new SwitchButton(driver);
         this.wait = new WaitUtility(driver);
+        this.bedUtility = new BedUtility(driver);
         this.dropDownUtility = new DropDownUtility(driver);
     }
     // Click Action button Master
@@ -203,7 +206,7 @@ public class RegisterPage extends BaseClass {
     /////////////////////////////////////////////////
     /// Locate all element in the lists 
     @FindBy(xpath = "//button[not(@disabled) and .//div[normalize-space()='Available']]")
-    private List<WebElement> availableSlots;
+    private List<WebElement> availableElements;
 
     @FindBy(xpath = "//button[normalize-space()='Confirm']")
     private WebElement confirmButton;
@@ -476,26 +479,34 @@ public class RegisterPage extends BaseClass {
     }
 
 // Selecting Random Available Slot from the list of available slots
-    public void selectRandomAvailableSlot() {
+    // public void selectRandomAvailableSlot() {
 
-        // Wait until at least one slot is available
-        wait.waitUntil(() -> !availableSlots.isEmpty(), 10);
+    //     // Wait until at least one slot is available
+    //     wait.waitUntil(() -> !availableSlots.isEmpty(), 10);
 
-        int randomIndex = RandomDataUtility.getRandomNumber(0, availableSlots.size() - 1);
+    //     int randomIndex = RandomDataUtility.getRandomNumber(0, availableSlots.size() - 1);
 
-        WebElement slot = availableSlots.get(randomIndex);
+    //     WebElement slot = availableSlots.get(randomIndex);
 
-        wait.waitForElementClickable(slot);
+    //     wait.waitForElementClickable(slot);
 
-        String slotTime = slot.findElement(By.tagName("span")).getText();
+    //     String slotTime = slot.findElement(By.tagName("span")).getText();
 
-        System.out.println("Selected Slot : " + slotTime);
+    //     System.out.println("Selected Slot : " + slotTime);
 
-        slot.click();
+    //     slot.click();
 
-        wait.waitForElementClickable(confirmButton);
-        confirmButton.click();
-    }
+    //     wait.waitForElementClickable(confirmButton);
+    //     confirmButton.click();
+    // }
+    public void selectRandomAvailableSlots() {
+
+    bedUtility.selectRandomAvailable(
+            availableElements,
+            confirmButton
+    );
+}
+
 
     //reduce test code Methods 
     public void searchPatient(PatientData patient) throws Exception {
@@ -533,7 +544,9 @@ public class RegisterPage extends BaseClass {
 
         Thread.sleep(10000);
 
-        selectRandomAvailableSlot();
+        selectRandomAvailableSlots();
+
+        // selectRandomAvailableSlot();
 
         // clickConfirm();
         selectAppointmentVisitType(patient.getVisitType());

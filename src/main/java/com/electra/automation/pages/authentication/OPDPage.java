@@ -1,22 +1,28 @@
 package com.electra.automation.pages.authentication;
 
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.OPD_Data;
 import com.electra.automation.utilities.DropDownUtility;
+import com.electra.automation.utilities.RandomDataUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
+import com.electra.automation.utilities.BedUtility;
 
 public class OPDPage extends BaseClass {
 
     private WebDriver driver;
     private SwitchButton switchbutton;
     private WaitUtility wait;
+    private BedUtility bedUtility;
     private DropDownUtility dropDownUtility;
 
     //Page Factory constructor
@@ -26,6 +32,7 @@ public class OPDPage extends BaseClass {
 
         switchbutton = new SwitchButton(driver);
         this.wait = new WaitUtility(driver);
+        this.bedUtility = new BedUtility(driver);
         this.dropDownUtility = new DropDownUtility(driver);
     }
     //Webelement for OPD All Buttons fields
@@ -143,21 +150,136 @@ public class OPDPage extends BaseClass {
     
     @FindBy(xpath = "//div[@id='sec-lab']//button[@title=\"Add row\"]")
     private WebElement btnLabAddRow;
-    //Webelements for OPDPage_ Input Fields
-        // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
+
+    @FindBy(xpath = "//div[@id='sec-rad']//input[starts-with(@id,'radstudy-')]")
+    private WebElement RadiologyTestInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rad']//input[starts-with(@placeholder,'e.g., Chest, Abdomen, Knee')]")
+    private WebElement RadBodyPartInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rad']//input[starts-with(@id,'select-')]")
+    private WebElement RadPriorityInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rad']//input[starts-with(@placeholder,'e.g., Rule out pneumonia, fracture')]")
+    private WebElement RadIndicationInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rad']//button[@title=\"Add row\"]")
+    private WebElement btnRadAddRow;
+   
+    @FindBy(xpath = "//div[@id='sec-rx']//input[starts-with(@id,'rx-')]")
+    private WebElement PharmadrugInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//input[starts-with(@placeholder,'e.g., 500 mg')]")
+    private WebElement PharmadoseInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//div[normalize-space()='Tablet']//input[starts-with(@id,'select-')]")
+    private WebElement PharmaTypeInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//div[normalize-space()='Oral']//input[starts-with(@id,'select-')]")
+    private WebElement PharmaRouteInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//div[normalize-space()='Frequency…']//input[starts-with(@id,'select-')]")
+    private WebElement PharmaFrequencyInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//input[starts-with(@placeholder,'e.g., 5 days, 1 month')]")
+    private WebElement PharmaDurationInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//input[starts-with(@placeholder,'e.g., 10')]")
+    private WebElement PharmaQuantityInput;
+    
+    @FindBy(xpath = "//div[@id='sec-rx']//input[starts-with(@placeholder,'e.g., After meals avoid alcohol')]")
+    private WebElement PharmaInstructionsInput;
+
+    @FindBy(xpath = "//div[@id='sec-rx']//button[@title=\"Add row\"]")
+    private WebElement btnRxAddRow;
+    
+    @FindBy(xpath = "//div[@id='sec-proc']//input[starts-with(@id,'procselect-')]")
+    private WebElement ProcedureInput;
+    
+    @FindBy(xpath = "//div[@id='sec-proc']//input[starts-with(@placeholder,'e.g., Right arm Left knee')]")
+    private WebElement ProcedureLateralityInput;
+    
+    @FindBy(xpath = "//div[@id='sec-proc']//input[starts-with(@id,'select-')]")
+    private WebElement ProcedurePriorityInput;
+    
+    @FindBy(xpath = "//div[@id='sec-proc']//input[starts-with(@Placeholder,'e.g., Diagnostic, therapeutic')]")
+    private WebElement ProcedureIndicationInput;
+    
+    @FindBy(xpath = "//div[@id='sec-proc']//button[@title=\"Add row\"]")
+    private WebElement btnProcedureAddRow;
+    
+    @FindBy(xpath = "//div[@id='sec-diet']//input[starts-with(@id,'select-')]")
+    private WebElement DietOrderInput;
+
+    @FindBy(xpath = "//div[@id='sec-diet']//input[starts-with(@placeholder,'e.g., 3×/day')]")
+    private WebElement DietMealFrequencyInput;
+   
+    @FindBy(xpath = "//div[@id='sec-diet']//input[starts-with(@placeholder,'e.g., 1800 (kcal/day)')]")
+    private WebElement DietCalorieInput;
+    
+    @FindBy(xpath = "//div[@id='sec-diet']//input[starts-with(@placeholder,'e.g., 1500 (mL/day)')]")
+    private WebElement DietFluidInput;
+   
+    @FindBy(xpath = "//div[@id='sec-diet']//input[starts-with(@placeholder,'e.g., Low sodium no spicy food diabetic diet')]")
+    private WebElement DietSpecialInstructionsInput;
+    
+    @FindBy(xpath = "//div[@id='sec-diet']//button[@title=\"Add diet row\"]")
+    private WebElement btnDietAddRow;
+    
+    @FindBy(xpath = "//button[text()=\"Transfer\"]")
+    private WebElement EMRTransferBtn;
+    
+    @FindBy(xpath = "//div[@id='sec-adtf']//input[@id=\"transferDept\"]")
+    private WebElement ADTFTransferDeptInput;
+   
+    @FindBy(xpath = "//div[@id='sec-adtf']//input[@id=\"transferUnit\"]")
+    private WebElement ADTFTransferUnitInput;
+
+    @FindBy(xpath = "//div[@id='sec-adtf']//input[@id=\"transferDoctor\"]")
+    private WebElement ADTFTransferDoctorInput; 
+    
+    @FindBy(xpath = "//span[normalize-space()='Select bed...']/parent::div")
+    private WebElement ADTFSelectBedInput;
+    
+    @FindBy(xpath = "//input[@id='bed_modal_ward']")
+    private WebElement ADTFSelectBedWardInput;
+    
+    @FindBy(xpath = "//div[contains(@class,'cursor-pointer')][.//span[normalize-space()='Free']]")
+    private List<WebElement> availableElements;
+    
+    @FindBy(xpath = "//button[text()=\"Confirm Selection\"]")
+    private WebElement confirmButton;
+    
+    @FindBy(xpath = "//input[@id='transferReason']")
+    private WebElement ADTFTransferReasonInput;
+    
+    @FindBy(xpath = "//textarea[@id='transferRemark']")
+    private WebElement ADTFTransferRemarkInput;
+   
+    @FindBy(xpath = "//button[text()=\"Discharge\"]")
+    private WebElement EMRDischargeBtn;
+    
+    @FindBy(xpath = "//input[@id=\"dischargeReason\"]")
+    private WebElement EMRDischargeReasonInput;
+    
+    @FindBy(xpath = "//button[text()=\"Referral\"]")
+    private WebElement EMRReferralBtn;
+   
+    @FindBy(xpath = "//th[normalize-space()='Referral Type']/ancestor::table//input[@role='combobox']")
+    private WebElement EMRReferralTypeInput;
+    
+    @FindBy(xpath = "//textarea[@placeholder=\"Instructions for referral follow-through…\"]")
+    private WebElement EMRReferralDispositionInput;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
-    //Webelements for OPDPage_ Input Fields
-        // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+        // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
-    //Webelements for OPDPage_ Input Fields
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
     @FindBy(xpath = "//input[@placeholder=\"Search name, UHID, mobile, OP/IP no...\"]")
     private WebElement searchPatientInputElement;
 
@@ -199,6 +321,36 @@ public class OPDPage extends BaseClass {
         public void btnLabAdd() {
         wait.waitForElementClickable(btnLabAddRow).click();
     }
+        public void btnRadAddRow() {
+        wait.waitForElementClickable(btnRadAddRow).click();
+    }
+        public void btnRxAddRow() {
+        wait.waitForElementClickable(btnRxAddRow).click();
+    }
+        public void btnProcedureAdd() {
+        wait.waitForElementClickable(btnProcedureAddRow).click();
+    }
+        public void btnDiet_AddRow() {
+        wait.waitForElementClickable(btnDietAddRow).click();
+    }
+        public void btnEMRTransfer() {
+        wait.waitForElementClickable(EMRTransferBtn).click();
+    }
+        public void selectADTF_SelectBed() {
+        wait.waitForElementClickable(ADTFSelectBedInput).click();
+    }
+        public void btnEMRDischarge() {
+        wait.waitForElementClickable(EMRDischargeBtn).click();
+    }
+        public void btnEMRReferral() {
+        wait.waitForElementClickable(EMRReferralBtn).click();
+    }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
     //     public void btnDiagnosisAdd() {
     //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
     // }
@@ -295,11 +447,6 @@ public class OPDPage extends BaseClass {
         allergyAllergynElementInput.clear();
         allergyAllergynElementInput.sendKeys(Allergen);
     }
-    // public void SelctEMREHRDignoConditionInput(String condition) {
-    //     wait.waitForElementVisible(OPDDignoConditionInput);
-    //     OPDDignoConditionInput.clear();
-    //     OPDDignoConditionInput.sendKeys(condition);
-    // }
     public void dignoEMREHRClinicalInput(String clinical) {
         wait.waitForElementVisible(OPDDignoCliniicalInput);
         OPDDignoCliniicalInput.clear();
@@ -315,27 +462,101 @@ public class OPDPage extends BaseClass {
         LabInstructionInput.clear();
         LabInstructionInput.sendKeys(instruction);
     }
-    // public void patientOPDEMREHRGlucoseInput(String Glucose) {
-    //     wait.waitForElementVisible(btnOPDEMREHRGlucoseInput);
-    //     btnOPDEMREHRGlucoseInput.clear();
-    //     btnOPDEMREHRGlucoseInput.sendKeys(Glucose);
+    public void radBodyPart_Input(String bodyPart) {
+        wait.waitForElementVisible(RadBodyPartInput);
+        RadBodyPartInput.clear();
+        RadBodyPartInput.sendKeys(bodyPart);
+    }
+    public void rad_IndicationInput(String indication) {
+        wait.waitForElementVisible(RadIndicationInput);
+        RadIndicationInput.clear();
+        RadIndicationInput.sendKeys(indication);
+    }
+    public void pharma_DoseInput(String dose) {
+        wait.waitForElementVisible(PharmadoseInput);
+        PharmadoseInput.clear();
+        PharmadoseInput.sendKeys(dose);
+    }
+    public void pharmaDuration_Input(String duration) {
+        wait.waitForElementVisible(PharmaDurationInput);
+        PharmaDurationInput.clear();
+        PharmaDurationInput.sendKeys(duration);
+    }
+    public void pharmaQuantity_Input(String quantity) {
+        wait.waitForElementVisible(PharmaQuantityInput);
+        PharmaQuantityInput.clear();
+        PharmaQuantityInput.sendKeys(quantity);
+    }
+    public void pharmaInstructions_Input(String instructions) {
+        wait.waitForElementVisible(PharmaInstructionsInput);
+        PharmaInstructionsInput.clear();
+        PharmaInstructionsInput.sendKeys(instructions);
+    }
+    public void procedure_LateralityInput(String laterality) {
+        wait.waitForElementVisible(ProcedureLateralityInput);
+        ProcedureLateralityInput.clear();
+        ProcedureLateralityInput.sendKeys(laterality);
+    }
+        public void procedure_IndicationInput(String indication) {
+        wait.waitForElementVisible(ProcedureIndicationInput);
+        ProcedureIndicationInput.clear();
+        ProcedureIndicationInput.sendKeys(indication);
+    }
+    public void dietMealFrequencyInput(String MealFrequency) {
+        wait.waitForElementVisible(DietMealFrequencyInput);
+        DietMealFrequencyInput.clear();
+        DietMealFrequencyInput.sendKeys(MealFrequency);
+    }
+    public void dietCalorieInput(String Calorie) {
+        wait.waitForElementVisible(DietCalorieInput);
+        DietCalorieInput.clear();
+        DietCalorieInput.sendKeys(Calorie);
+    }
+    public void dietFluidInput(String fluid) {
+        wait.waitForElementVisible(DietFluidInput);
+        DietFluidInput.clear();
+        DietFluidInput.sendKeys(fluid);
+    }
+        public void dietSpecialInstructionsInput(String SpecialInstructions) {
+        wait.waitForElementVisible(DietSpecialInstructionsInput);
+        DietSpecialInstructionsInput.clear();
+        DietSpecialInstructionsInput.sendKeys(SpecialInstructions);
+    }
+    public void ADTFTransferReasonInput(String reason) {
+        wait.waitForElementVisible(ADTFTransferReasonInput);
+        ADTFTransferReasonInput.clear();
+        ADTFTransferReasonInput.sendKeys(reason);
+    }
+    public void ADTFTransferRemarkInput(String remark) {
+        wait.waitForElementVisible(ADTFTransferRemarkInput);
+        ADTFTransferRemarkInput.clear();
+        ADTFTransferRemarkInput.sendKeys(remark);
+    }
+    public void EMRReferralDispositionInput(String disposition) {
+        wait.waitForElementVisible(EMRReferralDispositionInput);
+        EMRReferralDispositionInput.clear();
+        EMRReferralDispositionInput.sendKeys(disposition);
+    }
+        // public void eMREHR_CCHP_Input(String BMI) {
+    //     wait.waitForElementVisible(eMREJRCC_HPInput);
+    //     eMREJRCC_HPInput.clear();
+    //     eMREJRCC_HPInput.sendKeys(BMI);
     // }
-    // public void patientOPDEMREHRWeightInput(String Weight) {
-    //     wait.waitForElementVisible(btnOPDEMREHRWeightInput);
-    //     btnOPDEMREHRWeightInput.clear();
-    //     btnOPDEMREHRWeightInput.sendKeys(Weight);
-    // }
-    // public void patientOPDEMREHRHeightInput(String Height) {
-    //     wait.waitForElementVisible(btnOPDEMREHRHeightInput);
-    //     btnOPDEMREHRHeightInput.clear();
-    //     btnOPDEMREHRHeightInput.sendKeys(Height);
+    // public void SelctEMREHRDignoConditionInput(String condition) {
+    //     wait.waitForElementVisible(OPDDignoConditionInput);
+    //     OPDDignoConditionInput.clear();
+    //     OPDDignoConditionInput.sendKeys(condition);
     // }
     // public void eMREHR_CCHP_Input(String BMI) {
     //     wait.waitForElementVisible(eMREJRCC_HPInput);
     //     eMREJRCC_HPInput.clear();
     //     eMREJRCC_HPInput.sendKeys(BMI);
     // }
-    
+    // public void SelctEMREHRDignoConditionInput(String condition) {
+    //     wait.waitForElementVisible(OPDDignoConditionInput);
+    //     OPDDignoConditionInput.clear();
+    //     OPDDignoConditionInput.sendKeys(condition);
+    // }
     //Dropdown Element
     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
         dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
@@ -373,51 +594,52 @@ public class OPDPage extends BaseClass {
         public void selectLab_Priority(String priority) throws Exception {
         dropDownUtility.selectReactOption(LabPriorityInput, priority);
     }
-    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
+            public void selectRad_TestInput(String test) throws Exception {
+        dropDownUtility.selectReactOption(RadiologyTestInput, test);
+    }
+        public void selectRad_Priority(String priority) throws Exception {
+        dropDownUtility.selectReactOption(RadPriorityInput, priority);
+    }
+        public void selectPharma_DrugInput(String drug) throws Exception {
+        dropDownUtility.selectReactOption(PharmadrugInput, drug);
+    }
+        public void selectPharma_TypeInput(String type) throws Exception {
+        dropDownUtility.selectReactOption(PharmaTypeInput, type);
+    }
+        public void selectPharma_RouteInput(String route) throws Exception {
+        dropDownUtility.selectReactOption(PharmaRouteInput, route);
+    }
+        public void selectPharma_FrequencyInput(String frequency) throws Exception {
+        dropDownUtility.selectReactOption(PharmaFrequencyInput, frequency);
+    }
+        public void selectProcedure_Input(String procedure) throws Exception {
+        dropDownUtility.selectReactOption(ProcedureInput, procedure);
+    }
+        public void selectProcedure_Priority(String prPriority) throws Exception {
+        dropDownUtility.selectReactOption(ProcedurePriorityInput, prPriority);
+    }
+        public void selectDiet_Order(String dietOrder) throws Exception {
+        dropDownUtility.selectReactOption(DietOrderInput, dietOrder);
+    }
+        public void selectADTFTransferDept(String depart) throws Exception {
+        dropDownUtility.selectReactOption(ADTFTransferDeptInput, depart);
+    }
 
-        //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
+        public void selectADTF_TransferUnit(String unit) throws Exception {
+        dropDownUtility.selectReactOption(ADTFTransferUnitInput, unit);
+    }
+        public void selectADTF_TransferDoctor(String doctor) throws Exception {
+        dropDownUtility.selectReactOption(ADTFTransferDoctorInput, doctor);
+    }
+        public void selectADTF_SelectBedWard(String ward) throws Exception {
+        dropDownUtility.selectReactOption(ADTFSelectBedWardInput, ward);
+    }
+        public void selectEMRDischargeReason(String DichargeReason) throws Exception {
+        dropDownUtility.selectReactOption(EMRDischargeReasonInput, DichargeReason);
+    }    
+        public void selectEMRReferralType(String RType) throws Exception {
+       dropDownUtility.selectReactOption(EMRReferralTypeInput, RType);
+    }
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
@@ -443,7 +665,7 @@ public class OPDPage extends BaseClass {
 
         patientOPDMenuOpen();
         // patientOPDSearch(Opd.getFirstName());
-        patientOPDSearch("Sultan");
+        patientOPDSearch("Veera");
         clickOPDEMREHR();
 //Vitals Records
         wait.waitForElementClickable(emrBtnTimePicker).click();
@@ -484,11 +706,87 @@ public class OPDPage extends BaseClass {
         selectLab_Priority("Urgent");
         lanInstructionInput("Fasting hrs, early morning sample");
         btnLabAdd();
-        Thread.sleep(2000);
+//Radiology
+        // selectRad_TestInput("MRI BRAIN");
+        radBodyPart_Input("Brain");
+        selectRad_Priority("Urgent");
+        rad_IndicationInput("fracture");
+        btnRadAddRow();
+//Pharmacy -Prescription
+        selectPharma_DrugInput("Dolo 650mg");
+        pharma_DoseInput("650");
+        selectPharma_TypeInput("Capsule");
+        selectPharma_RouteInput("Oral");
+        selectPharma_FrequencyInput("1-1");
+        pharmaDuration_Input("5 days");
+        pharmaQuantity_Input("10");
+        pharmaInstructions_Input("After meals avoid alcohol");
+        btnRxAddRow();
+//Procedure
+        //selectProcedure_Input("ENT Surgery");
+        procedure_LateralityInput("Right arm");
+        selectProcedure_Priority("Urgent");
+        procedure_IndicationInput("Diagnostic");
+        btnProcedureAdd();
+//Diet Order
+        selectDiet_Order("Non-Veg");
+        dietMealFrequencyInput("3 times/day");
+        dietCalorieInput("1800 (kcal/day)");
+        dietFluidInput("1500 (mL/day)");
+        dietSpecialInstructionsInput("Low sodium no spicy food diabetic diet");
+        btnDiet_AddRow();
+//ADTF Transfer
+        btnEMRTransfer();
+        selectADTFTransferDept("General Medicine");
+        selectADTF_TransferUnit("General Medicine - Unit A");
+        selectADTF_TransferDoctor("Dr Sarang D Pawar");
+        selectADTF_SelectBed();
+        selectADTF_SelectBedWard("Orthopedic Ward Male");
+        selectRandomAvailableBeds();
+        ADTFTransferReasonInput("Patient requires specialized care in the orthopedic ward.");
+        ADTFTransferRemarkInput("Patient has a history of orthopedic issues and needs further evaluation and treatment in the orthopedic ward.");
+//ADTF Dicharge
+        btnEMRDischarge();
+        selectEMRDischargeReason("LAMA");
+//ADTF Referral
+        btnEMRReferral();
+        selectEMRReferralType("External");
+        EMRReferralDispositionInput("Patient is being referred to an external specialist for further evaluation and management of their condition.");
 
 
+
+        Thread.sleep(3000);
 
     }
+    // // Selecting Random Available Bed from the list of available beds
+    // public void selectRandomAvailableBed() {
+
+    //     // Wait until at least one bed is available
+
+    //     wait.waitUntil(() -> !availableBeds.isEmpty(), 10);
+
+    //     int randomIndex = RandomDataUtility.getRandomNumber(0, availableBeds.size() - 1);
+
+    //     WebElement bed = availableBeds.get(randomIndex);
+
+    //     wait.waitForElementClickable(bed);
+
+    //     String bedNumber = bed.findElement(By.tagName("span")).getText();
+
+    //     System.out.println("Selected Bed : " + bedNumber);
+
+    //     bed.click();
+
+    //     wait.waitForElementClickable(confirmSelectionBtn);
+    //     confirmSelectionBtn.click();
+    // }
+    public void selectRandomAvailableBeds() {
+
+    bedUtility.selectRandomAvailable(
+            availableElements,
+            confirmButton
+    );
+}
 
     // Method assertion for OPDPage can be added here
     //Asertion Methods
