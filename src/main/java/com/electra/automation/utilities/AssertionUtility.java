@@ -1,5 +1,6 @@
 package com.electra.automation.utilities;
 
+import com.epam.healenium.annotation.DisableHealing;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -43,6 +44,7 @@ public class AssertionUtility {
     // 2. Verify Element Not Displayed
     // =========================================================
 
+    @DisableHealing
     public void verifyElementNotDisplayed(By locator) {
 
         boolean notDisplayed = wait.until(
@@ -302,6 +304,7 @@ public void verifyElements(
     // 8. Verify Toast Disappears
     // =========================================================
 
+    @DisableHealing
     public void verifyToastDisappears(
             By toastLocator,
             int timeoutSeconds) {

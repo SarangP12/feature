@@ -21,6 +21,7 @@ public class WaitUtility {
         this.driver = driver;
     }
 
+    //all waits are defined here,Button, Text, Element, Page load, Invisibility, Clickable, Condition, etc  
     // ==========================
     // By Locator Methods
     // ==========================

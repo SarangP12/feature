@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
+import com.epam.healenium.SelfHealingDriver;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class ScreenshotUtility {
     public static void clearScreenshotDirectory() {
@@ -35,9 +37,9 @@ public class ScreenshotUtility {
         if (driver == null) {
             return "";
         }
-        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-        String fileName = sanitizeFileName(testName) + "_" + timestamp + ".png";
+        WebDriver screenshotDriver = rawDriver(driver);
+        File srcFile = ((TakesScreenshot) screenshotDriver).getScreenshotAs(OutputType.FILE);
+        String fileName = uniqueFileName(testName);
         Path destinationPath = Paths.get(FrameworkConstants.SCREENSHOT_PATH, fileName);
         try {
             Files.createDirectories(destinationPath.getParent());
@@ -57,10 +59,8 @@ public static String captureFailedElementScreenshot(
         return "";
     }
 
-    String timestamp = LocalDateTime.now()
-            .format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-
-    String fileName = sanitizeFileName(testName) + "_" + timestamp + ".png";
+    WebDriver screenshotDriver = rawDriver(driver);
+    String fileName = uniqueFileName(testName);
     Path destinationPath = Paths.get(FrameworkConstants.SCREENSHOT_PATH, fileName);
 
     try {
@@ -71,7 +71,7 @@ public static String captureFailedElementScreenshot(
             return captureScreenshot(driver, testName);
         }
 
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        JavascriptExecutor js = (JavascriptExecutor) screenshotDriver;
 
         // Find a visible element to highlight
         WebElement elementToHighlight = failedElement;
@@ -114,16 +114,16 @@ public static String captureFailedElementScreenshot(
 
                 elementToHighlight);
 
-        Thread.sleep(500);
-
-        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-        FileUtils.copyFile(src, destinationPath.toFile());
-
-        js.executeScript(
-                "arguments[0].setAttribute('style', arguments[1]);",
-                elementToHighlight,
-                oldStyle);
+        try {
+            Thread.sleep(500);
+            File src = ((TakesScreenshot) screenshotDriver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(src, destinationPath.toFile());
+        } finally {
+            js.executeScript(
+                    "if (arguments[1] === '') { arguments[0].removeAttribute('style'); } else { arguments[0].setAttribute('style', arguments[1]); }",
+                    elementToHighlight,
+                    oldStyle);
+        }
 
         return destinationPath.toString();
 
@@ -196,5 +196,16 @@ public static String captureFailedElementScreenshot(
         return testName == null || testName.isBlank()
                 ? "screenshot"
                 : testName.replaceAll("[^a-zA-Z0-9.-]", "_");
+    }
+
+    private static String uniqueFileName(String testName) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSS"));
+        return sanitizeFileName(testName) + "_" + timestamp + "_" + UUID.randomUUID() + ".png";
+    }
+
+    private static WebDriver rawDriver(WebDriver driver) {
+        return driver instanceof SelfHealingDriver selfHealingDriver
+                ? selfHealingDriver.getDelegate()
+                : driver;
     }
 }

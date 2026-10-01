@@ -1,6 +1,7 @@
 package com.electra.automation.base;
 
 import com.electra.automation.enums.BrowserType;
+import com.epam.healenium.SelfHealingDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -41,11 +42,24 @@ public class DriverFactory {
 
     public static WebDriver createDriver(String browserName) {
         BrowserType browserType = BrowserType.valueOf(browserName.toUpperCase());
-        return switch (browserType) {
+        WebDriver delegate = switch (browserType) {
             case CHROME -> createChromeDriver();
             case FIREFOX -> createFirefoxDriver();
             case EDGE -> createEdgeDriver();
         };
+        if (!Boolean.parseBoolean(System.getProperty("healenium.enabled", "false"))) {
+            return delegate;
+        }
+        try {
+            return SelfHealingDriver.create(delegate);
+        } catch (RuntimeException | Error e) {
+            try {
+                delegate.quit();
+            } catch (Exception quitException) {
+                e.addSuppressed(quitException);
+            }
+            throw e;
+        }
     }
 
     private static WebDriver createChromeDriver() {

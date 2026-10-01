@@ -4,5 +4,6 @@ target/
 Screenshots/
 ExtentReports/
 Logs/
+healenium.env
 test-output/
 *.iml

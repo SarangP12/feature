@@ -1,10 +1,9 @@
 package com.electra.automation.utilities;
 
 import java.time.Duration;
-import java.util.NoSuchElementException;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.By;
-// import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -32,7 +31,7 @@ public DropDownUtility(WebDriver driver) {
     
     public void selectReactOption(WebElement dropdown, String optionText) {
 
-        // STEP 1: Wait & click dropdown
+        // STEP 1: Wait & click dropdown (Implicitly waits for the dropdown to be clickable)
         WebElement clickable =
                 waitUtility.waitForElementClickable(
                         dropdown, 50);
@@ -59,7 +58,7 @@ public DropDownUtility(WebDriver driver) {
         // STEP 3: Wait until dropdown opens
         new WebDriverWait(driver, Duration.ofSeconds(50))
                 .until(driver1 ->
-                        "true".equals(finalInput.getAttribute("aria-expanded")));
+                "true".equals(finalInput.getDomAttribute("aria-expanded")));
 
         // STEP 4: Get listbox ID
         String listBoxId =
@@ -87,10 +86,11 @@ public DropDownUtility(WebDriver driver) {
                 "//*[contains(@id,'-option-')]" +
                 "[contains(normalize-space(),'" +
                 optionText + "')]");
+                
 
         // STEP 8: Wait for option
         WebElement optionElement =
-                waitUtility.waitForElementClickable(
+         waitUtility.waitForElementClickable(
                         option, 50);
 
         // STEP 9: Click option

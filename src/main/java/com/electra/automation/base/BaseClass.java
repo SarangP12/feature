@@ -68,8 +68,14 @@ public class BaseClass {
     //Close Browser after test/class execution
     @AfterSuite(alwaysRun = true)//---Change @BeforeMethod >> Chage @BeforeClass >> @BeforeSuite(TestNG.XML)
     public void closeBrowser() {
-        if (getDriver() != null) {
-            getDriver().quit();
+        WebDriver driver = getDriver();
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } finally {
+            driverThreadLocal.remove();
+            failedElementThreadLocal.remove();
         }
         System.out.println("===== Chrome Browser Closed =====");
     }

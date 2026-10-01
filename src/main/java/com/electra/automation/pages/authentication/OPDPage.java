@@ -1,21 +1,19 @@
 package com.electra.automation.pages.authentication;
 
 
-import org.openqa.selenium.By;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
-
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.OPD_Data;
+import com.electra.automation.utilities.BedUtility;
 import com.electra.automation.utilities.DropDownUtility;
-import com.electra.automation.utilities.RandomDataUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
-import com.electra.automation.utilities.BedUtility;
 
 public class OPDPage extends BaseClass {
 
@@ -270,11 +268,43 @@ public class OPDPage extends BaseClass {
     
     @FindBy(xpath = "//textarea[@placeholder=\"Instructions for referral follow-through…\"]")
     private WebElement EMRReferralDispositionInput;
+   
+    @FindBy(xpath = "//textarea[@placeholder='Clinical reason, handover notes…']")
+    private WebElement EMRReferralRemarkInput;
+   
+    @FindBy(xpath = "//div[@id=\"sec-adtf\"]//input[@id=\"referralDepartment\"]")
+    private WebElement EMRReferralDepartmentInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-adtf\"]//input[@id=\"referralUnit\"]")
+    private WebElement EMRReferralUnitInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-adtf\"]//input[@id=\"referralDoctor\"]")
+    private WebElement EMRReferralDoctorInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-soap\"]//textarea[@placeholder=\"Patient's complaints, history, HPI…\"]")
+    private WebElement EMRSoapSubjectiveInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-soap\"]//textarea[@placeholder=\"Vitals, examination findings, investigations…\"]")
+    private WebElement EMRSoapObjectiveInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-soap\"]//textarea[@placeholder=\"Working diagnosis, clinical impression…\"]")
+    private WebElement EMRSoapAssessmentInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-soap\"]//textarea[@placeholder=\"Treatment plan, medications, follow-up…\"]")
+    private WebElement EMRSoapPlanInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-soap\"]//input[@placeholder=\"Dr Full Name\"]")
+    private WebElement EMRSoapDoctorInput;
+    
+    @FindBy(xpath = "//div[@id=\"sec-soap\"]//input[@placeholder=\"e.g., MCI-12345\"]")
+    private WebElement EMRSoapMCIInput;
+    
+    @FindBy(xpath = "e.g., General Medicine MBBS MD")
+    private WebElement EMRSoapDepartmentInput;
+
+    // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-        // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
@@ -345,6 +375,42 @@ public class OPDPage extends BaseClass {
         public void btnEMRReferral() {
         wait.waitForElementClickable(EMRReferralBtn).click();
     }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
+    //     public void btnDiagnosisAdd() {
+    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    // }
     //     public void btnDiagnosisAdd() {
     //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
     // }
@@ -537,7 +603,47 @@ public class OPDPage extends BaseClass {
         EMRReferralDispositionInput.clear();
         EMRReferralDispositionInput.sendKeys(disposition);
     }
-        // public void eMREHR_CCHP_Input(String BMI) {
+    public void EMRReferralRemarkInput(String remark) {
+        wait.waitForElementVisible(EMRReferralRemarkInput);
+        EMRReferralRemarkInput.clear();
+        EMRReferralRemarkInput.sendKeys(remark);
+    }
+    public void EMRSoapSubjectiveInput(String condition) {
+        wait.waitForElementVisible(EMRSoapSubjectiveInput);
+        EMRSoapSubjectiveInput.clear();
+        EMRSoapSubjectiveInput.sendKeys(condition);
+    }
+    public void EMRSoapObjectiveInput(String objective) {
+        wait.waitForElementVisible(EMRSoapObjectiveInput);
+        EMRSoapObjectiveInput.clear();
+        EMRSoapObjectiveInput.sendKeys(objective);
+    }
+    public void EMRSoapAssessmentInput(String assessment) {
+        wait.waitForElementVisible(EMRSoapAssessmentInput);
+        EMRSoapAssessmentInput.clear();
+        EMRSoapAssessmentInput.sendKeys(assessment);
+    }
+        public void EMRSoapPlanInput(String Plan) {
+        wait.waitForElementVisible(EMRSoapPlanInput);
+        EMRSoapPlanInput.clear();
+        EMRSoapPlanInput.sendKeys(Plan);
+    }
+    public void EMRSoapDoctorInput(String doctorSoap) {
+        wait.waitForElementVisible(EMRSoapDoctorInput);
+        EMRSoapDoctorInput.clear();
+        EMRSoapDoctorInput.sendKeys(doctorSoap);
+    }
+    public void EMRSoapMCIInput(String MCI) {
+        wait.waitForElementVisible(EMRSoapMCIInput);
+        EMRSoapMCIInput.clear();
+        EMRSoapMCIInput.sendKeys(MCI);
+    }
+    public void EMRSoapDepartmentInput(String SoapDepartment) {
+        wait.waitForElementVisible(EMRSoapDepartmentInput);
+        EMRSoapDepartmentInput.clear();
+        EMRSoapDepartmentInput.sendKeys(SoapDepartment);
+    }
+    // public void eMREHR_CCHP_Input(String BMI) {
     //     wait.waitForElementVisible(eMREJRCC_HPInput);
     //     eMREJRCC_HPInput.clear();
     //     eMREJRCC_HPInput.sendKeys(BMI);
@@ -558,7 +664,8 @@ public class OPDPage extends BaseClass {
     //     OPDDignoConditionInput.sendKeys(condition);
     // }
     //Dropdown Element
-    public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    
+        public void selectCC_HPSymptoms(String Symptoms) throws Exception {
         dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     }
         public void selectCC_HPDays(String days) throws Exception {
@@ -640,6 +747,24 @@ public class OPDPage extends BaseClass {
         public void selectEMRReferralType(String RType) throws Exception {
        dropDownUtility.selectReactOption(EMRReferralTypeInput, RType);
     }
+        public void selectReferralDepartment(String department) throws Exception {
+        dropDownUtility.selectReactOption(EMRReferralDepartmentInput, department);
+    }
+            public void selectReferralUnit(String unit) throws Exception {
+        dropDownUtility.selectReactOption(EMRReferralUnitInput, unit);
+    }
+        public void selectReferralDoctor(String doctor) throws Exception {
+        dropDownUtility.selectReactOption(EMRReferralDoctorInput, doctor);
+    }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
+    // }
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
@@ -752,34 +877,25 @@ public class OPDPage extends BaseClass {
         btnEMRReferral();
         selectEMRReferralType("External");
         EMRReferralDispositionInput("Patient is being referred to an external specialist for further evaluation and management of their condition.");
-
-
-
+        EMRReferralRemarkInput("Patient requires specialized care and follow-up with an external specialist to ensure optimal management of their condition.");
+        selectReferralDepartment("General Medicine");
+        selectReferralUnit("General Medicine - Unit A");
+        selectReferralDoctor("Dr Sarang D Pawar");
         Thread.sleep(3000);
-
+//Clinical Notes - SOAP
+        EMRSoapSubjectiveInput("Patient presents with complaints of fever, fatigue");
+        EMRSoapObjectiveInput("Vitals: BP 120/80 mmHg, Pulse 80 bpm, Temp 101°F, SpO2 98%, RR 18/min,");
+        EMRSoapAssessmentInput("Working diagnosis: Viral infection, clinical impression: Monitor and manage symptoms");
+        EMRSoapPlanInput("Treatment plan: Prescribe antipyretics, advise rest and hydration, follow-up in 3 days");
+        EMRSoapDoctorInput("Dr Sarang D Pawar");
+        EMRSoapMCIInput("MCI-12345");
+        EMRSoapDepartmentInput("General Medicine");
+    
+    
+    
+    
     }
-    // // Selecting Random Available Bed from the list of available beds
-    // public void selectRandomAvailableBed() {
 
-    //     // Wait until at least one bed is available
-
-    //     wait.waitUntil(() -> !availableBeds.isEmpty(), 10);
-
-    //     int randomIndex = RandomDataUtility.getRandomNumber(0, availableBeds.size() - 1);
-
-    //     WebElement bed = availableBeds.get(randomIndex);
-
-    //     wait.waitForElementClickable(bed);
-
-    //     String bedNumber = bed.findElement(By.tagName("span")).getText();
-
-    //     System.out.println("Selected Bed : " + bedNumber);
-
-    //     bed.click();
-
-    //     wait.waitForElementClickable(confirmSelectionBtn);
-    //     confirmSelectionBtn.click();
-    // }
     public void selectRandomAvailableBeds() {
 
     bedUtility.selectRandomAvailable(
@@ -787,7 +903,6 @@ public class OPDPage extends BaseClass {
             confirmButton
     );
 }
-
     // Method assertion for OPDPage can be added here
     //Asertion Methods
     // public String getEnteredFirstName() {
