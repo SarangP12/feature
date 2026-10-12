@@ -81,13 +81,13 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath = "//button[normalize-space()='Other Details']")
     public WebElement btnOtherDetails;
 
-    @FindBy(xpath = "//div[@class=\"w-4 h-4 rounded-sm border-2 border-gray-300 flex items-center justify-center transition-all duration-300 ease-in-out peer-checked:border-[#476cb7] peer-checked:bg-green-500 peer-checked:scale-110 peer-focus:ring-2 peer-focus:ring-green-300\"]")
+    @FindBy(xpath = "//input[@id=\"same_as_current_address\"]")
     public WebElement btnSameAsCurrentAddress;
 
-    @FindBy(xpath = "//button[@title='Switch to List']//div[@class='flex items-center justify-center w-6 h-6']//*[name()='svg']")
+    @FindBy(xpath = "//button[@title='Switch to List']")
     public WebElement btnSwitchtoListDetails;
 
-    @FindBy(xpath = "//a[@href=\"/registrations/c3111952-6888-461d-9e90-7d6cd5067299\"]")
+    @FindBy(xpath = "//span[normalize-space()='Appointments']")
     public WebElement btnAppointment;
 
     @FindBy(xpath = "//span[text()=\"Bookings\"]")
@@ -166,7 +166,8 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath = "//input[@id=\"gender\"]")
     public WebElement patBookingGenderInput;
 
-    @FindBy(xpath = "//div[@class=\"react-select__input-container css-1deasmo\"]//input[@class=\"react-select__input\"]/parent::div//input[starts-with(@id,'react-select-')]")
+    //div[@class=\"react-select__input-container css-1deasmo\"]//input[@class=\"react-select__input\"]/parent::div//input[starts-with(@id,'react-select-')]
+    @FindBy(xpath = "//div[text()=\"Search patient...\"]/parent::div//input[starts-with(@class,'react-select__input')]")
     public WebElement appointmentSearchPatienetInput;
 
     @FindBy(xpath = "//input[@id=\"next_to_kin\"]")
@@ -243,11 +244,6 @@ public class RegisterPage extends BaseClass {
         patientCityInput.sendKeys(city);
     }
 
-    //String listBoxId = patientCityInput.getAttribute("aria-controls");
-    // String listBoxId = patientCityInput.getDomAttribute("aria-controls");
-    // String prefix = listBoxId.replace("-listbox", "");
-    // By option = By.xpath("//div[contains(@id,'-option-') and normalize-space()='" + city + "']");
-    // wait.until(ExpectedConditions.elementToBeClickable(option)).click();
     public void selectRegAppointmentDoctor(String category) throws Exception { //With registration
         dropDownUtility.selectReactOption(regwithAppointmentDoctorInput, category);
     }
@@ -305,7 +301,6 @@ public class RegisterPage extends BaseClass {
     }
 
     public void clickAppointment() {
-        // wait.clickElement(btnAppointment);
         wait.waitForElementClickable(btnAppointment).click();
     }
 
@@ -519,7 +514,7 @@ public class RegisterPage extends BaseClass {
         Thread.sleep(2000);
 
         // Assert.assertEquals(searchPage.getFirstName(), patient.getFirstName(),
-        //     "Patient First Name does not match.");
+        // "Patient First Name does not match.");
         // patientLastName(patient.getLastName());
         // patientBirthYear(patient.getBirthYear());
         // patientMobile(patient.getMobile());
@@ -530,7 +525,7 @@ public class RegisterPage extends BaseClass {
 
         clickAppointment();
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         AddPatientClick();
 

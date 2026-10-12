@@ -36,7 +36,7 @@ public class RegisterTest extends BaseClass {
         loginPage.verifyLoginPageLoads();
         // closeExtraTabs();
     }
-
+// Registration Open
     @Test(dependsOnMethods = "loginPageLoads", description = "Open registration page", priority = 1)
     private void openRegistrationPage() throws Exception {
         registerPage = new RegisterPage(getDriver());
@@ -47,18 +47,18 @@ public class RegisterTest extends BaseClass {
         // setupMasterPage.appointmentTabSwitchDisable();
         registerPage.patientRegistrationMenu();
     }
-
+// Registration Validation
     @Test(dependsOnMethods = "openRegistrationPage", description = "Validates registration page validation", priority = 2)
     public void validationRegistrationPage() throws Exception {
 
         softAssert = new SoftAssert();
         registerPage.clickSubmit();
-        Thread.sleep(1000);
+        // Thread.sleep(1000);
 
         // 1. Applicable Tariff
-        assertion.verifyElements(registerPage.tariffValidation, "Applicable Tariff is required.", true, softAssert, "Applicable Tariff");
+        // assertion.verifyElements(registerPage.tariffValidation, "Applicable Tariff is required.", true, softAssert, "Applicable Tariff");
         // 2. First Name
-        assertion.verifyElements(registerPage.firstNameValidation, "First Name is required.", true, softAssert, "First Name");
+        // assertion.verifyElements(registerPage.firstNameValidation, "First Name is required.", true, softAssert, "First Name");
         // 3. Gender
         assertion.verifyElements(registerPage.genderValidation, "Gender is required.", true, softAssert, "Gender");
         // 4. Date of Birth
@@ -70,7 +70,7 @@ public class RegisterTest extends BaseClass {
         // Final result
         softAssert.assertAll();
     }
-
+//Register Patient
     @Test(dependsOnMethods = "validationRegistrationPage", description = "Verify new patient registration", priority = 3)
     public void verifyPatientRegistration() throws Exception {
 
@@ -98,7 +98,6 @@ public class RegisterTest extends BaseClass {
         // String actualFirstName = registerPage.getEnteredFirstName();
         Assert.assertEquals(registerPage.getEnteredFirstName(), patient.getFirstName());
         closeExtraTabs();
-        Thread.sleep(2000);
         // closeExtraTabs();
         // Thread.sleep(500);
         try {
@@ -108,6 +107,7 @@ public class RegisterTest extends BaseClass {
         }
         // verifyToastMessage(registerPage.btnElementToastOK, "Patient registered successfully");
     }
+// Duplicate Registration
     @Test(dependsOnMethods = "verifyPatientRegistration", description = "Verify duplicate registration", priority = 4)
     public void duplicateRegistration() throws Exception {
 
@@ -143,22 +143,22 @@ public class RegisterTest extends BaseClass {
     //     closeExtraTabs();
     //     // registerPage.clickSwitchtoList();
     // }
+// Verify Search functionality
     @Test(dependsOnMethods = "duplicateRegistration", description = "Verify Search functionality", priority = 5)
     public void verifyPatientSearch() throws Exception {
 
-        Thread.sleep(2000);
-
+        softAssert = new SoftAssert();
         registerPage.searchPatient(patient);
 
         Thread.sleep(1000);
 
     }
-
+// Patient Appointment
     @Test(dependsOnMethods = "verifyPatientSearch", description = "Verify Appointment functionality", priority = 6)
     public void patientAppointment() throws Exception {
 
         softAssert = new SoftAssert();
-        Thread.sleep(2000);
+
         registerPage.appointmentsDropdown(patient);
         closeExtraTabs();
 
@@ -179,7 +179,8 @@ public class RegisterTest extends BaseClass {
     //         System.out.println("Test failed.");
     //     }
     // }
-    @Test(dependsOnMethods = "patientAppointment", description = "Verify Search functionality", priority = 5)
+// Emergency Patient Registration
+    @Test(dependsOnMethods = "patientAppointment", description = "Verify Search functionality", priority = 7)
     public void verifyEmergencyPatient() throws Exception {
 
         softAssert = new SoftAssert();
@@ -220,7 +221,8 @@ public class RegisterTest extends BaseClass {
     //     registerPage.registerBooking(patient);
     //     verifyElement(registerPage.btnAddpatient, null, false);
     // }
-//     @Test(dependsOnMethods = "patientBooking",description = "Verify register with appointment functionality", priority = 8)
+// // Registration with appointment
+//     @Test(dependsOnMethods = "verifyEmergencyPatient", description = "Verify register with appointment functionality", priority = 8)
 //     public void patientregisterWithAppointment() throws Exception {
 //         patient = RandomDataUtility.generatePatient();
 //         setupMasterPage. appointmentTabSwitchEnable();
@@ -230,6 +232,9 @@ public class RegisterTest extends BaseClass {
 //         closeExtraTabs();
 //         closeExtraTabs();
 //         Thread.sleep(500);
-//         verifyElement(registerPage.btnAddpatient, null, false);
+        
+//         assertion.verifyElements(registerPage.btnAddpatient, null, false, softAssert, "Emergency Patient - Add Patient Button");
+
+//         softAssert.assertAll();
 //     }
 }

@@ -1,7 +1,6 @@
 package com.electra.automation.utilities;
-
+import java.util.Locale;
 import java.util.Random;
-
 import com.electra.automation.models.OPD_Data;
 import com.electra.automation.models.PatientData;
 
@@ -17,17 +16,17 @@ public class RandomDataUtility {
     // Generate Dynamic First Name
     private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-    // Generate Dynamic First Name (Only Alphabets)
-    public static String getPatientName() {
+// Generate Dynamic Patient First Name
+// Format: Veera + 3 Random Alphabets
+public static String getPatientName() {
+    StringBuilder name = new StringBuilder("Veera");
 
-        StringBuilder name = new StringBuilder("Veera");
-
-        for (int i = 0; i < 2; i++) {
-            name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
-        }
-
-        return name.toString();
+    for (int i = 0; i < 3; i++) {
+        name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
     }
+
+    return name.toString();
+}
 
     // Generate Dynamic Mobile Number
     public static String getMobileNumber() {
@@ -42,13 +41,13 @@ public class RandomDataUtility {
     // Generate Dynamic Point Value: 90.0 - 99.9
     public static String getPointValue() {
         double value = 90.0 + (random.nextInt(100) / 10.0);
-        return String.format("%.1f", value);
+        return String.format(Locale.US, "%.1f", value);
     }
 
     // Generate Dynamic Height: 140.0 - 200.0 cm
     public static String Height() {
         double height = 140.0 + (random.nextInt(601) / 10.0);
-        return String.format("%.1f", height);
+        return String.format(Locale.US, "%.1f", height);
     }
 
 // Generate Dynamic Email
@@ -65,11 +64,11 @@ public class RandomDataUtility {
     public static String RR() {
         return String.valueOf(14 + random.nextInt(7));
     }
-    // Generate Dynamic BP: 90/60 - 140/90
-
+    // Generate Dynamic BP: 90/60 - 140/90 with systolic always greater than diastolic
     public static String BP() {
-        int systolic = 90 + random.nextInt(51);   // 90 - 140
-        int diastolic = 60 + random.nextInt(31);  // 60 - 90
+        int systolic = 90 + random.nextInt(51); // 90 - 140
+        int maxDiastolic = Math.min(90, systolic - 1);
+        int diastolic = 60 + random.nextInt(Math.max(1, maxDiastolic - 60 + 1)); // 60 - maxDiastolic
 
         return systolic + "/" + diastolic;
     }
@@ -101,19 +100,19 @@ public class RandomDataUtility {
 
         PatientData patient = new PatientData();
 
-        patient.setCategoryType("General");
-        patient.setCategoryID("General");
-        patient.setTariff("General");
+        patient.setCategoryType("Staff");
+        patient.setCategoryID("Staff Benefit");
+        patient.setTariff("Corporate & Private TPA Insurance Tariff");
         // patient.setCategoryType("Staff");
         // patient.setCategoryID("Staff Benefit");
         // patient.setTariff("Staff Patient");
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
-        patient.setDoctor("Dr Sarang D Pawar"); //Dr Roshan G
+        patient.setDoctor("Dr. Aarav Sharma"); //Dr Roshan G Dr. Aarav Sharma Dr Sarang D Pawar
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
-        patient.setLastName("Warner");
+        patient.setLastName("Kohli");
         patient.setBirthYear(TwoDigitNo());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());
@@ -150,8 +149,75 @@ public class RandomDataUtility {
         opd.setOnsetCCHP("Sudden");
         opd.setSeverity("Moderate");
         opd.setProgression("Stable");
-        
-         
+//Allergy
+        opd.setAllergy_Medicine("Latex");
+        opd.setAllergenInput("Pinnuts");
+        opd.setSeverity("Moderate");
+        opd.setAllergy_Reaction("Skin Rash");
+//Lab Test
+        opd.setLab_Test("Liver Function Test");
+        opd.setLab_Specimen("Blood");
+        opd.setPriority("Urgent");
+        opd.setlabInstruction("Fasting hrs, early morning sample");
+//Radiology
+        opd.setRad_Test("MRI Brain Plain");
+        opd.setradBodyPart("Brain");
+        opd.setrad_Indication("fracture");
+//Pharmacy -Prescription
+        opd.setPharma_Drug("Amlodipine 5mg Tablet");
+        opd.setPharma_Dose("650mg");
+        opd.setPharma_Type("Capsule");
+        opd.setPharma_Route("Oral");
+        opd.setPharma_Frequency("1-1");
+        opd.setpharmaDuration("7 days");
+        opd.setpharmaQuantity("10");
+//Procedure
+        opd.setProcedure_Input("Foley Catheterization");
+        opd.setLaterality("Right arm");
+        opd.setIndication("Diagnostic");
+//Diet Order
+        opd.setDiet_Order("Non-Veg");
+        opd.setDiet_MealFrequency("3 times/day");
+        opd.setDiet_Calorie("1800 (kcal/day)");
+        opd.setDiet_Fluid("1500 (mL/day)");
+        opd.setDiet_SpecialInstructions("Low salt, avoid fried foods");
+//ADTF Transfer
+        opd.setADTFTransferDept("General Medicine");
+        opd.setADTF_TransferUnit("General Medicine - Unit A");
+        opd.setADTF_TransferDoctor("Dr. Aarav Sharma");
+        opd.setADTF_SelectBedWard("Orthopedic Ward Male");
+        opd.setADTF_TransferReason("Patient requires specialized care in the orthopedic ward.");
+        opd.setADTFTransferRemark("Patient has a history of orthopedic issues and needs further evaluation and treatment in the orthopedic ward.");
+//ADTF Dicharge
+        opd.setEMRDischargeReason("LAMA");
+//ADTF Referral
+        opd.setEMRReferralType("External");
+        opd.setEMRReferralDisposition("Patient is being referred to an external specialist for further evaluation and management of their condition.");
+        opd.setEMRReferralRemark("Patient requires specialized care and follow-up with an external specialist to ensure optimal management of their condition.");
+        opd.setEMRReferralDepartment("General Medicine");
+        opd.setEMRReferralUnit("General Medicine - Unit A");
+        opd.setEMRReferralDoctor("Dr. Aarav Sharma");
+//Clinical Notes - SOAP
+        opd.setSoapSubjectiveInput("Patient presents with complaints of fever, fatigue");
+        opd.setSoapObjectiveInput("Vitals: BP 120/80 mmHg, Pulse 80 bpm, Temp 101°F, SpO2 98%, RR 18/min,");
+        opd.setSoapAssessmentInput("Working diagnosis: Viral infection, clinical impression: Monitor and manage symptoms");
+        opd.setSoapPlanInput("Treatment plan: Prescribe antipyretics, advise rest and hydration, follow-up in 3 days");
+        opd.setSoapDoctorInput("Dr. Aarav Sharma");
+        opd.setSoapMCIInput("MCI-12345");
+        opd.setSoapDepartmentInput("General Medicine");
+//Physical Examination
+        opd.setphysicalBuiltInput("Well-built and well-nourished");
+        opd.setPosture("Comfortable");
+        opd.setphysicalPallorInput("Absent");
+        opd.setphysicalCyanosisInput("Absent");
+        opd.setphysicalIcterusInput("Absent");
+        opd.setphysicalLymphadenopathyInput("Absent");
+        opd.setphysicalClubbingInput("Absent");
+        opd.setphysicalEdemaInput("Absent");
+        opd.setphysicalNeurocutaneousMarkersInput("Absent");
+//
+
+
 
         // patient.setSalutation("Mrs");
         // patient.setVisitType("Initial Visit");

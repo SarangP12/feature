@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BedUtility {
 
@@ -25,10 +26,7 @@ public class BedUtility {
         // Wait until at least one bed is available
         wait.waitUntil(() -> !availableElements.isEmpty(), 10);
 
-        int randomIndex = RandomDataUtility.getRandomNumber(
-                0,
-                availableElements.size() - 1
-        );
+        int randomIndex = ThreadLocalRandom.current().nextInt(availableElements.size());
 
         WebElement bed = availableElements.get(randomIndex);
 

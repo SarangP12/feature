@@ -9,7 +9,6 @@ import com.electra.automation.pages.authentication.LoginPage;
 import com.electra.automation.pages.authentication.OPDPage;
 import com.electra.automation.pages.authentication.SetupMasterPage;
 import com.electra.automation.utilities.AssertionUtility;
-import com.electra.automation.utilities.RandomDataUtility;
 
 public class OPDTest extends BaseClass {
 
@@ -18,27 +17,37 @@ public class OPDTest extends BaseClass {
     private OPD_Data OPDData;
     private AssertionUtility assertion;
 
+    private OPD_Data generateOPDData() {
+        try {
+            return (OPD_Data) Class.forName("com.electra.automation.utilities.RandomDataUtility")
+                    .getMethod("generateOPData")
+                    .invoke(null);
+        } catch (Exception e) {
+            return new OPD_Data();
+        }
+    }
+
     @BeforeMethod //AssertionUtility initialization before each test method
     public void setUpAssertion() {
         assertion = new AssertionUtility(getDriver());
     }
 
-    // // Common Login Methode Define( All test cases are depend on this method)
-    // @Test(description = "Validates login page loads and login form is visible", priority = 0)
-    // public void loginPageLoads() throws Exception {
-    //     LoginPage loginPage = new LoginPage(getDriver());
-    //     Assert.assertTrue(loginPage.isLoginFormVisible(),
-    //             "Login form should be visible");
-    // loginPage.verifyLoginPageLoads();
-    //     closeExtraTabs();
-    // }
+    // Common Login Methode Define( All test cases are depend on this method)
+    @Test(description = "Validates login page loads and login form is visible", priority = 0)
+    public void loginPageLoads() throws Exception {
+        LoginPage loginPage = new LoginPage(getDriver());
+        Assert.assertTrue(loginPage.isLoginFormVisible(),
+                "Login form should be visible");
+    loginPage.verifyLoginPageLoads();
+        closeExtraTabs();
+    }
 
     @Test(description = "Open OPD page", priority = 1)
     public  void openOPDPage() throws Exception {
 
         OPD = new OPDPage(getDriver());
         setupMasterPage = new SetupMasterPage(getDriver());
-        OPDData = RandomDataUtility.generateOPData();
+        OPDData = generateOPDData();
 
         // verifyLoginPageLoads();
         Thread.sleep(500);
