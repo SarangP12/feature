@@ -108,7 +108,7 @@ public static String getPatientName() {
         // patient.setTariff("Staff Patient");
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
-        patient.setDoctor("Dr. Aarav Sharma"); //Dr Roshan G Dr. Aarav Sharma Dr Sarang D Pawar
+        patient.setDoctor("Dr Aarav Sharma"); //Dr Roshan G Dr. Aarav Sharma Dr Sarang D Pawar
         patient.setSalutation("Mrs");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
@@ -185,7 +185,7 @@ public static String getPatientName() {
         opd.setADTFTransferDept("General Medicine");
         opd.setADTF_TransferUnit("General Medicine - Unit A");
         opd.setADTF_TransferDoctor("Dr. Aarav Sharma");
-        opd.setADTF_SelectBedWard("Orthopedic Ward Male");
+        opd.setADTF_SelectBedWard("Private & Deluxe Inpatient Wing");
         opd.setADTF_TransferReason("Patient requires specialized care in the orthopedic ward.");
         opd.setADTFTransferRemark("Patient has a history of orthopedic issues and needs further evaluation and treatment in the orthopedic ward.");
 //ADTF Dicharge

@@ -14,6 +14,8 @@ import com.electra.automation.utilities.BedUtility;
 import com.electra.automation.utilities.DropDownUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
+import com.electra.automation.utilities.DateUtility;
+
 
 public class OPDPage extends BaseClass {
 
@@ -23,11 +25,13 @@ public class OPDPage extends BaseClass {
     private BedUtility bedUtility;
     private DropDownUtility dropDownUtility;
     private ADTFUtility ADTF_Utility;
+    private DateUtility dateUtility;
 
     //Page Factory constructor
     public OPDPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        this.dateUtility = new DateUtility(driver);
 
         switchbutton = new SwitchButton(driver);
         this.wait = new WaitUtility(driver);
@@ -229,6 +233,8 @@ public class OPDPage extends BaseClass {
     @FindBy(xpath = "//button[text()=\"Admit to Ward\"]")
     private WebElement EMRTransferBtn;
 
+
+
     @FindBy(xpath = "//div[@id='sec-adtf']//input[@id=\"transferDept\"]")
     private WebElement ADTFTransferDeptInput;
 
@@ -239,7 +245,10 @@ public class OPDPage extends BaseClass {
     private WebElement ADTFTransferDoctorInput;
 
     @FindBy(xpath = "//span[normalize-space()='Select bed...']/parent::div")
-    private WebElement ADTFSelectBedInput;
+    private WebElement ADTFSelectBedBox;
+
+    @FindBy(xpath = "//input[@id='bed_modal_room']")
+    private WebElement BedSelectRoomInput;
 
     @FindBy(xpath = "//input[@id='bed_modal_ward']")
     private WebElement ADTFSelectBedWardInput;
@@ -342,10 +351,11 @@ public class OPDPage extends BaseClass {
 
     @FindBy(xpath = "//button[.//span[normalize-space()='Send Selected to ABDM']]")
     private WebElement btnSendSelectedToABDM;
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+
+    @FindBy(xpath = "//input[@id=\"admit-date\"]")
+    private WebElement ADTFadmitDateInput;
+
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]") 
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
@@ -438,7 +448,7 @@ public class OPDPage extends BaseClass {
     }
 
     public void selectADTF_SelectBed() {
-        wait.waitForElementClickable(ADTFSelectBedInput).click();
+        wait.waitForElementClickable(ADTFSelectBedBox).click();
     }
 
     public void btnEMRDischarge() {
@@ -460,8 +470,8 @@ public class OPDPage extends BaseClass {
     public void btnbtnSendSelectedToABDM() {
         wait.waitForElementClickable(btnSendSelectedToABDM).click();
     }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnBed_ADTF() {
+    //     wait.waitForElementClickable(ADTFSelectBedBox).click();
     // }
     //     public void btnDiagnosisAdd() {
     //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
@@ -913,12 +923,17 @@ public class OPDPage extends BaseClass {
     public void selectEdema(String Edema) throws Exception {
         dropDownUtility.selectReactOption(PhysicalExaminationEdemaInput, Edema);
     }
-    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
-    //         public void selectCC_HPSymptoms(String Symptoms) throws Exception {
-    //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
-    // }
+        public void selectRoom_Bed(String Room) throws Exception {
+        dropDownUtility.selectReactOption(BedSelectRoomInput, Room);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////
+    // Date picker method to select the date from the calendar
+/////////////////////////////////////////////////////////////////////////////////
+
+        public void selectADTFadmitDateInput(String AdmtDate) throws Exception {
+        dateUtility.selectDate(ADTFadmitDateInput, AdmtDate);
+    }
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
@@ -1063,16 +1078,22 @@ public class OPDPage extends BaseClass {
 //             EMRReferralRemarkInput(Opd.getEMRReferralRemark());
 //             ADTF_Utility.markOperationSelected();
 //         }
-//ADTF Transfer
+//ADTF Admit new patient
         btnEMRTransfer();
-        selectADTFTransferDept(Opd.getADTFTransferDept());
-        selectADTF_TransferUnit(Opd.getADTF_TransferUnit());
-        selectADTF_TransferDoctor(Opd.getADTF_TransferDoctor());
         selectADTF_SelectBed();
+
         selectADTF_SelectBedWard(Opd.getADTF_SelectBedWard());
+        selectRoom_Bed("Private AC Room 201");
         selectRandomAvailableBeds();
-        ADTFTransferReasonInput(Opd.getADTF_TransferReason());
-        ADTFTransferRemarkInput(Opd.getADTFTransferRemark());
+        selectADTFadmitDateInput("13/10/2026");
+
+        //Transfer Bedafter IPD
+        // ADTFTransferReasonInput(Opd.getADTF_TransferReason());
+        // ADTFTransferRemarkInput(Opd.getADTFTransferRemark());
+
+        // selectADTFTransferDept(Opd.getADTFTransferDept());    
+        // selectADTF_TransferUnit(Opd.getADTF_TransferUnit());
+        // selectADTF_TransferDoctor(Opd.getADTF_TransferDoctor());
 //ADTF Dicharge
         // btnEMRDischarge();
         // selectEMRDischargeReason(Opd.getEMRDischargeReason());
