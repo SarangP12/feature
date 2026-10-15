@@ -16,6 +16,7 @@ import com.electra.automation.utilities.RandomDataUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
 import com.electra.automation.utilities.BedUtility;
+import com.electra.automation.utilities.CheckboxUtility;
 
 public class RegisterPage extends BaseClass {
 
@@ -24,6 +25,7 @@ public class RegisterPage extends BaseClass {
     private WaitUtility wait;
     private BedUtility bedUtility;
     private DropDownUtility dropDownUtility;
+    private CheckboxUtility checkboxUtility;
 
 
     //Page Factory constructor
@@ -35,6 +37,7 @@ public class RegisterPage extends BaseClass {
         this.wait = new WaitUtility(driver);
         this.bedUtility = new BedUtility(driver);
         this.dropDownUtility = new DropDownUtility(driver);
+        this.checkboxUtility = new CheckboxUtility(driver);
     }
     // Click Action button Master
     @FindBy(xpath = "//button[@class=\"flex items-center p-1 rounded-lg text-base dark:bg-dark/40 hover:text-teal-500 dark:hover:bg-dark/60 cursor-pointer\"]")

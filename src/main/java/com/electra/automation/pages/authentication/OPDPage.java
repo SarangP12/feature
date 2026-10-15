@@ -15,6 +15,7 @@ import com.electra.automation.utilities.DropDownUtility;
 import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
 import com.electra.automation.utilities.DateUtility;
+import com.electra.automation.utilities.CheckboxUtility;
 
 
 public class OPDPage extends BaseClass {
@@ -26,6 +27,7 @@ public class OPDPage extends BaseClass {
     private DropDownUtility dropDownUtility;
     private ADTFUtility ADTF_Utility;
     private DateUtility dateUtility;
+    private CheckboxUtility checkboxUtility;
 
     //Page Factory constructor
     public OPDPage(WebDriver driver) {
@@ -38,6 +40,7 @@ public class OPDPage extends BaseClass {
         this.bedUtility = new BedUtility(driver);
         this.ADTF_Utility = new ADTFUtility();
         this.dropDownUtility = new DropDownUtility(driver);
+        this.checkboxUtility = new CheckboxUtility(driver);
     }
     //Webelement for OPD All Buttons fields
 
@@ -313,7 +316,7 @@ public class OPDPage extends BaseClass {
     @FindBy(xpath = "//div[@id=\"sec-soap\"]//input[@placeholder=\"e.g., MCI-12345\"]")
     private WebElement EMRSoapMCIInput;
 
-    @FindBy(xpath = "e.g., General Medicine MBBS MD")
+    @FindBy(xpath = "//input[@placeholder=\"e.g., General Medicine MBBS MD\"]")
     private WebElement EMRSoapDepartmentInput;
 
     @FindBy(xpath = "//div[@id=\"sec-physical-examination\"]//input[starts-with(@placeholder,'Built / Nourishment')]")
@@ -349,23 +352,17 @@ public class OPDPage extends BaseClass {
     @FindBy(xpath = "/html/body/div[1]/div[1]/div/div[2]/main/div/div[2]/div/div[4]/div[3]/div[3]/div[2]/div[2]/div[2]/div[1]")
     private WebElement OPDToastMessageElement;
 
-    @FindBy(xpath = "//button[.//span[normalize-space()='Send Selected to ABDM']]")
+    @FindBy(xpath = "//button[normalize-space()='Submit + Send ABDM']")
     private WebElement btnSendSelectedToABDM;
 
     @FindBy(xpath = "//input[@id=\"admit-date\"]")
     private WebElement ADTFadmitDateInput;
 
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]") 
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
-    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
-    // // private WebElement btnOPDImgAll;
+    @FindBy(xpath = "//div[@role='checkbox'][.//span[normalize-space()='Patient Informed Consent Granted']]") 
+    private WebElement ABDMConsentCheckBox;
+
+    @FindBy(xpath = "//button[.//span[normalize-space()='Send Selected to ABDM']]")
+    private WebElement btnSendSelectedABDM;
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
@@ -380,6 +377,14 @@ public class OPDPage extends BaseClass {
     // // private WebElement btnOPDImgAll;
     // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
     // // private WebElement btnOPDImgAll;
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    // // @FindBy(xpath = "//img[@alt=\"OPD\"]")
+    // // private WebElement btnOPDImgAll;
+    
+    @FindBy(xpath = "//a[text()=\"OPD\"]")
+    private WebElement btnEMROPDMenuElement;
 
     @FindBy(xpath = "//input[@placeholder=\"Search name, UHID, mobile, OP/IP no...\"]")
     private WebElement searchPatientInputElement;
@@ -470,12 +475,10 @@ public class OPDPage extends BaseClass {
     public void btnbtnSendSelectedToABDM() {
         wait.waitForElementClickable(btnSendSelectedToABDM).click();
     }
-    //     public void btnBed_ADTF() {
-    //     wait.waitForElementClickable(ADTFSelectBedBox).click();
-    // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
-    // }
+
+        public void btnSendSelected_ToABDM() {
+        wait.waitForElementClickable(btnSendSelectedABDM).click();
+    }
     //     public void btnDiagnosisAdd() {
     //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
     // }
@@ -928,7 +931,7 @@ public class OPDPage extends BaseClass {
     }
 
 /////////////////////////////////////////////////////////////////////////////////
-    // Date picker method to select the date from the calendar
+    // Date picker method to select the date from the calendarUtility class
 /////////////////////////////////////////////////////////////////////////////////
 
         public void selectADTFadmitDateInput(String AdmtDate) throws Exception {
@@ -937,6 +940,14 @@ public class OPDPage extends BaseClass {
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
+
+////////////////////////////////////////////////////////////////////////////////
+    //  Checkbox Utility for CheckBox
+////////////////////////////////////////////////////////////////////////////////
+        public void btnABDMConsentCheckBox() {
+        checkboxUtility.checkCheckbox(ABDMConsentCheckBox);
+    }
+
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
@@ -1047,37 +1058,6 @@ public class OPDPage extends BaseClass {
         dietSpecialInstructionsInput(Opd.getDiet_SpecialInstructions());
         btnDiet_AddRow();
 
-// // ADTF Transfer
-//         if (ADTF_Utility.isOperationAvailable()) {
-
-//             btnEMRTransfer();
-//             selectADTFTransferDept(Opd.getADTFTransferDept());
-//             selectADTF_TransferUnit(Opd.getADTF_TransferUnit());
-//             selectADTF_TransferDoctor(Opd.getADTF_TransferDoctor());
-//             selectADTF_SelectBed();
-//             selectADTF_SelectBedWard(Opd.getADTF_SelectBedWard());
-//             selectRandomAvailableBeds();
-//             ADTFTransferReasonInput(Opd.getADTF_TransferReason());
-//             ADTFTransferRemarkInput(Opd.getADTFTransferRemark());
-
-//             ADTF_Utility.markOperationSelected();
-//         }
-
-// // ADTF Discharge
-//         if (ADTF_Utility.isOperationAvailable()) {
-//             btnEMRDischarge();
-//             selectEMRDischargeReason(Opd.getEMRDischargeReason());
-//             ADTF_Utility.markOperationSelected();
-//         }
-
-// // ADTF Referral
-//         if (ADTF_Utility.isOperationAvailable()) {
-//             btnEMRReferral();
-//             selectEMRReferralType(Opd.getEMRReferralType());
-//             EMRReferralDispositionInput(Opd.getEMRReferralDisposition());
-//             EMRReferralRemarkInput(Opd.getEMRReferralRemark());
-//             ADTF_Utility.markOperationSelected();
-//         }
 //ADTF Admit new patient
         btnEMRTransfer();
         selectADTF_SelectBed();
@@ -1127,8 +1107,12 @@ public class OPDPage extends BaseClass {
         physicalMarkersInput(Opd.getphysicalNeurocutaneousMarkersInput());
 //Submit the OPD Form
         btn_ReviewSubmit();
-        btnOPDToastMessageElement();
+        //btnOPDToastMessageElement();
         btnbtnSendSelectedToABDM();
+        btnABDMConsentCheckBox();
+        btnSendSelected_ToABDM();
+        
+        Thread.sleep(3000);
 
     }
 

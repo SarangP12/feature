@@ -12,6 +12,7 @@ import com.electra.automation.pages.authentication.RegisterPage;
 import com.electra.automation.pages.authentication.SetupMasterPage;
 import com.electra.automation.utilities.AssertionUtility;
 import com.electra.automation.utilities.RandomDataUtility;
+import com.electra.automation.utilities.CheckboxUtility;
 
 public class RegisterTest extends BaseClass {
 
@@ -20,6 +21,7 @@ public class RegisterTest extends BaseClass {
     private PatientData patient;
     private AssertionUtility assertion;
     SoftAssert softAssert;
+
 
     //AssertionUtility initialization before each test method
     @BeforeMethod
@@ -123,26 +125,15 @@ public class RegisterTest extends BaseClass {
         // // Verify Duplicate Patient Toast
         // assertion.verifyElements(registerPage.PatientDuplicateToast, "Warning\r\n" + //
         //                 "This patient is already registered. Existing patient details were kept unchanged; the appointment/visit was processed successfully.", true, softAssert, "Duplicate Patient Toast");
-        closeExtraTabs();
-        // // Final result
-        // softAssert.assertAll();
-    }
-    // @Test(dependsOnMethods = "verifyPatientRegistration", description = "Verify duplicate registration", priority = 4)
-    // public void duplicateRegistration() throws Exception {
-
-    //     System.out.println(patient.getFirstName());
-    //     System.out.println(patient.getMobile());
-    //     System.out.println(patient.getAddress());
-    //     registerPage.duplicateRegister(patient);
-    //     registerPage.clickSubmit();
-    //     try {
+        //try {
     //         assertion.verifyElement(registerPage.PatientDuplicateToast, "Patient already exists", true);
     //     } catch (Exception e) {
     //         System.out.println("DuplicateToast failed.");
     //     }
-    //     closeExtraTabs();
-    //     // registerPage.clickSwitchtoList();
-    // }
+        closeExtraTabs();
+        
+    }
+
 // Verify Search functionality
     @Test(dependsOnMethods = "duplicateRegistration", description = "Verify Search functionality", priority = 5)
     public void verifyPatientSearch() throws Exception {
@@ -167,18 +158,6 @@ public class RegisterTest extends BaseClass {
         softAssert.assertAll();
     }
 
-    // @Test(dependsOnMethods = "verifyPatientSearch", description = "Verify Apppintment functionality", priority = 6)
-    // public void patientAppointment() throws Exception {
-    //     Thread.sleep(2000);
-    //     registerPage.appointmentsDropdown(patient);
-    //     closeExtraTabs();
-    //     try {
-    //         // verifyElement(registerPage.PatientDuplicateToast,"Patient already exists",true);
-    //         assertion.verifyElement(registerPage.btnAddpatient, null, false);
-    //     } catch (Exception e) {
-    //         System.out.println("Test failed.");
-    //     }
-    // }
 // Emergency Patient Registration
     @Test(dependsOnMethods = "patientAppointment", description = "Verify Search functionality", priority = 7)
     public void verifyEmergencyPatient() throws Exception {

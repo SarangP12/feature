@@ -1,8 +1,12 @@
 package com.electra.automation.testcases.authentication;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import com.electra.automation.base.BaseClass;
 import com.electra.automation.models.OPD_Data;
 import com.electra.automation.pages.authentication.LoginPage;
@@ -10,13 +14,16 @@ import com.electra.automation.pages.authentication.OPDPage;
 import com.electra.automation.pages.authentication.SetupMasterPage;
 import com.electra.automation.utilities.AssertionUtility;
 
+
 public class OPDTest extends BaseClass {
 
     private SetupMasterPage setupMasterPage;
     private OPDPage OPD;
     private OPD_Data OPDData;
     private AssertionUtility assertion;
+    private SoftAssert softAssert;
 
+    
     private OPD_Data generateOPDData() {
         try {
             return (OPD_Data) Class.forName("com.electra.automation.utilities.RandomDataUtility")
@@ -48,6 +55,7 @@ public class OPDTest extends BaseClass {
         OPD = new OPDPage(getDriver());
         setupMasterPage = new SetupMasterPage(getDriver());
         OPDData = generateOPDData();
+        softAssert = new SoftAssert();
 
         // verifyLoginPageLoads();
         Thread.sleep(500);
@@ -56,6 +64,8 @@ public class OPDTest extends BaseClass {
         // OPD.clickLogInExitLocation(); //-- Without location access
 
         OPD.patientEMREHRRecord(OPDData);
+
+        softAssert.assertAll();
     }
 
 }
