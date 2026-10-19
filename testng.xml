@@ -19,4 +19,4 @@
     </test>
 </suite>
 <!-- TestNG File Run karne ke liye Command  -->
- <!-- mvn test "-Dsurefire.suiteXmlFiles=testng.xml" -->
+ <!-- mvn test "-Dsurefire.=suiteXmlFilestestng.xml" -->

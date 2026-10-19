@@ -160,7 +160,7 @@ public static String getPatientName() {
         opd.setPriority("Urgent");
         opd.setlabInstruction("Fasting hrs, early morning sample");
 //Radiology
-        opd.setRad_Test("MRI Brain Plain");
+        opd.setRad_Test("MRI Brain  Plain");
         opd.setradBodyPart("Brain");
         opd.setrad_Indication("fracture");
 //Pharmacy -Prescription

@@ -1,7 +1,5 @@
 package com.electra.automation.testcases.authentication;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
