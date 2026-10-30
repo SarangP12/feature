@@ -17,6 +17,9 @@ import com.electra.automation.utilities.SwitchButton;
 import com.electra.automation.utilities.WaitUtility;
 import com.electra.automation.utilities.BedUtility;
 import com.electra.automation.utilities.CheckboxUtility;
+import java.math.BigDecimal;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 public class RegisterPage extends BaseClass {
 
@@ -27,8 +30,10 @@ public class RegisterPage extends BaseClass {
     private DropDownUtility dropDownUtility;
     private CheckboxUtility checkboxUtility;
 
-
+    ////////////////////////////////////////////////////////////
     //Page Factory constructor
+    ////////////////////////////////////////////////////////////
+    
     public RegisterPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -39,7 +44,10 @@ public class RegisterPage extends BaseClass {
         this.dropDownUtility = new DropDownUtility(driver);
         this.checkboxUtility = new CheckboxUtility(driver);
     }
-    // Click Action button Master
+
+    ////////////////////////////////////////////////////////////
+    // Webpage Webelement- Findby 
+    ///////////////////////////////////////////////////////////
     @FindBy(xpath = "//button[@class=\"flex items-center p-1 rounded-lg text-base dark:bg-dark/40 hover:text-teal-500 dark:hover:bg-dark/60 cursor-pointer\"]")
     private WebElement btnAllMenuElement;
 
@@ -207,8 +215,10 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath = "//div[text()=\"Patient already exists\"]")
     public WebElement PatientDuplicateToast;
 
-    /////////////////////////////////////////////////
-    /// Locate all element in the lists 
+    ////////////////////////////////////////////////////////////
+    /// Locate all element in the lists /
+    /// ///////////////////////////////////////////////////////
+
     @FindBy(xpath = "//button[not(@disabled) and .//div[normalize-space()='Available']]")
     private List<WebElement> availableElements;
 
@@ -218,8 +228,33 @@ public class RegisterPage extends BaseClass {
     @FindBy(xpath = "//div[@class='appointment-success']")
     private WebElement successMessage;
 
-    //Given is Webelement Access Methods 
-    // Dropdown Selection Methods - React option selection define in the DropDown Utility class
+// Registration generated Patient ID
+    @FindBy(xpath = "YOUR_PATIENT_ID_XPATH")
+    private WebElement generatedPatientId;
+
+    /////////////////////////////////////////////////////////////////////////////
+/// Webpage se text or value return karne ke liye methods
+/// /////////////////////////////////////////////////////////////////////////
+
+// Appointment bill amount
+    @FindBy(xpath = "//form[@data-electra-form='true']//div[normalize-space()='Appointment Information']/following::span[normalize-space()='Total']/following-sibling::span")
+    private WebElement AppointmenttotalAmount;
+
+    public String getAppointmenttotalAmount() {
+        return AppointmenttotalAmount.getText().trim();
+    }
+// Registration bill amount
+    @FindBy(xpath = "//form[@data-electra-form='true']//span[normalize-space()='Registration Charges']/following::span[normalize-space()='Total']/following-sibling::span")
+    private WebElement RegtotalAmount;
+
+    public String getRegistrationtotalAmount() {
+        return RegtotalAmount.getText().trim();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+/// Dropdown methods - react searchable methods 
+/// //////////////////////////////////////////////////////////////////////
+    
     public void patientEMRKinsRelation(String relation) throws Exception {
         dropDownUtility.selectReactOption(patEMRKinsRelationInput, relation);
     }
@@ -287,38 +322,42 @@ public class RegisterPage extends BaseClass {
     public void selectAppointmentSearch(String category) throws Exception {
         dropDownUtility.selectReactOption(appointmentSearchPatienetInput, category);
     }
-//Button Methods 
+
+    ////////////////////////////////////////////////////////////////////
+//Button Clicks Methods 
+////////////////////////////////////////////////////////////////////
+/// 
+    // public void clickSearch() {
+    //     // wait.clickElement(btnSearch);
+    //     wait.waitForElementClickable(btnSearch).click();
+    // }
 
     public void clickSearch() {
-        // wait.clickElement(btnSearch);
-        wait.waitForElementClickable(btnSearch).click();
+        clickElement(btnSearch);
     }
 
     public void clickCheckboxEmergency() {
-        wait.waitForElementClickable(btnClickEmergency).click();
+        clickElement(btnClickEmergency);
     }
 
     public void clickBooking() {
-        // wait.clickElement(btnBookings);
-        wait.waitForElementClickable(btnBookings).click();
+        clickElement(btnBookings);
     }
 
     public void clickAppointment() {
-        wait.waitForElementClickable(btnAppointment).click();
+        clickElement(btnAppointment);
     }
 
     public void clickSwitchtoList() {
-        // wait.clickElement(btnSwitchtoListDetails);
-        wait.waitForElementClickable(btnSwitchtoListDetails).click();
+        clickElement(btnSwitchtoListDetails);
     }
 
     public void clickLogInExitLocation() {
-        // wait.clickElement(logInExitLocation);
-        wait.waitForElementClickable(logInExitLocation).click();
+        clickElement(logInExitLocation);
     }
 
     public void clickAllMenuButton() {
-        wait.waitForElementClickable(btnAllMenuElement).click();
+        clickElement(btnAllMenuElement);
     }
 
     public void enableRegistrationWithAppointment() {
@@ -326,146 +365,119 @@ public class RegisterPage extends BaseClass {
     }
 
     public void clickRegistrationImagebtn() {
-        wait.waitForElementClickable(btnRegImgAll).click();
+        clickElement(btnRegImgAll);
     }
 
     public void ClickPatientsRegistration() {
-        wait.waitForElementClickable(btnClickPatients).click();
+        clickElement(btnClickPatients);
     }
 
     public void clickConfirm() {
-        wait.waitForElementClickable(confirmButton).click();
-
+        clickElement(confirmButton);
     }
 
     public void AddPatientClick() {
-        wait.waitForElementClickable(btnAddpatient).click();
+        clickElement(btnAddpatient);
     }
 
     public void clickSubmit() {
-        // wait.clickElement(btnSubmit);
-        wait.waitForElementClickable(btnSubmit).click();
+        clickElement(btnSubmit);
     }
 
     public void clickOtherDetails() {
-        // wait.clickElement(btnOtherDetails);
-        wait.waitForElementClickable(btnOtherDetails).click();
+        clickElement(btnOtherDetails);
     }
 
     public void clickSameAsCurrentAddress() {
-        //    wait.clickElement(btnSameAsCurrentAddress);
-        wait.waitForElementClickable(btnSameAsCurrentAddress).click();
+        clickElement(btnSameAsCurrentAddress);
     }
 
     //Input Texts Methods 
+    /////////////////////////////////////////////////////////////////
+    // Code line come karne ke liye configure code
+    // ///////////////////////////////////////////////////////////////
+
+    // public void patientFirstName(String Fname) {
+    //     wait.waitForElementVisible(firstNameInput);
+    //     firstNameInput.clear();
+    //     firstNameInput.sendKeys(Fname);
+    // } 
+
     public void patientFirstName(String Fname) {
-        wait.waitForElementVisible(firstNameInput);
-        firstNameInput.clear();
-        firstNameInput.sendKeys(Fname);
+        enterText(firstNameInput, Fname);
     }
 
     public void patientGender(String gender) {
-        wait.waitForElementVisible(patBookingGenderInput);
-        patBookingGenderInput.clear();
-        patBookingGenderInput.sendKeys(gender);
+        enterText(patBookingGenderInput, gender);
     }
 
     public void bookingPatAge(String age) {
-        wait.waitForElementVisible(patBookingAgeInput);
-        patBookingAgeInput.clear();
-        patBookingAgeInput.sendKeys(age);
+        enterText(patBookingAgeInput, age);
     }
 
     public void patienttName(String Fname) {
-        wait.waitForElementVisible(patientNameInput);
-        patientNameInput.clear();
-        patientNameInput.sendKeys(Fname);
+        enterText(patientNameInput, Fname);
     }
 
     public void patientLastName(String Lname) {
-        wait.waitForElementVisible(lastNameInput);
-        lastNameInput.clear();
-        lastNameInput.sendKeys(Lname);
+        enterText(lastNameInput, Lname);
     }
 
     public void patientBirthYear(String year) {
-        wait.waitForElementVisible(patientBirthYearinput);
-        patientBirthYearinput.clear();
-        patientBirthYearinput.sendKeys(year);
+        enterText(patientBirthYearinput, year);
     }
 
     public void patientmobile(String mobile) {
-        wait.waitForElementVisible(patientMobileinput);
-        patientMobileinput.clear();
-        patientMobileinput.sendKeys(mobile);
+        enterText(patientMobileinput, mobile);
     }
 
     public void patientAdress(String adress) {
-        wait.waitForElementVisible(patient_addressinput);
-        patient_addressinput.clear();
-        patient_addressinput.sendKeys(adress);
+        enterText(patient_addressinput, adress);
     }
 
     public void patientEmail(String email) {
-        wait.waitForElementVisible(patientEmailInput);
-        patientEmailInput.clear();
-        patientEmailInput.sendKeys(email);
+        enterText(patientEmailInput, email);
     }
 
     public void patientEmail1(String email) {
-        wait.waitForElementVisible(searchInput);
-        searchInput.clear();
-        searchInput.sendKeys(email);
+        enterText(searchInput, email);
     }
 
     public void patientFirstName1(String Fname) {
-        wait.waitForElementVisible(searchInput);
-        searchInput.clear();
-        searchInput.sendKeys(Fname);
+        enterText(searchInput, Fname);
     }
 
     public void patientLastName1(String Lname) {
-        wait.waitForElementVisible(searchInput);
-        searchInput.clear();
-        searchInput.sendKeys(Lname);
+        enterText(searchInput, Lname);
     }
 
     public void patientBirthYear1(String year) {
-        wait.waitForElementVisible(searchInput);
-        searchInput.clear();
-        searchInput.sendKeys(year);
+        enterText(searchInput, year);
     }
 
     public void patientMobile(String mobile) {
-        wait.waitForElementVisible(searchInput);
-        searchInput.clear();
-        searchInput.sendKeys(mobile);
+        enterText(searchInput, mobile);
     }
 
     public void patientEMRNextToKin(String kin) {
-        wait.waitForElementVisible(patEMRNextToKinInput);
-        patEMRNextToKinInput.clear();
-        patEMRNextToKinInput.sendKeys(kin);
+        enterText(patEMRNextToKinInput, kin);
     }
 
     public void patientEMRKinsContact(String contact) {
-        wait.waitForElementVisible(patEMRKinsContactInput);
-        patEMRKinsContactInput.clear();
-        patEMRKinsContactInput.sendKeys(contact);
+        enterText(patEMRKinsContactInput, contact);
     }
 
     public void patientEMRKinsAddress(String address) {
-        wait.waitForElementVisible(patEMRKinsAdressInput);
-        patEMRKinsAdressInput.clear();
-        patEMRKinsAdressInput.sendKeys(address);
+        enterText(patEMRKinsAdressInput, address);
     }
 
     public void patientKinsContactNumber(String contactNumber) {
-        wait.waitForElementVisible(patEMRKinsContactNumberInput);
-        patEMRKinsContactNumberInput.clear();
-        patEMRKinsContactNumberInput.sendKeys(contactNumber);
+        enterText(patEMRKinsContactNumberInput, contactNumber);
     }
+
+    /////////////////////////////////////////////////////////////////
 //Click on the Registration Menu and open the Patient Registration Page
+/////////////////////////////////////////////////////////////////
 
     public void patientRegistrationMenu() throws Exception {
 
@@ -476,35 +488,29 @@ public class RegisterPage extends BaseClass {
         AddPatientClick();
     }
 
+    /////////////////////////////////////////////////////////////////
 // Selecting Random Available Slot from the list of available slots
-    // public void selectRandomAvailableSlot() {
+/////////////////////////////////////////////////////////////////
 
+    // public void selectRandomAvailableSlot() {
     //     // Wait until at least one slot is available
     //     wait.waitUntil(() -> !availableSlots.isEmpty(), 10);
-
     //     int randomIndex = RandomDataUtility.getRandomNumber(0, availableSlots.size() - 1);
-
     //     WebElement slot = availableSlots.get(randomIndex);
-
     //     wait.waitForElementClickable(slot);
-
     //     String slotTime = slot.findElement(By.tagName("span")).getText();
-
     //     System.out.println("Selected Slot : " + slotTime);
-
     //     slot.click();
-
     //     wait.waitForElementClickable(confirmButton);
     //     confirmButton.click();
     // }
     public void selectRandomAvailableSlots() {
 
-    bedUtility.selectRandomAvailable(
-            availableElements,
-            confirmButton
-    );
-}
-
+        bedUtility.selectRandomAvailable(
+                availableElements,
+                confirmButton
+        );
+    }
 
     //reduce test code Methods 
     public void searchPatient(PatientData patient) throws Exception {
@@ -545,7 +551,6 @@ public class RegisterPage extends BaseClass {
         selectRandomAvailableSlots();
 
         // selectRandomAvailableSlot();
-
         // clickConfirm();
         selectAppointmentVisitType(patient.getVisitType());
 

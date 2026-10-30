@@ -1,28 +1,54 @@
 package com.electra.automation.base;
 
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
 import com.electra.automation.reports.ExtentReportManager;
 import com.electra.automation.utilities.ConfigReader;
 import com.electra.automation.utilities.ScreenshotUtility;
 import com.electra.automation.utilities.WaitUtility;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.WebDriver;
-import org.testng.ITestResult;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
-import org.openqa.selenium.TimeoutException;
 
 public class BaseClass {
 
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final ThreadLocal<WebElement> failedElementThreadLocal = new ThreadLocal<>();
+
+    protected WebDriver driver;
     private WaitUtility wait;
+
+    /////////////////////////////////////////////////////
+// Lazy Initialization of WaitUtility
+/////////////////////////////////////////////////////
+
+protected WaitUtility getWait() {
+
+        if (wait == null) {
+
+            WebDriver currentDriver = getDriver();
+
+            if (currentDriver == null) {
+                throw new IllegalStateException(
+                        "WebDriver is not initialized. Execute setUp() first."
+                );
+            }
+
+            wait = new WaitUtility(currentDriver);
+        }
+
+        return wait;
+    }
 
     public WebDriver getDriver() {
         return driverThreadLocal.get();
@@ -50,22 +76,58 @@ public class BaseClass {
     }
 
     //Browser Method Define
-    @BeforeSuite(alwaysRun = true)//-----Change @BeforeMethod >> Chage @BeforeClass >> @BeforeSuite(TestNG.XML)
+    // @BeforeSuite(alwaysRun = true)//-----Change @BeforeMethod >> Chage @BeforeClass >> @BeforeSuite(TestNG.XML)
+    // @Parameters({"browser", "environment"})
+    // public void setUp(@Optional("chrome") String browser, @Optional("qa") String environment) {
+    //     WebDriver driver = DriverFactory.createDriver(browser);
+    //     driver.manage().window().maximize();
+    //     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+    //     driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+    //     driver.get(ConfigReader.getValue("base.url"));
+    //     driverThreadLocal.set(driver);
+    //     // initialize WaitUtility for this driver
+    //     this.wait = new WaitUtility(driver);
+    //     ExtentReportManager.createTest(getClass().getSimpleName() + " :: " + browser);
+    //     System.out.println("===== Chrome Browser Started =====");
+    // }
+    /////////////////////////////////////////////////////////////////
+    /// Brower Setup 
+/////////////////////////////////////////////////////////////////
+    @BeforeSuite(alwaysRun = true)
     @Parameters({"browser", "environment"})
-    public void setUp(@Optional("chrome") String browser, @Optional("qa") String environment) {
-        WebDriver driver = DriverFactory.createDriver(browser);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        driver.get(ConfigReader.getValue("base.url"));
-        driverThreadLocal.set(driver);
-        // initialize WaitUtility for this driver
-        this.wait = new WaitUtility(driver);
-        ExtentReportManager.createTest(getClass().getSimpleName() + " :: " + browser);
-        System.out.println("===== Chrome Browser Started =====");
+    public void setUp(
+            @Optional("chrome") String browser,
+            @Optional("qa") String environment) {
+
+        WebDriver newDriver = DriverFactory.createDriver(browser);
+
+        driverThreadLocal.set(newDriver);
+
+        this.driver = newDriver;
+
+        newDriver.manage().window().maximize();
+
+        newDriver.manage().timeouts()
+                .implicitlyWait(Duration.ofSeconds(5));
+
+        newDriver.manage().timeouts()
+                .pageLoadTimeout(Duration.ofSeconds(30));
+
+        newDriver.get(ConfigReader.getValue("base.url"));
+
+        this.wait = new WaitUtility(newDriver);
+
+        ExtentReportManager.createTest(
+                getClass().getSimpleName() + " :: " + browser
+        );
+
+        System.out.println("===== Browser Started =====");
     }
 
+    /////////////////////////////////////////////////////////////////
     //Close Browser after test/class execution
+/////////////////////////////////////////////////////////////////
+/// 
     @AfterSuite(alwaysRun = true)//---Change @BeforeMethod >> Chage @BeforeClass >> @BeforeSuite(TestNG.XML)
     public void closeBrowser() {
         WebDriver driver = getDriver();
@@ -80,7 +142,10 @@ public class BaseClass {
         System.out.println("===== Chrome Browser Closed =====");
     }
 
+    /////////////////////////////////////////////////////////////////
 // // Agar exactly 2 seconds baad close karna hai
+/////////////////////////////////////////////////////////////////
+/// 
 // public void closeExtraTabs() {
 //     WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 //     // Wait until new tab opens
@@ -101,51 +166,58 @@ public class BaseClass {
 //     getDriver().switchTo().window(parentWindow);
 // }
 
-   public void closeExtraTabs() {
+/////////////////////////////////////////////////////////////////
+/// Close Browser extra tab
+/// ////////////////////////////////////////////////////////////
 
-    String parentWindow = getDriver().getWindowHandle();
+    public void closeExtraTabs() {
 
-    WebDriverWait wait =
-            new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        String parentWindow = getDriver().getWindowHandle();
 
-    try {
+        WebDriverWait wait
+                = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
-        // Maximum 20 sec wait karo extra tab ke liye
-        wait.until(driver -> driver.getWindowHandles().size() > 1);
+        try {
 
-    } catch (TimeoutException e) {
+            // Maximum 20 sec wait karo extra tab ke liye
+            wait.until(driver -> driver.getWindowHandles().size() > 1);
 
-        // 20 sec mein extra tab nahi aaya
-        // Koi error nahi, next process continue
-        return;
-    }
+        } catch (TimeoutException e) {
 
-    // Ab saare currently opened windows lo
-    Set<String> allWindows =
-            new HashSet<>(getDriver().getWindowHandles());
+            // 20 sec mein extra tab nahi aaya
+            // Koi error nahi, next process continue
+            return;
+        }
 
-    // Saare extra tabs close karo
-    for (String windowHandle : allWindows) {
+        // Ab saare currently opened windows lo
+        Set<String> allWindows
+                = new HashSet<>(getDriver().getWindowHandles());
 
-        if (!windowHandle.equals(parentWindow)) {
+        // Saare extra tabs close karo
+        for (String windowHandle : allWindows) {
 
-            getDriver().switchTo().window(windowHandle);
-            getDriver().close();
+            if (!windowHandle.equals(parentWindow)) {
+
+                getDriver().switchTo().window(windowHandle);
+                getDriver().close();
+            }
+        }
+
+        // Main/parent tab par wapas
+        getDriver().switchTo().window(parentWindow);
+
+        // Tabs close hone ke baad 20 sec wait
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
-    // Main/parent tab par wapas
-    getDriver().switchTo().window(parentWindow);
-
-    // Tabs close hone ke baad 20 sec wait
-    try {
-        Thread.sleep(2000);
-    } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-    }
-}
-
+    /////////////////////////////////////////////////////////////////////
 // Captured Screenshot for failed test cases
+/////////////////////////////////////////////////////////////////////
+/// 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) throws Exception {
         switch (result.getStatus()) {
@@ -166,6 +238,44 @@ public class BaseClass {
         }
         clearFailedElement();
         ExtentReportManager.clearTest();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+/// text sendkey Element code reduced method
+/// ///////////////////////////////////////////////////////////////////////
+
+// Click Element
+protected void clickElement(WebElement element) {
+
+        getWait().waitForElementClickable(element).click();
+    }
+
+// Enter Text
+    protected void enterText(WebElement element, String value) {
+
+        getWait().waitForElementVisible(element);
+
+        element.clear();
+
+        if (value != null && !value.isEmpty()) {
+            element.sendKeys(value);
+        }
+    }
+
+// Get Text
+    protected String getElementText(WebElement element) {
+
+        getWait().waitForElementVisible(element);
+
+        return element.getText();
+    }
+
+// Clear Text
+    protected void clearText(WebElement element) {
+
+        getWait().waitForElementVisible(element);
+
+        element.clear();
     }
 
 }

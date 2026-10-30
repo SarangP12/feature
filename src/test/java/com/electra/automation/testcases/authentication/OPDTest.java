@@ -12,7 +12,6 @@ import com.electra.automation.pages.authentication.OPDPage;
 import com.electra.automation.pages.authentication.SetupMasterPage;
 import com.electra.automation.utilities.AssertionUtility;
 
-
 public class OPDTest extends BaseClass {
 
     private SetupMasterPage setupMasterPage;
@@ -21,7 +20,6 @@ public class OPDTest extends BaseClass {
     private AssertionUtility assertion;
     private SoftAssert softAssert;
 
-    
     private OPD_Data generateOPDData() {
         try {
             return (OPD_Data) Class.forName("com.electra.automation.utilities.RandomDataUtility")
@@ -43,12 +41,12 @@ public class OPDTest extends BaseClass {
         LoginPage loginPage = new LoginPage(getDriver());
         Assert.assertTrue(loginPage.isLoginFormVisible(),
                 "Login form should be visible");
-    loginPage.verifyLoginPageLoads();
+        loginPage.verifyLoginPageLoads();
         closeExtraTabs();
     }
 
     @Test(description = "Open OPD page", priority = 1)
-    public  void openOPDPage() throws Exception {
+    public void openOPDPage() throws Exception {
 
         OPD = new OPDPage(getDriver());
         setupMasterPage = new SetupMasterPage(getDriver());
@@ -56,7 +54,7 @@ public class OPDTest extends BaseClass {
         softAssert = new SoftAssert();
 
         // verifyLoginPageLoads();
-        Thread.sleep(500);
+        // Thread.sleep(500);
         System.out.println("Driver: " + getDriver());
         System.out.println("OPD Page: " + OPD);
         // OPD.clickLogInExitLocation(); //-- Without location access

@@ -28,7 +28,9 @@ public class OPDPage extends BaseClass {
     private DateUtility dateUtility;
     private CheckboxUtility checkboxUtility;
 
+    ////////////////////////////////////////////////////////////
     //Page Factory constructor
+    ////////////////////////////////////////////////////////////
     public OPDPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -41,8 +43,9 @@ public class OPDPage extends BaseClass {
         this.dropDownUtility = new DropDownUtility(driver);
         this.checkboxUtility = new CheckboxUtility(driver);
     }
+    /////////////////////////////////////////////////////////////////////////
     //Webelement for OPD All Buttons fields
-
+/////////////////////////////////////////////////////////////////////////
     @FindBy(xpath = "//button[@class=\"flex items-center p-1 rounded-lg text-base dark:bg-dark/40 hover:text-teal-500 dark:hover:bg-dark/60 cursor-pointer\"]")
     private WebElement allMenuElementBtn;
 
@@ -369,25 +372,28 @@ public class OPDPage extends BaseClass {
 
     @FindBy(xpath = "//button[normalize-space()='OPD Follow-up']")
     private WebElement btnOPDFollowUp;
-    
+
     @FindBy(xpath = "//input[@placeholder=\"e.g., 3 days\"]")
     private WebElement OPDExpectedDaysInput;
-    
+
     @FindBy(xpath = "//button[@title=\"Plan of Care\"]")
     private WebElement btnOPDPlanOfCare;
-    
+
     @FindBy(xpath = "//textarea[@placeholder='Add plan of care notes if needed']")
     private WebElement OPDPlanOfCareNotesInput;
-    
+
     @FindBy(xpath = "//span[normalize-space()='I confirm the plan of care has been discussed with the patient and/or family.']/preceding-sibling::input[@type='checkbox']")
     private WebElement OPDPlanOfCareCheckbox;
-    
+
     @FindBy(xpath = "//button[normalize-space()='Save Plan of Care']")
     private WebElement btnOPDPlanOfCareSave;
-    
+
+    @FindBy(xpath = "//button[contains(@class,'rounded-md') and contains(@class,'border-slate-200')]")
+    private WebElement btnOPDPlanOfCareClose;
+
     @FindBy(xpath = "//textarea[@placeholder='Referral details, specialist remarks…']")
     private WebElement EMRReferralDetailsInput;
-    
+
     @FindBy(xpath = "//textarea[@placeholder=\"Additional disposition instructions…\"]")
     private WebElement EMRReferralDispositionInstructionsInput;
     // // private WebElement btnOPDImgAll;
@@ -430,103 +436,89 @@ public class OPDPage extends BaseClass {
     public OPDPage() {
     }
 
+    ////////////////////////////////////////////////////////////////////
     // Webelement for OPD Validation fields
     // Webelement for OPD Toast Message fields
     // Webelement for OPD checkbox  Button fields
     // Method to click on OPD button
-    public void clickAllMenuButton() {
-        wait.waitForElementClickable(allMenuElementBtn).click();
+    ////////////////////////////////////////////////////////////////////
+
+    // public void clickAllMenuButton() {
+    //     wait.waitForElementClickable(allMenuElementBtn).click();
+    // }
+      public void clickAllMenuButton() {
+        clickElement(allMenuElementBtn);
     }
 
     public void clickOPDImagebtn() {
-        wait.waitForElementClickable(OPDMenuImgAllElement).click();
+        clickElement(OPDMenuImgAllElement);
     }
 
     public void doctorDeskMenuBtn() {
-        wait.waitForElementClickable(doctorDeskMenuElement).click();
+        clickElement(doctorDeskMenuElement);
     }
 
     public void clickOPDEMREHR() {
-        wait.waitForElementClickable(btnOPDEMREHR).click();
+        clickElement(btnOPDEMREHR);
     }
 
     public void clickbtnCCHP_Add() {
-        wait.waitForElementClickable(btnAddRowCC_HP).click();
+        clickElement(btnAddRowCC_HP);
     }
 
     public void clickEMREHRVitalAddbtn() {
-        wait.waitForElementClickable(btnOPDEMREHRVitals).click();
+        clickElement(btnOPDEMREHRVitals);
     }
 
     public void clickOPDEMREHRAllergyAdd() {
-        wait.waitForElementClickable(btnOPDEMREHRAllergyAdd).click();
+        clickElement(btnOPDEMREHRAllergyAdd);
     }
 
     public void btnDiagnosisAdd() {
-        wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+        clickElement(btnOPDElementDiagnosisAdd);
     }
 
     public void btnLabAdd() {
-        wait.waitForElementClickable(btnLabAddRow).click();
+        clickElement(btnLabAddRow);
     }
 
     public void btnRadAddRow() {
-        wait.waitForElementClickable(btnRadAddRow).click();
+        clickElement(btnRadAddRow);
     }
 
     public void btnRxAddRow() {
-        wait.waitForElementClickable(btnRxAddRow).click();
+        clickElement(btnRxAddRow);
     }
 
     public void btnProcedureAdd() {
-        wait.waitForElementClickable(btnProcedureAddRow).click();
+        clickElement(btnProcedureAddRow);
     }
 
     public void btnDiet_AddRow() {
-        wait.waitForElementClickable(btnDietAddRow).click();
+        clickElement(btnDietAddRow);
     }
 
     public void btnOPDPlanOfCare() {
-        wait.waitForElementClickable(btnOPDPlanOfCare).click();
+        clickElement(btnOPDPlanOfCare);
     }
-    public void clickOPDPlanOfCareCheckbox() {
-        wait.waitForElementClickable(OPDPlanOfCareCheckbox).click();
-    }
-    public void clickOPDPlanOfCareSave() {
-        wait.waitForElementClickable(btnOPDPlanOfCareSave).click();
-    }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
-    // public void btnEMRAdmitToWard() {
-    //     wait.waitForElementClickable(EMRAdmitToWardBtn).click();
-    // }
 
-/////////////////////////////////////////////////////////////////////////////////// 
+    public void clickOPDPlanOfCareCheckbox() {
+        clickElement(OPDPlanOfCareCheckbox);
+    }
+
+    public void clickOPDPlanOfCareSave() {
+        clickElement(btnOPDPlanOfCareSave);
+    }
+
+    public void clickOPDPlanOfCareClose() {
+        clickElement(btnOPDPlanOfCareClose);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////// 
     // Call this method to select and click the required module
 /////////////////////////////////////////////////////////////////////////////////
-    public void executeOPDModule() {
+    
+public void executeOPDModule() {
         WebElement selectedElement = EMRAdmitToWardBtn; // Change selection here
 
         btnEMRAdmitToWard(selectedElement);
@@ -537,364 +529,286 @@ public class OPDPage extends BaseClass {
         wait.waitForElementClickable(element).click();
     }
 
-    public void selectADTF_SelectBed() {
-        wait.waitForElementClickable(ADTFSelectBedBox).click();
+    ////////////////////////////////////////////////////////////////////
+//Button Clicks Methods 
+////////////////////////////////////////////////////////////////////
+ 
+    // public void clickSearch() {
+    //     // wait.clickElement(btnSearch);
+    //     wait.waitForElementClickable(btnSearch).click();
+    // }
+
+        public void selectADTF_SelectBed() {
+        clickElement(ADTFSelectBedBox);
     }
 
     public void btnEMRDischarge() {
-        wait.waitForElementClickable(EMRDischargeBtn).click();
+        clickElement(EMRDischargeBtn);
     }
 
     public void btnEMRReferral() {
-        wait.waitForElementClickable(EMRReferralBtn).click();
+        clickElement(EMRReferralBtn);
     }
 
     public void btn_ReviewSubmit() {
-        wait.waitForElementClickable(btnReviewSubmit).click();
+        clickElement(btnReviewSubmit);
     }
 
     public void btnOPDToastMessageElement() {
-        wait.waitForElementClickable(OPDToastMessageElement).click();
+        clickElement(OPDToastMessageElement);
     }
 
     public void btnbtnSendSelectedToABDM() {
-        wait.waitForElementClickable(btnSendSelectedToABDM).click();
+        clickElement(btnSendSelectedToABDM);
     }
 
     public void btnSendSelected_ToABDM() {
-        wait.waitForElementClickable(btnSendSelectedABDM).click();
+        clickElement(btnSendSelectedABDM);
     }
 
     public void btnOPDFollowUp() {
-        wait.waitForElementClickable(btnOPDFollowUp).click();
+        clickElement(btnOPDFollowUp);
     }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
-    //     public void btnDiagnosisAdd() {
-    //     wait.waitForElementClickable(btnOPDElementDiagnosisAdd).click();
+    //     public void btnOPDFollowUp() {
+    //     clickElement(btnOPDFollowUp);
     // }
 
-    //Send keys to patient input field
-    public void patientOPDSearch(String patenetdetails) {
-        wait.waitForElementVisible(searchPatientInputElement);
-        searchPatientInputElement.clear();
-        searchPatientInputElement.sendKeys(patenetdetails);
+    //Input Texts Methods 
+    /////////////////////////////////////////////////////////////////
+    // Code line come karne ke liye configure code
+    // ///////////////////////////////////////////////////////////////
+
+    // public void patientOPDSearch(String patenetdetails) {
+    //     wait.waitForElementVisible(searchPatientInputElement);
+    //     searchPatientInputElement.clear();
+    //     searchPatientInputElement.sendKeys(patenetdetails);
+    // }
+        public void patientOPDSearch(String patenetdetails) {
+        enterText(searchPatientInputElement, patenetdetails);
     }
 
     public void patientOPDEMREHRBPInput(String BP) {
-        wait.waitForElementVisible(btnOPDEMREHRBPInput);
-        btnOPDEMREHRBPInput.clear();
-        btnOPDEMREHRBPInput.sendKeys(BP);
+        enterText(btnOPDEMREHRBPInput, BP);
     }
 
     public void patientOPDEMREHRPulseInput(String Pulse) {
-        wait.waitForElementVisible(btnOPDEMREHRPulseInput);
-        btnOPDEMREHRPulseInput.clear();
-        btnOPDEMREHRPulseInput.sendKeys(Pulse);
+        enterText(btnOPDEMREHRPulseInput, Pulse);
     }
 
     public void patientOPDEMREHRTempInput(String Temp) {
-        wait.waitForElementVisible(btnOPDEMREHRTempInput);
-        btnOPDEMREHRTempInput.clear();
-        btnOPDEMREHRTempInput.sendKeys(Temp);
+        enterText(btnOPDEMREHRTempInput, Temp);
     }
 
     public void patientOPDEMREHRSpO2Input(String SpO2) {
-        wait.waitForElementVisible(btnOPDEMREHRSpO2Input);
-        btnOPDEMREHRSpO2Input.clear();
-        btnOPDEMREHRSpO2Input.sendKeys(SpO2);
+        enterText(btnOPDEMREHRSpO2Input, SpO2);
     }
 
     public void patientOPDEMREHRRRInput(String RR) {
-        wait.waitForElementVisible(btnOPDEMREHRRRInput);
-        btnOPDEMREHRRRInput.clear();
-        btnOPDEMREHRRRInput.sendKeys(RR);
+        enterText(btnOPDEMREHRRRInput, RR);
     }
 
     public void patientOPDEMREHRPainInput(String Pain) {
-        wait.waitForElementVisible(btnOPDEMREHRPainInput);
-        btnOPDEMREHRPainInput.clear();
-        btnOPDEMREHRPainInput.sendKeys(Pain);
+        enterText(btnOPDEMREHRPainInput, Pain);
     }
 
     public void patientOPDEMREHRGlucoseInput(String Glucose) {
-        wait.waitForElementVisible(btnOPDEMREHRGlucoseInput);
-        btnOPDEMREHRGlucoseInput.clear();
-        btnOPDEMREHRGlucoseInput.sendKeys(Glucose);
+        enterText(btnOPDEMREHRGlucoseInput, Glucose);
     }
 
     public void patientOPDEMREHRWeightInput(String Weight) {
-        wait.waitForElementVisible(btnOPDEMREHRWeightInput);
-        btnOPDEMREHRWeightInput.clear();
-        btnOPDEMREHRWeightInput.sendKeys(Weight);
+        enterText(btnOPDEMREHRWeightInput, Weight);
     }
 
     public void patientOPDEMREHRHeightInput(String Height) {
-        wait.waitForElementVisible(btnOPDEMREHRHeightInput);
-        btnOPDEMREHRHeightInput.clear();
-        btnOPDEMREHRHeightInput.sendKeys(Height);
+        enterText(btnOPDEMREHRHeightInput, Height);
     }
 
     public void eMREHR_CCHP_Input(String Input) {
-        wait.waitForElementVisible(eMREJRCC_HPInput);
-        eMREJRCC_HPInput.clear();
-        eMREJRCC_HPInput.sendKeys(Input);
+        enterText(eMREJRCC_HPInput, Input);
     }
 
     public void cCHP_DurationInput(String Duration) {
-        wait.waitForElementVisible(CC_HPDurationinput);
-        CC_HPDurationinput.clear();
-        CC_HPDurationinput.sendKeys(Duration);
+        enterText(CC_HPDurationinput, Duration);
     }
 
     public void inputAllergy_Reaction(String reaction) {
-        wait.waitForElementVisible(allergyReactionElementInput);
-        allergyReactionElementInput.clear();
-        allergyReactionElementInput.sendKeys(reaction);
+        enterText(allergyReactionElementInput, reaction);
     }
 
     public void patientAllergenInput(String Allergen) {
-        wait.waitForElementVisible(allergyAllergynElementInput);
-        allergyAllergynElementInput.clear();
-        allergyAllergynElementInput.sendKeys(Allergen);
+        enterText(allergyAllergynElementInput, Allergen);
     }
 
     public void dignoEMREHRClinicalInput(String clinical) {
-        wait.waitForElementVisible(OPDDignoCliniicalInput);
-        OPDDignoCliniicalInput.clear();
-        OPDDignoCliniicalInput.sendKeys(clinical);
+        enterText(OPDDignoCliniicalInput, clinical);
     }
 
     public void dignoDiffrentialInput(String differential) {
-        wait.waitForElementVisible(OPDDignoDifferentialInput);
-        OPDDignoDifferentialInput.clear();
-        OPDDignoDifferentialInput.sendKeys(differential);
+        enterText(OPDDignoDifferentialInput, differential);
     }
 
     public void labInstructionInput(String instruction) {
-        wait.waitForElementVisible(LabInstructionInput);
-        LabInstructionInput.clear();
-        LabInstructionInput.sendKeys(instruction);
+        enterText(LabInstructionInput, instruction);
     }
 
     public void radBodyPart_Input(String bodyPart) {
-        wait.waitForElementVisible(RadBodyPartInput);
-        RadBodyPartInput.clear();
-        RadBodyPartInput.sendKeys(bodyPart);
+        enterText(RadBodyPartInput, bodyPart);
     }
 
     public void rad_IndicationInput(String indication) {
-        wait.waitForElementVisible(RadIndicationInput);
-        RadIndicationInput.clear();
-        RadIndicationInput.sendKeys(indication);
+        enterText(RadIndicationInput, indication);
     }
 
     public void pharma_DoseInput(String dose) {
-        wait.waitForElementVisible(PharmadoseInput);
-        PharmadoseInput.clear();
-        PharmadoseInput.sendKeys(dose);
+        enterText(PharmadoseInput, dose);
     }
 
     public void pharmaDuration_Input(String duration) {
-        wait.waitForElementVisible(PharmaDurationInput);
-        PharmaDurationInput.clear();
-        PharmaDurationInput.sendKeys(duration);
+        enterText(PharmaDurationInput, duration);
     }
 
     public void pharmaQuantity_Input(String quantity) {
-        wait.waitForElementVisible(PharmaQuantityInput);
-        PharmaQuantityInput.clear();
-        PharmaQuantityInput.sendKeys(quantity);
+        enterText(PharmaQuantityInput, quantity);
     }
 
     public void pharmaInstructions_Input(String instructions) {
-        wait.waitForElementVisible(PharmaInstructionsInput);
-        PharmaInstructionsInput.clear();
-        PharmaInstructionsInput.sendKeys(instructions);
+        enterText(PharmaInstructionsInput, instructions);
     }
 
     public void procedure_LateralityInput(String laterality) {
-        wait.waitForElementVisible(ProcedureLateralityInput);
-        ProcedureLateralityInput.clear();
-        ProcedureLateralityInput.sendKeys(laterality);
+        enterText(ProcedureLateralityInput, laterality);
     }
 
     public void procedure_IndicationInput(String indication) {
-        wait.waitForElementVisible(ProcedureIndicationInput);
-        ProcedureIndicationInput.clear();
-        ProcedureIndicationInput.sendKeys(indication);
+        enterText(ProcedureIndicationInput, indication);
     }
 
     public void dietMealFrequencyInput(String MealFrequency) {
-        wait.waitForElementVisible(DietMealFrequencyInput);
-        DietMealFrequencyInput.clear();
-        DietMealFrequencyInput.sendKeys(MealFrequency);
+        enterText(DietMealFrequencyInput, MealFrequency);
     }
 
     public void dietCalorieInput(String Calorie) {
-        wait.waitForElementVisible(DietCalorieInput);
-        DietCalorieInput.clear();
-        DietCalorieInput.sendKeys(Calorie);
+        enterText(DietCalorieInput, Calorie);
     }
 
     public void dietFluidInput(String fluid) {
-        wait.waitForElementVisible(DietFluidInput);
-        DietFluidInput.clear();
-        DietFluidInput.sendKeys(fluid);
+        enterText(DietFluidInput, fluid);
     }
 
     public void dietSpecialInstructionsInput(String SpecialInstructions) {
-        wait.waitForElementVisible(DietSpecialInstructionsInput);
-        DietSpecialInstructionsInput.clear();
-        DietSpecialInstructionsInput.sendKeys(SpecialInstructions);
+        enterText(DietSpecialInstructionsInput, SpecialInstructions);
     }
 
     public void ADTFTransferReasonInput(String reason) {
-        wait.waitForElementVisible(ADTFTransferReasonInput);
-        ADTFTransferReasonInput.clear();
-        ADTFTransferReasonInput.sendKeys(reason);
+        enterText(ADTFTransferReasonInput, reason);
     }
 
     public void ADTFTransferRemarkInput(String remark) {
-        wait.waitForElementVisible(ADTFTransferRemarkInput);
-        ADTFTransferRemarkInput.clear();
-        ADTFTransferRemarkInput.sendKeys(remark);
+        enterText(ADTFTransferRemarkInput, remark);
     }
 
     public void EMRReferralDispositionInput(String disposition) {
-        wait.waitForElementVisible(EMRReferralDispositionInput);
-        EMRReferralDispositionInput.clear();
-        EMRReferralDispositionInput.sendKeys(disposition);
+        enterText(EMRReferralDispositionInput, disposition);
     }
 
     public void EMRReferralRemarkInput(String remark) {
-        wait.waitForElementVisible(EMRReferralRemarkInput);
-        EMRReferralRemarkInput.clear();
-        EMRReferralRemarkInput.sendKeys(remark);
+        enterText(EMRReferralRemarkInput, remark);
     }
 
     public void EMRSoapSubjectiveInput(String condition) {
-        wait.waitForElementVisible(EMRSoapSubjectiveInput);
-        EMRSoapSubjectiveInput.clear();
-        EMRSoapSubjectiveInput.sendKeys(condition);
+        enterText(EMRSoapSubjectiveInput, condition);
     }
 
     public void EMRSoapObjectiveInput(String objective) {
-        wait.waitForElementVisible(EMRSoapObjectiveInput);
-        EMRSoapObjectiveInput.clear();
-        EMRSoapObjectiveInput.sendKeys(objective);
+        enterText(EMRSoapObjectiveInput, objective);
     }
 
     public void EMRSoapAssessmentInput(String assessment) {
-        wait.waitForElementVisible(EMRSoapAssessmentInput);
-        EMRSoapAssessmentInput.clear();
-        EMRSoapAssessmentInput.sendKeys(assessment);
+        enterText(EMRSoapAssessmentInput, assessment);
     }
 
     public void EMRSoapPlanInput(String Plan) {
-        wait.waitForElementVisible(EMRSoapPlanInput);
-        EMRSoapPlanInput.clear();
-        EMRSoapPlanInput.sendKeys(Plan);
+        enterText(EMRSoapPlanInput, Plan);
     }
 
     public void EMRSoapDoctorInput(String doctorSoap) {
-        wait.waitForElementVisible(EMRSoapDoctorInput);
-        EMRSoapDoctorInput.clear();
-        EMRSoapDoctorInput.sendKeys(doctorSoap);
+        enterText(EMRSoapDoctorInput, doctorSoap);
     }
 
     public void EMRSoapMCIInput(String MCI) {
-        wait.waitForElementVisible(EMRSoapMCIInput);
-        EMRSoapMCIInput.clear();
-        EMRSoapMCIInput.sendKeys(MCI);
+        enterText(EMRSoapMCIInput, MCI);
     }
 
     public void EMRSoapDepartmentInput(String SoapDepartment) {
-        wait.waitForElementVisible(EMRSoapDepartmentInput);
-        EMRSoapDepartmentInput.clear();
-        EMRSoapDepartmentInput.sendKeys(SoapDepartment);
+        enterText(EMRSoapDepartmentInput, SoapDepartment);
     }
 
     public void physicalExaminationBuilt(String Built) {
-        wait.waitForElementVisible(PhysicalExaminationBuiltInput);
-        PhysicalExaminationBuiltInput.clear();
-        PhysicalExaminationBuiltInput.sendKeys(Built);
+        enterText(PhysicalExaminationBuiltInput, Built);
     }
 
     public void physicalMarkersInput(String Markers) {
-        wait.waitForElementVisible(PhysicalMarkersInput);
-        PhysicalMarkersInput.clear();
-        PhysicalMarkersInput.sendKeys(Markers);
+        enterText(PhysicalMarkersInput, Markers);
     }
-        public void OPDPlanOfCareNotesInput(String PlanOfCareNotes) {
-        wait.waitForElementVisible(OPDPlanOfCareNotesInput);
-        OPDPlanOfCareNotesInput.clear();
-        OPDPlanOfCareNotesInput.sendKeys(PlanOfCareNotes);
+
+    public void OPDPlanOfCareNotesInput(String PlanOfCareNotes) {
+        enterText(OPDPlanOfCareNotesInput, PlanOfCareNotes);
     }
-        public void EMRReferralDetailsInput(String ReferralDetails) {
-        wait.waitForElementVisible(EMRReferralDetailsInput);
-        EMRReferralDetailsInput.clear();
-        EMRReferralDetailsInput.sendKeys(ReferralDetails);
+
+    public void EMRReferralDetailsInput(String ReferralDetails) {
+        enterText(EMRReferralDetailsInput, ReferralDetails);
     }
-        public void EMRReferralDispositionInstructionsInput(String DispositionInstructions) {
-        wait.waitForElementVisible(EMRReferralDispositionInstructionsInput);
-        EMRReferralDispositionInstructionsInput.clear();
-        EMRReferralDispositionInstructionsInput.sendKeys(DispositionInstructions);
+
+    public void EMRReferralDispositionInstructionsInput(String DispositionInstructions) {
+        enterText(EMRReferralDispositionInstructionsInput, DispositionInstructions);
     }
-    //     public void EMRReferToSpecialistBtn(String Markers) {
-    //     wait.waitForElementVisible(EMRReferToSpecialistBtn);
-    //     EMRReferToSpecialistBtn.clear();
-    //     EMRReferToSpecialistBtn.sendKeys(Markers);
+    // public void EMRReferralDispositionInstructionsInput(String DispositionInstructions) {
+    //     enterText(EMRReferralDispositionInstructionsInput, DispositionInstructions);
     // }
-    //     public void physicalMarkersInput(String Markers) {
-    //     wait.waitForElementVisible(PhysicalMarkersInput);
-    //     PhysicalMarkersInput.clear();
-    //     PhysicalMarkersInput.sendKeys(Markers);
+    // public void EMRReferralDispositionInstructionsInput(String DispositionInstructions) {
+    //     enterText(EMRReferralDispositionInstructionsInput, DispositionInstructions);
     // }
-    //     public void physicalMarkersInput(String Markers) {
-    //     wait.waitForElementVisible(PhysicalMarkersInput);
-    //     PhysicalMarkersInput.clear();
-    //     PhysicalMarkersInput.sendKeys(Markers);
-    // }
+    // public void EMRReferralDispositionInstructionsInput(String DispositionInstructions) {
+    //     enterText(EMRReferralDispositionInstructionsInput, DispositionInstructions);
+    // }}
 
-
-
-
-
-
-
+    ////////////////////////////////////////////////////////////////////
     //Dropdown Element
+    ////////////////////////////////////////////////////////////////////
+    
     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
         dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     }
@@ -1058,13 +972,15 @@ public class OPDPage extends BaseClass {
         public void selectADTFadmitDateInput(String AdmtDate) throws Exception {
         dateUtility.selectDate(ADTFadmitDateInput, AdmtDate);
     }
-        public void selectADTFdischargeDateInput(String DischargeDate) throws Exception {
+
+    public void selectADTFdischargeDateInput(String DischargeDate) throws Exception {
         dateUtility.selectDate(ADTFdischargeDateInput, DischargeDate);
     }
-        public void selectADTFSurgeryDateInput(String SurgeryDate) throws Exception {
+
+    public void selectADTFSurgeryDateInput(String SurgeryDate) throws Exception {
         dateUtility.selectDate(ADTFSurgeryDateInput, SurgeryDate);
     }
-     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
+    //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
@@ -1072,7 +988,7 @@ public class OPDPage extends BaseClass {
     // }
 
     ////////////////////////////////////////////////////////////////////////////////
-    //  Checkbox Utility for CheckBox
+    // / Checkbox Utility for CheckBox
 ////////////////////////////////////////////////////////////////////////////////
         public void btnABDMConsentCheckBox() {
         checkboxUtility.checkCheckbox(ABDMConsentCheckBox);
@@ -1102,13 +1018,16 @@ public class OPDPage extends BaseClass {
     //     public void selectCC_HPSymptoms(String Symptoms) throws Exception {
     //     dropDownUtility.selectReactOption(CC_HPSymptomsinput, Symptoms);
     // }
+    ////////////////////////////////////////////////////////////////////
     //OPDPage Methods --> OPD test reusable methods
+    ////////////////////////////////////////////////////////////////////
+    
     public void patientOPDMenuOpen() throws Exception {
 
         clickAllMenuButton();
         clickOPDImagebtn();
         doctorDeskMenuBtn();
-        Thread.sleep(2000);
+        Thread.sleep(500);
 
     }
 
@@ -1201,16 +1120,13 @@ public class OPDPage extends BaseClass {
         selectADTFdischargeDateInput("15/10/2026");
         selectADTFSurgeryDateInput("14/10/2026");
 
-
         btnOPDPlanOfCare();
         OPDPlanOfCareNotesInput("Patient admitted for observation and treatment. Monitor vitals and provide supportive care. Plan for follow-up after discharge.");
         clickOPDPlanOfCareCheckbox();
-        clickOPDPlanOfCareSave();
+        clickOPDPlanOfCareClose();
+        //clickOPDPlanOfCareSave();
         EMRReferralDetailsInput("Referral details, specialist remarks…");
         EMRReferralDispositionInstructionsInput("Referral disposition instructions, follow-up care…");
-
-
-
 
         //Transfer Bedafter IPD
         // ADTFTransferReasonInput(Opd.getADTF_TransferReason());

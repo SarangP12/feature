@@ -16,6 +16,7 @@ import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 public class DriverFactory {
+
     static {
         // Selenium's CDP warnings are emitted through JUL, so we raise the JUL
         // threshold before any driver is created.
@@ -43,9 +44,12 @@ public class DriverFactory {
     public static WebDriver createDriver(String browserName) {
         BrowserType browserType = BrowserType.valueOf(browserName.toUpperCase());
         WebDriver delegate = switch (browserType) {
-            case CHROME -> createChromeDriver();
-            case FIREFOX -> createFirefoxDriver();
-            case EDGE -> createEdgeDriver();
+            case CHROME ->
+                createChromeDriver();
+            case FIREFOX ->
+                createFirefoxDriver();
+            case EDGE ->
+                createEdgeDriver();
         };
         if (!Boolean.parseBoolean(System.getProperty("healenium.enabled", "false"))) {
             return delegate;
