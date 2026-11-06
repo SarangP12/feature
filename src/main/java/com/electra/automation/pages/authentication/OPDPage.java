@@ -1077,7 +1077,7 @@ public void executeOPDModule() {
         labInstructionInput(Opd.getlabInstruction());
         btnLabAdd();
 //Radiology
-        // selectRad_TestInput(Opd.getRad_Test());
+        selectRad_TestInput(Opd.getRad_Test());
         radBodyPart_Input(Opd.getradBodyPart());
         selectRad_Priority(Opd.getPriority());
         rad_IndicationInput(Opd.getrad_Indication());

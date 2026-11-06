@@ -1,4 +1,5 @@
 package com.electra.automation.utilities;
+
 import java.util.Locale;
 import java.util.Random;
 import com.electra.automation.models.OPD_Data;
@@ -12,59 +13,81 @@ public class RandomDataUtility {
 
     // Single Random object
     private static final Random random = new Random();
-
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic First Name
+////////////////////////////////////////////////////////////////////////////////
     private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-// Generate Dynamic Patient First Name
-// Format: Veera + 3 Random Alphabets
-public static String getPatientName() {
-    StringBuilder name = new StringBuilder("Veera");
+    // Generate Dynamic Patient First Name
+    // Format: Veera + 3 Random Alphabets
+    public static String getPatientName() {
+        StringBuilder name = new StringBuilder("Ravi");
 
-    for (int i = 0; i < 3; i++) {
-        name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
+        for (int i = 0; i < 3; i++) {
+            name.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
+        }
+
+        return name.toString();
     }
 
-    return name.toString();
-}
-
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic Mobile Number
+////////////////////////////////////////////////////////////////////////////////
     public static String getMobileNumber() {
         return "9" + (100000000 + random.nextInt(900000000));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic Age Number 10-99 
+////////////////////////////////////////////////////////////////////////////////
     public static String TwoDigitNo() {
         return String.valueOf(10 + random.nextInt(90));
     }
 
+    public static String generateAge() {
+        return String.valueOf(100 + random.nextInt(101));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic Point Value: 90.0 - 99.9
+////////////////////////////////////////////////////////////////////////////////
     public static String getPointValue() {
         double value = 90.0 + (random.nextInt(100) / 10.0);
         return String.format(Locale.US, "%.1f", value);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic Height: 140.0 - 200.0 cm
+////////////////////////////////////////////////////////////////////////////////
     public static String Height() {
         double height = 140.0 + (random.nextInt(601) / 10.0);
         return String.format(Locale.US, "%.1f", height);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
 // Generate Dynamic Email
+////////////////////////////////////////////////////////////////////////////////
     public static String getEmail() {
         return "Auto" + (10 + random.nextInt(90)) + "@gmail.com";
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic Pain: 1 - 10
+////////////////////////////////////////////////////////////////////////////////
     public static String pain() {
         return String.valueOf(1 + random.nextInt(10));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic RRNumber: 14 - 20
+////////////////////////////////////////////////////////////////////////////////
     public static String RR() {
         return String.valueOf(14 + random.nextInt(7));
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
     // Generate Dynamic BP: 90/60 - 140/90 with systolic always greater than diastolic
+//////////////////////////////////////////////////////////////////////////////////////////////
     public static String BP() {
         int systolic = 90 + random.nextInt(51); // 90 - 140
         int maxDiastolic = Math.min(90, systolic - 1);
@@ -72,19 +95,25 @@ public static String getPatientName() {
 
         return systolic + "/" + diastolic;
     }
-// Generate Dynamic Address
 
+    ////////////////////////////////////////////////////////////////////////////////
+// Generate Dynamic Address
+////////////////////////////////////////////////////////////////////////////////
     public static String getAddresss() {
         int houseNo = 1 + random.nextInt(9999);
         return "House No. " + houseNo + ", MG Road, Pune, Maharashtra";
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     //generate a random indexNumber
+////////////////////////////////////////////////////////////////////////////////
     public static int getRandomNumber(int min, int max) {
         return random.nextInt((max - min) + 1) + min;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     //generate a random index
+////////////////////////////////////////////////////////////////////////////////
     public static int getRandomIndex(int size) {
         if (size <= 0) {
 
@@ -95,7 +124,9 @@ public static String getPatientName() {
         return random.nextInt(size);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Generate Complete Patient Object
+////////////////////////////////////////////////////////////////////////////////
     public static PatientData generatePatient() {
 
         PatientData patient = new PatientData();
@@ -109,11 +140,11 @@ public static String getPatientName() {
         patient.setDepartment("General Medicine");
         patient.setUnit("General Medicine - Unit A");
         patient.setDoctor("Dr Aarav Sharma"); //Dr Roshan G Dr. Aarav Sharma Dr Sarang D Pawar
-        patient.setSalutation("Mrs");
+        patient.setSalutation("Mr.");
         patient.setVisitType("Initial Visit");
         patient.setFirstName(getPatientName());
         patient.setLastName("Kohli");
-        patient.setBirthYear(TwoDigitNo());
+        patient.setBirthYear(generateAge());
         patient.setGender("Female");
         patient.setMobile(getMobileNumber());
         patient.setAge(TwoDigitNo());
@@ -127,8 +158,10 @@ public static String getPatientName() {
 
         return patient;
     }
-    // Generate Complete OPD Object
 
+    ////////////////////////////////////////////////////////////////////////////////
+    // Generate Complete OPD Object
+////////////////////////////////////////////////////////////////////////////////
     public static OPD_Data generateOPData() {
 
         OPD_Data opd = new OPD_Data();
@@ -160,8 +193,8 @@ public static String getPatientName() {
         opd.setPriority("Urgent");
         opd.setlabInstruction("Fasting hrs, early morning sample");
 //Radiology
-        opd.setRad_Test("MRI Brain  Plain");
-        opd.setradBodyPart("Brain");
+        opd.setRad_Test("Chest AP");
+        opd.setradBodyPart("Chest");
         opd.setrad_Indication("fracture");
 //Pharmacy -Prescription
         opd.setPharma_Drug("Amlodipine 5mg Tablet");
@@ -178,7 +211,7 @@ public static String getPatientName() {
 //Diet Order
         opd.setDiet_Order("Non-Veg");
         opd.setDiet_MealFrequency("3 times/day");
-        opd.setDiet_Calorie("1800 (kcal/day)");
+        opd.setDiet_Calorie("2000 (kcal/day)");
         opd.setDiet_Fluid("1500 (mL/day)");
         opd.setDiet_SpecialInstructions("Low salt, avoid fried foods");
 //ADTF Transfer
@@ -216,8 +249,6 @@ public static String getPatientName() {
         opd.setphysicalEdemaInput("Absent");
         opd.setphysicalNeurocutaneousMarkersInput("Absent");
 //
-
-
 
         // patient.setSalutation("Mrs");
         // patient.setVisitType("Initial Visit");
